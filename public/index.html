@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   
+    <style>
+        body {
+          margin: 0;
+        }
+  
+        canvas {
+          width: 100%;
+          height: 100%;
+        }
+      </style>
+
+</head>
+<body>
+    <canvas></canvas>
+
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+    <script src="./js/frontEnd.js"></script>
+
+
+    <!--Players-->
+    <script src="./js/classes/players/basePlayer.js"></script>
+
+    <!--Tiles-->
+    <script src="./js/classes/tiles/baseTile.js"></script>
+    <script src="./js/classes/tiles/Cave.js"></script>
+    <script src="./js/classes/tiles/Forest.js"></script>
+    <script src="./js/classes/tiles/Village.js"></script>
+
+    <!--Monsters-->
+    <script src="./js/classes/monsters/baseMonster.js"></script>
+    <script src="./js/classes/monsters/baseBoss.js"></script>
+    <script src="./js/classes/monsters/Goblin.js"></script>
+    
+    <!--Items-->
+    <script src="./js/classes/items/weapons/baseBow.js"></script>
+    <script src="./js/classes/items/weapons/baseSword.js"></script>
+    <script src="./js/classes/items/supplies/baseShield.js"></script>
+    <script src="./js/classes/items/supplies/baseBandage.js"></script>
+
+</body>
+</html>
