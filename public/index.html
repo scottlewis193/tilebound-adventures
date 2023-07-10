@@ -3,23 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tilebound Adventures</title>
    
-    <style>
-        body {
-          margin: 0;
-        }
-  
-        canvas {
-          width: 100%;
-          height: 100%;
-          background-color:black;
-        }
-      </style>
+
 
 </head>
 <body>
+
+<div id="test buttons">
+  <button class="menu-btn" id="join-btn" onclick="toggleModalVisibility('canvas')">TEST</button>
+  <button class="menu-btn" id="options-btn">OPTIONS</button>
+</div>
+
+
+
     <canvas id="canvas"></canvas>
+
+    <!--CSS-->
+    <link rel="stylesheet" href="index.css">
 
     <!--Dependencies-->
     <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>

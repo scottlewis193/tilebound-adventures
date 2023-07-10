@@ -41,42 +41,45 @@ function animate() {
     // c.fillStyle = 'rgba(0,0,0,0.1)'
     // c.fillRect(0,0, canvas.width, canvas.height)
 
-    theWheel.draw()
+    //theWheel.draw()
 
     for (const id in players) {
         const player = players[id]
         //player.draw()
     }
 
-    drawTriangle()
+    //drawTriangle()
+}
+
+function toggleModalVisibility(elementID) {
+    let currentState = document.getElementById(elementID).style.display
+    document.getElementById(elementID).style.display = (currentState == 'block') ? 'none' : 'block'
 }
 
 
-
-
-let theWheel = new Winwheel(
-    {'numSegments' : 2,
-    'segments' : [
-        {'size' : 90, 'text' : 'Win', 'fillStyle' : '#89f26e'},
-        {'size' : 270, 'text' : 'Lose', 'fillStyle' : '#e7706f'}
-    ],
-    'animation' :
-        {
-            // Must be specified...
-            'type'     : 'spinToStop',
-            'duration' : 10,
+// let theWheel = new Winwheel(
+//     {'numSegments' : 2,
+//     'segments' : [
+//         {'size' : 90, 'text' : 'Win', 'fillStyle' : '#89f26e'},
+//         {'size' : 270, 'text' : 'Lose', 'fillStyle' : '#e7706f'}
+//     ],
+//     'animation' :
+//         {
+//             // Must be specified...
+//             'type'     : 'spinToStop',
+//             'duration' : 10,
  
-            // These are the defaults, all optional...
-            'spins'        : 5,
-            'easing'       : 'Power4.easeOut',
-            'stopAngle'    : null,
-            'direction'    : 'clockwise',
-            'repeat'       : 0,
-            'yoyo'         : false
-        }
+//             // These are the defaults, all optional...
+//             'spins'        : 5,
+//             'easing'       : 'Power4.easeOut',
+//             'stopAngle'    : null,
+//             'direction'    : 'clockwise',
+//             'repeat'       : 0,
+//             'yoyo'         : false
+//         }
 
     
-    });
+//     });
 
     animate()
-    theWheel.startAnimation()
+    // theWheel.startAnimation()
