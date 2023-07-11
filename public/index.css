@@ -10,6 +10,10 @@ body {
     display: none;
   }
 
+  #startmenu {
+    display: none;
+  }
+
 .menu-btn {
 color: black;
 }
