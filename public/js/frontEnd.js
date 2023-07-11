@@ -1,15 +1,20 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
+const ratio = window.devicePixelRatio
+
 
 const socket = io()
 
-canvas.width = innerWidth
-canvas.height = innerHeight
+canvas.width = innerWidth * ratio
+canvas.height = innerHeight * ratio
 
 const x = canvas.width / 2
 const y = canvas.height / 2
 
 const players = {}
+
+canvas.style.zoom = 1 / ratio
+
 
 socket.on('updatePlayers', (backendPlayers) => {
 
@@ -41,14 +46,14 @@ function animate() {
     // c.fillStyle = 'rgba(0,0,0,0.1)'
     // c.fillRect(0,0, canvas.width, canvas.height)
 
-    //theWheel.draw()
+    theWheel.draw()
 
     for (const id in players) {
         const player = players[id]
         //player.draw()
     }
 
-    //drawTriangle()
+    drawTriangle()
 }
 
 function toggleModalVisibility(elementID) {
@@ -57,29 +62,32 @@ function toggleModalVisibility(elementID) {
 }
 
 
-// let theWheel = new Winwheel(
-//     {'numSegments' : 2,
-//     'segments' : [
-//         {'size' : 90, 'text' : 'Win', 'fillStyle' : '#89f26e'},
-//         {'size' : 270, 'text' : 'Lose', 'fillStyle' : '#e7706f'}
-//     ],
-//     'animation' :
-//         {
-//             // Must be specified...
-//             'type'     : 'spinToStop',
-//             'duration' : 10,
+let theWheel = new Winwheel(
+    {'numSegments' : 2,
+    'responsive' : true,
+    'outerRadius' : 240*ratio,
+    'textFontSize' : 30*ratio,
+    'segments' : [
+        {'size' : 90, 'text' : 'Win', 'fillStyle' : '#89f26e'},
+        {'size' : 270, 'text' : 'Lose', 'fillStyle' : '#e7706f'}
+    ],
+    'animation' :
+        {
+            // Must be specified...
+            'type'     : 'spinToStop',
+            'duration' : 10,
  
-//             // These are the defaults, all optional...
-//             'spins'        : 5,
-//             'easing'       : 'Power4.easeOut',
-//             'stopAngle'    : null,
-//             'direction'    : 'clockwise',
-//             'repeat'       : 0,
-//             'yoyo'         : false
-//         }
+            // These are the defaults, all optional...
+            'spins'        : 5,
+            'easing'       : 'Power4.easeOut',
+            'stopAngle'    : null,
+            'direction'    : 'clockwise',
+            'repeat'       : 0,
+            'yoyo'         : false
+        }
 
     
-//     });
+    });
 
     animate()
     // theWheel.startAnimation()
