@@ -26,7 +26,7 @@
 </div>
 
 
-    <canvas id="canvas" onclick="theWheel.startAnimation()"></canvas>
+    <canvas id="canvas"></canvas>
 <!--data-responsiveMinWidth="180" data-responsiveMargin="50"-->
     <!--CSS-->
     <link rel="stylesheet" href="index.css">
@@ -38,8 +38,8 @@
 
 
     <!--User-->
-    <script src="./js/wheel/wheel.js"></script>
-    <script src="./js/frontend.js"></script>
+    <script type="module" src="./js/wheel/wheel.js"></script>
+    <script type="module" src="./js/frontend.js"></script>
 
 
     <!--Players-->
@@ -61,6 +61,14 @@
     <script src="./js/classes/items/weapons/baseSword.js"></script>
     <script src="./js/classes/items/supplies/baseShield.js"></script>
     <script src="./js/classes/items/supplies/baseBandage.js"></script>
+
+    <script>
+      function toggleModalVisibility(elementID) {
+    let currentState = document.getElementById(elementID).style.display
+    document.getElementById(elementID).style.display = (currentState == 'block') ? 'none' : 'block'
+}
+
+    </script>
 
 </body>
 </html>
