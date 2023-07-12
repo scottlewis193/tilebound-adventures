@@ -19,7 +19,7 @@ app.get('/', (req,res) => {
 })
 
 //declare backend players object
-const players = {}
+const backEndPlayers = {}
 
 
 
@@ -29,23 +29,24 @@ io.on('connection', (socket) => {
     console.log(`user ${socket.id} connected`);
 
     //on connect add player to players object
-    players[socket.id] = {
+    backEndPlayers[socket.id] = {
         x: 500 * Math.random(),
-        y: 500 * Math.random()
+        y: 500 * Math.random(),
+        color: `hsl(${360 * Math.random()}, 100%, 50%)`
     }
 
     //send updated players object to all clients
-    io.emit('updatePlayers', players)
+    io.emit('updatePlayers', backEndPlayers)
 
     // socket io client disconnect event listener
     socket.on('disconnect', (reason) => {
         console.log(`user ${socket.id} disconnected: ${reason}`)
 
         //upon disconnection remove player from players object
-        delete players[socket.id]
+        delete backEndPlayers[socket.id]
 
         //send updated players object to all clients
-        io.emit('updatePlayers', players)
+        io.emit('updatePlayers', backEndPlayers)
     })
 
   });

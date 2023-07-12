@@ -4,13 +4,14 @@ function drawTriangle()
     c.fillStyle   = 'aqua';        // Set fill colour.
     c.lineWidth   = 2;
     c.beginPath();                 // Begin path.
-    let sizeX = 60
-    let initialPosX = (innerWidth/2)-sizeX
+    let sizeX = (canvas.height/15)*devicePixelRatio
+    let initialPosX = (canvas.width/2)-(sizeX/2)
+    let initialPosY = 25*devicePixelRatio
     
-    c.moveTo(initialPosX, sizeX/3);             // Move to initial position.
-    c.lineTo(initialPosX+sizeX, sizeX/3);             // Draw lines to make the shape.
-    c.lineTo(initialPosX+(sizeX/2), sizeX+(sizeX/3));
-    c.lineTo(initialPosX+1, sizeX/3);
+    c.moveTo(initialPosX, initialPosY);             // Move to initial position.
+    c.lineTo(initialPosX+sizeX, initialPosY);             // Draw lines to make the shape.
+    c.lineTo(initialPosX+(sizeX/2), initialPosY+sizeX);
+    c.lineTo(initialPosX+1, initialPosY);
     c.stroke();                    // Complete the path by stroking (draw lines).
     c.fill();                      // Then fill with colour.
 }
