@@ -78,9 +78,9 @@ function defineWinWheel() {
     theWheel = new Winwheel(
         {'numSegments' : 2,
         'textFontSize' : 30*devicePixelRatio,
-        'centerX' : innerWidth / 2,
-        'centerY' : innerHeight / 2,
-        'outerRadius' : (innerHeight/2) - (50*devicePixelRatio),
+        'centerX' : (innerWidth / 2)*devicePixelRatio,
+        'centerY' : (innerHeight / 2)*devicePixelRatio,
+        'outerRadius' : (innerHeight/2)*devicePixelRatio - 50,
         'segments' : [
             {'size' : 90, 'text' : 'Win', 'fillStyle' : '#89f26e'},
             {'size' : 270, 'text' : 'Lose', 'fillStyle' : '#e7706f'}
@@ -108,13 +108,19 @@ function defineWinWheel() {
     
 }
 
-defineWinWheel()
-    animate()
-
 window.addEventListener('resize', (event) =>  {
-canvas.width = innerWidth
-canvas.height = innerHeight
+    canvas.width = innerWidth * devicePixelRatio
+    canvas.height = innerHeight * devicePixelRatio
+    defineWinWheel()
+    console.log("resize")
+    })
+
 defineWinWheel()
-})
+
+animate()
+
+
+
+
 
     // theWheel.startAnimation()
