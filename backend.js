@@ -32,8 +32,9 @@ io.on('connection', (socket) => {
     backEndPlayers[socket.id] = {
         x: 500 * Math.random(),
         y: 500 * Math.random(),
-        color: `hsl(${360 * Math.random()}, 100%, 50%)`
+        colour: `hsl(${360 * Math.random()}, 100%, 50%)`
     }
+
 
     //send updated players object to all clients
     io.emit('updatePlayers', backEndPlayers)

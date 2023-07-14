@@ -29,7 +29,7 @@
     <canvas id="canvas"></canvas>
 <!--data-responsiveMinWidth="180" data-responsiveMargin="50"-->
     <!--CSS-->
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="./css/index.css">
 
     <!--Dependencies-->
     <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
@@ -38,12 +38,13 @@
 
 
     <!--User-->
-    <script type="module" src="./js/wheel/wheel.js"></script>
-    <script type="module" src="./js/frontend.js"></script>
-
+    <script src="./js/common.js"></script>
+    <script src="./js/wheel/wheel.js"></script>
+    <script src="./js/board/board.js"></script>
+    <script src="./js/frontend.js"></script>
 
     <!--Players-->
-    <script src="./js/classes/players/basePlayer.js"></script>
+    <script src="./js/classes/players/BasePlayer.js"></script>
 
     <!--Tiles-->
     <script src="./js/classes/tiles/baseTile.js"></script>
@@ -57,8 +58,7 @@
     <script src="./js/classes/monsters/Goblin.js"></script>
     
     <!--Items-->
-    <script src="./js/classes/items/weapons/baseBow.js"></script>
-    <script src="./js/classes/items/weapons/baseSword.js"></script>
+    <script src="./js/classes/items/weapons/BaseWeapon.js"></script>
     <script src="./js/classes/items/supplies/baseShield.js"></script>
     <script src="./js/classes/items/supplies/baseBandage.js"></script>
 

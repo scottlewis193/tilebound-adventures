@@ -1,6 +1,3 @@
-import * as wheel from './wheel/wheel.js'
-import {c,canvas,devicePixelRatio} from './common.js'
-
 
 //client socket
 const socket = io()
@@ -25,10 +22,11 @@ socket.on('updatePlayers', (backEndPlayers) => {
 
         //if player doesn't exist in object, add them in (Client Connected)
         if (!frontEndPlayers[id]) {
-            frontEndPlayers[id] = new basePlayer({
+            console.log(backEndPlayer.colour)
+            frontEndPlayers[id] = new BasePlayer({
                 x: backEndPlayer.x,
                 y: backEndPlayer.y,
-                color: backEndPlayer.color
+                colour: backEndPlayer.colour
             })
 
         } else {
@@ -61,12 +59,15 @@ function animate() {
     // c.fillRect(0,0, canvas.width, canvas.height)
 
 
-    wheel.drawWheel()
+    //wheel.drawWheel()
+
+    board.drawBoard()
 
     for (const id in frontEndPlayers) {
         const player = frontEndPlayers[id]
         player.draw()
     }
+
 
 
 }
@@ -77,16 +78,18 @@ function animate() {
 window.addEventListener('resize', (event) =>  {
     canvas.width = innerWidth * devicePixelRatio
     canvas.height = innerHeight * devicePixelRatio
-    wheel.defineWinWheel()
+    //wheel.defineWinWheel()
     console.log("resize")
 })
 
 
 //init wheel
-wheel.defineWheel()
+//wheel.defineWheel()
+
+
 
 //click canvas to toggle wheel spin animation
-canvas.onclick = function() {wheel.toggleAnimation()}
+//canvas.onclick = function() {wheel.toggleAnimation()}
 
 //intial function call to start loop
 animate()

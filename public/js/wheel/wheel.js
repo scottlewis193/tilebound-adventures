@@ -1,9 +1,8 @@
-import {c,canvas,devicePixelRatio} from '../common.js'
 
-    var spinWheel
-    var isSpinning = false
-    
-    export function defineWheel() {
+var wheel = {
+    spinWheel : null,
+    isSpinning : false,
+    defineWheel:  function() {
         spinWheel = new Winwheel(
             {'numSegments' : 2,
             'textFontSize' : 30*devicePixelRatio,
@@ -27,15 +26,15 @@ import {c,canvas,devicePixelRatio} from '../common.js'
                     'direction'    : 'clockwise',
                     'repeat'       : 0,
                     'yoyo'         : false,
-                    'callbackAfter' : function() {drawWheelPointer()}
+                    'callbackAfter' : function() {wheel.drawWheelPointer()}
                 }
         
             
             });
         
-    }
+    },
 
-    function drawWheelPointer() {
+    drawWheelPointer() {
         c.strokeStyle = '#000000';     // Set line colour.
         c.fillStyle   = 'aqua';        // Set fill colour.
         c.lineWidth   = 2;
@@ -50,22 +49,23 @@ import {c,canvas,devicePixelRatio} from '../common.js'
         c.lineTo(initialPosX+1, initialPosY);
         c.stroke();                    // Complete the path by stroking (draw lines).
         c.fill();                      // Then fill with colour.
-    }
+    },
 
-    export function drawWheel() {
-        spinWheel.draw()
-        drawWheelPointer()
-    }
+    drawWheel: function() {
+            spinWheel.draw()
+            wheel.drawWheelPointer()
+        },
 
-    export function toggleAnimation() {
-       if (isSpinning) { 
-        spinWheel.stopAnimation()
-     } else { 
-        spinWheel.startAnimation() 
-    }
-    isSpinning = !isSpinning
-    }
-
-
+    toggleAnimation: function() {
+        if (wheel.isSpinning) { 
+            spinWheel.stopAnimation()
+        } else { 
+            spinWheel.startAnimation() 
+        }
+        wheel.isSpinning = !wheel.isSpinning
+        }
 
 
+
+
+}

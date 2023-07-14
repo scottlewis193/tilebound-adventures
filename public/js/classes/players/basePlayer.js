@@ -1,4 +1,7 @@
-class basePlayer {
+
+
+class BasePlayer {
+    
     constructor({x,y,colour}) {
         this.x = x;
         this.y = y;
@@ -9,7 +12,8 @@ class basePlayer {
     draw() {
         if (this.visible) {
         c.fillStyle = this.colour
-        c.fillRect(this.x,this.y,50*wdevicePixelRatio,50*devicePixelRatio)
+        c.arc(this.x,this.y,25*devicePixelRatio,0,Math.PI * 2,false)
+        c.fill()
     }
     }
 }
