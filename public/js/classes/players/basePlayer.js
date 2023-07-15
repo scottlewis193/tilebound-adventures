@@ -1,5 +1,3 @@
-
-
 class BasePlayer {
     
     constructor({x,y,colour}) {

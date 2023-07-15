@@ -2,14 +2,6 @@
 //client socket
 const socket = io()
 
-//set canvas res correctly
-canvas.width = innerWidth * devicePixelRatio
-canvas.height = innerHeight * devicePixelRatio
-
-
-const x = canvas.width / 2
-const y = canvas.height / 2
-
 
 //To store player data on the front end
 const frontEndPlayers = {}
@@ -54,6 +46,7 @@ function animate() {
 
     animationId = requestAnimationFrame(animate)
 
+if (!gameLoopPaused) {
     c.clearRect(0, 0, canvas.width, canvas.height)
     // c.fillStyle = 'rgba(0,0,0,0.1)'
     // c.fillRect(0,0, canvas.width, canvas.height)
@@ -68,7 +61,7 @@ function animate() {
         player.draw()
     }
 
-
+}
 
 }
 
@@ -79,6 +72,7 @@ window.addEventListener('resize', (event) =>  {
     canvas.width = innerWidth * devicePixelRatio
     canvas.height = innerHeight * devicePixelRatio
     //wheel.defineWinWheel()
+    board.updateBoardPos()
     console.log("resize")
 })
 
@@ -90,12 +84,10 @@ window.addEventListener('resize', (event) =>  {
 
 //click canvas to toggle wheel spin animation
 //canvas.onclick = function() {wheel.toggleAnimation()}
-
+board.generateBoard()
 //intial function call to start loop
 animate()
 
-
-
-
+gameLoopPaused = true
 
     // theWheel.startAnimation()
