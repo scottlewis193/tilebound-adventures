@@ -18,57 +18,102 @@ var board = {
         //set seed sequence
         Math.seedrandom(this.boardSeed);
 
+        let newX = 0
+        let newY = 0
 
-        //cave tile spawn cap
-        let caveTileMax = 2
-        let caveTileCount = 0
 
-        //track starttile placement
-        let startTilePlaced = false
+        //path tile pass
+        for (let gridY = 0; gridY < this.boardSize; gridY++) {
+            for (let gridX = 0; gridX < this.boardSize; gridX++) {
+                this.tiles[gridX + ' ' + gridY] = new PathTile({x: gridX,y:gridY})
+            }
+        }
 
-        //track initial villagetile
-        let firstVillageTilePlaced = false
+        //forest tile pass
+        for (let gridY = 0; gridY < this.boardSize; gridY++) {
+            for (let gridX = 0; gridX < this.boardSize; gridX++) {
+                if (Math.floor(Math.random() * 4) == 1) {
+                    this.tiles[gridX + ' ' + gridY] = new ForestTile({x: gridX,y:gridY})
+                }
+            }
+        }
+
+        //village tile pass
+        newX = Math.floor(Math.random() * this.boardSize)
+        newY = Math.floor(Math.random() * this.boardSize)
+        this.tiles[newX + ' ' + newY] = new VillageTile({x: newX, y: newY})
 
         for (let gridY = 0; gridY < this.boardSize; gridY++) {
-    
             for (let gridX = 0; gridX < this.boardSize; gridX++) {
-                
-                //select random tile
-                let typeIndex = Math.floor(Math.random() * this.tileTypes.size)
-
-                //check if all cave tile have spawned, if so use path tile
-                if (caveTileCount == caveTileMax && typeIndex == 0) {typeIndex = 2}
-                if (typeIndex == 0 && caveTileCount !== caveTileMax) {caveTileCount +=1}
-
-                //check if start tile has spawn, if so use path tile
-                if (startTilePlaced && typeIndex == 5) {typeIndex = 2}
-                if(typeIndex == 5 && !startTilePlaced) {startTilePlaced = true}
-
-                //check if it's sand tile and if so, if it's not at the edge of the board, then replace with path tile
-                if(typeIndex == 3 && (gridX !== this.boardSize && gridY !== this.boardSize && gridX !== 0 & gridY !== 0)) {typeIndex = 2}
-
-                //check if first village tile, if so track
-                if(typeIndex == 4 && firstVillageTilePlaced) {typeIndex = 2}
-                if(typeIndex == 4 && !firstVillageTilePlaced) {firstVillageTilePlaced = true}
-
-
-
-                //create new tile instance
-                this.tiles[gridX + ' ' + gridY] = new(this.tileTypes.get(typeIndex))({x: gridX,y: gridY})
-            
-                //check for village tile type neighbours, if found then randomly change to village tile
-                
                 if (this.tiles[gridX + ' ' + gridY].hasSameTileTypeNeighbour('VillageTile')) {
-                    let ranNo = Math.floor(Math.random() * 2)
-                    if (ranNo == 1) {
-                        //change tile instance to VillageTile
-                        this.tiles[gridX + ' ' + gridY] = new(this.tileTypes.get(4))({x: gridX,y: gridY})
+                    if (Math.floor(Math.random() * 3) == 1) {
+                        this.tiles[gridX + ' ' + gridY] = new VillageTile({x: gridX, y: gridY})
                     }
                 }
-                
             }
+        }
+
+
+        //cave tile pass
+        let caveTileMax = 2
+        for(let i = 0; i < caveTileMax; i++) {
+
+            do {
+                newX = Math.floor(Math.random() * this.boardSize)
+                newY = Math.floor(Math.random() * this.boardSize)
+            } while(this.tiles[newX + ' ' + newY].name == 'VillageTile')
+
+            this.tiles[newX + ' ' + newY] = new CaveTile({x: newX,y: newY})
 
         }
+
+        //sand tile pass
+        for (let gridY = 0; gridY < this.boardSize; gridY++) {
+            if (Math.floor(Math.random() * 3) == 1) {
+            if (this.tiles[0 + ' ' + gridY].name !== 'VillageTile' &&
+                this.tiles[0 + ' ' + gridY].name !== 'CaveTile') {
+                    this.tiles[0 + ' ' + gridY] = new SandTile({x: 0,y: gridY})
+                }
+            }
+        }
+        for (let gridX = 0; gridX < this.boardSize; gridX++) {
+            if (Math.floor(Math.random() * 3) == 1) {
+            if (this.tiles[gridX + ' ' + 0].name !== 'VillageTile' &&
+                this.tiles[gridX + ' ' + 0].name !== 'CaveTile') {
+                    this.tiles[gridX + ' ' + 0] = new SandTile({x: gridX,y: 0})
+                }
+            }
+        }
+        for (let gridY = 0; gridY < this.boardSize; gridY++) {
+            if (Math.floor(Math.random() * 3) == 1) {
+            if (this.tiles[(this.boardSize-1) + ' ' + gridY].name !== 'VillageTile' &&
+                this.tiles[(this.boardSize-1) + ' ' + gridY].name !== 'CaveTile') {
+                    this.tiles[(this.boardSize-1) + ' ' + gridY] = new SandTile({x: (this.boardSize-1),y: gridY})
+                }
+            }
+        }
+        for (let gridX = 0; gridX < this.boardSize; gridX++) {
+            if (Math.floor(Math.random() * 3) == 1) {
+            if (this.tiles[gridX + ' ' + (this.boardSize-1)].name !== 'VillageTile' &&
+                this.tiles[gridX + ' ' + (this.boardSize-1)].name !== 'CaveTile') {
+                    this.tiles[gridX + ' ' + (this.boardSize-1)] = new SandTile({x: gridX,y: (this.boardSize-1)})
+                }
+            }
+        }
+
+
+        //start tile pass
+
+            do {
+                newX = Math.floor(Math.random() * this.boardSize)
+                newY = Math.floor(Math.random() * this.boardSize)
+            } while(this.tiles[newX + ' ' + newY].name == 'VillageTile' || 
+                    this.tiles[newX + ' ' + newY].name == 'CaveTile')
+            
+            this.tiles[newX + ' ' + newY] = new StartTile({x: newX,y: newY})        
+
+
+        
 
     },
 
