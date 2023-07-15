@@ -10,8 +10,7 @@ var board = {
         [2,PathTile],
         [3,SandTile],
         [4,VillageTile],
-        [5,WaterTile],
-        [6,StartTile]
+        [5,StartTile]
     ]),
 
     generateBoard() {
@@ -27,6 +26,9 @@ var board = {
         //track starttile placement
         let startTilePlaced = false
 
+        //track initial villagetile
+        let firstVillageTilePlaced = false
+
         for (let gridY = 0; gridY < this.boardSize; gridY++) {
     
             for (let gridX = 0; gridX < this.boardSize; gridX++) {
@@ -39,14 +41,31 @@ var board = {
                 if (typeIndex == 0 && caveTileCount !== caveTileMax) {caveTileCount +=1}
 
                 //check if start tile has spawn, if so use path tile
-                if (startTilePlaced && typeIndex == 6) {typeIndex = 2}
-                if(typeIndex == 6 && startTilePlaced == false) {startTilePlaced = true}
+                if (startTilePlaced && typeIndex == 5) {typeIndex = 2}
+                if(typeIndex == 5 && !startTilePlaced) {startTilePlaced = true}
 
                 //check if it's sand tile and if so, if it's not at the edge of the board, then replace with path tile
                 if(typeIndex == 3 && (gridX !== this.boardSize && gridY !== this.boardSize && gridX !== 0 & gridY !== 0)) {typeIndex = 2}
 
+                //check if first village tile, if so track
+                if(typeIndex == 4 && firstVillageTilePlaced) {typeIndex = 2}
+                if(typeIndex == 4 && !firstVillageTilePlaced) {firstVillageTilePlaced = true}
+
+
+
                 //create new tile instance
                 this.tiles[gridX + ' ' + gridY] = new(this.tileTypes.get(typeIndex))({x: gridX,y: gridY})
+            
+                //check for village tile type neighbours, if found then randomly change to village tile
+                
+                if (this.tiles[gridX + ' ' + gridY].hasSameTileTypeNeighbour('VillageTile')) {
+                    let ranNo = Math.floor(Math.random() * 2)
+                    if (ranNo == 1) {
+                        //change tile instance to VillageTile
+                        this.tiles[gridX + ' ' + gridY] = new(this.tileTypes.get(4))({x: gridX,y: gridY})
+                    }
+                }
+                
             }
 
         }
