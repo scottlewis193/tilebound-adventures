@@ -18,8 +18,17 @@ app.get('/', (req,res) => {
     res.sendFile(__dirname= '/index.html')
 })
 
+
 //declare backend players object
 const backEndPlayers = {}
+
+//declare game state properties object
+const gameProperties = {
+    gameState: null,
+    boardSeed: Math.floor(Math.random() * 100000000000)
+}
+
+    
 
 
 
@@ -30,14 +39,17 @@ io.on('connection', (socket) => {
 
     //on connect add player to players object
     backEndPlayers[socket.id] = {
-        x: 500 * Math.random(),
-        y: 500 * Math.random(),
-        colour: `hsl(${360 * Math.random()}, 100%, 50%)`
+        boardX: (typeof board !== 'undefined') ? board.startPos.x : 0,
+        boardY: (typeof board !== 'undefined') ? board.startPos.y : 0,
+        colour: 'royalblue'
     }
 
 
     //send updated players object to all clients
     io.emit('updatePlayers', backEndPlayers)
+
+    //send updated board object to all clients
+    io.emit('updateGameProps', gameProperties)
 
     // socket io client disconnect event listener
     socket.on('disconnect', (reason) => {
