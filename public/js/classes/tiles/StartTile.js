@@ -5,3 +5,5 @@ class StartTile extends BaseTile {
         this.colour = 'hotpink'
     }
 }
+
+

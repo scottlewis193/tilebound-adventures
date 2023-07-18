@@ -1,4 +1,7 @@
 
+global.board = require('./js/board')
+global.seedrandom = require('seedrandom')
+
 //express setup
 const express = require('express')
 const app = express()
@@ -7,7 +10,8 @@ const port = 3000
 //socket io setup
 const http = require('http');
 const server = http.createServer(app);
-const { Server } = require('socket.io')
+const { Server } = require('socket.io');
+//const { tileSize } = require('./backend/js/board');
 const io = new Server(server, {pingInterval: 2000,pingTimeout: 5000})
 
 //set static folder
@@ -19,18 +23,24 @@ app.get('/', (req,res) => {
 })
 
 
+
+
 //declare backend players object
 const backEndPlayers = {}
+
+
 
 //declare game state properties object
 const gameProperties = {
     gameState: null,
-    boardSeed: Math.floor(Math.random() * 100000000000)
+    board: board
 }
 
-    
+console.log(board)
 
+gameProperties.board.generateBoard()
 
+console.log(gameProperties)
 
 //socket io connection event listener
 io.on('connection', (socket) => {
@@ -39,10 +49,11 @@ io.on('connection', (socket) => {
 
     //on connect add player to players object
     backEndPlayers[socket.id] = {
-        boardX: (typeof board !== 'undefined') ? board.startPos.x : 0,
+        boardX: (typeof board !== 'undefined') ? board.startPos.x : 0, 
         boardY: (typeof board !== 'undefined') ? board.startPos.y : 0,
-        colour: 'royalblue'
-    }
+        colour: 'royalblue',
+        visible: true
+    } 
 
 
     //send updated players object to all clients
@@ -64,7 +75,7 @@ io.on('connection', (socket) => {
 
   });
 
-  
+ 
 
 
 //server listen event listener

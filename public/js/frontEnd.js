@@ -87,7 +87,7 @@ window.addEventListener('resize', (event) =>  {
 
 //click canvas to toggle wheel spin animation
 //canvas.onclick = function() {wheel.toggleAnimation()}
-board.generateBoard()
+
 //intial function call to start loop
 animate()
 

@@ -5,3 +5,6 @@ class VillageTile extends BaseTile {
         this.colour = 'red'
     }
 }
+
+
+

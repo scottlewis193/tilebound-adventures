@@ -5,3 +5,4 @@ class CaveTile extends BaseTile {
         this.colour = 'slategray'
     }
 }
+
