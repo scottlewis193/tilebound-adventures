@@ -1,10 +1,12 @@
 class BasePlayer {
     
-    constructor({boardX,boardY,colour}) {
+    constructor({id,boardX,boardY,colour}) {
+        this.id = id;
         this.boardX = boardX;
         this.boardY = boardY;
         this.colour = colour;
         this.visible = true;
+        this.gameMaster = false;
     }
 
     draw() {

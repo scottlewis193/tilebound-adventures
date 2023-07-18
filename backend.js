@@ -11,7 +11,7 @@ const port = 3000
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require('socket.io');
-//const { tileSize } = require('./backend/js/board');
+
 const io = new Server(server, {pingInterval: 2000,pingTimeout: 5000})
 
 //set static folder
@@ -32,15 +32,14 @@ const backEndPlayers = {}
 
 //declare game state properties object
 const gameProperties = {
-    gameState: null,
+    gameState: {status: 'StartGame',
+                playersTurnID: null,
+                turnPhase: 1},
     board: board
 }
 
-console.log(board)
-
 gameProperties.board.generateBoard()
 
-console.log(gameProperties)
 
 //socket io connection event listener
 io.on('connection', (socket) => {
@@ -49,6 +48,7 @@ io.on('connection', (socket) => {
 
     //on connect add player to players object
     backEndPlayers[socket.id] = {
+        id: socket.id,
         boardX: (typeof board !== 'undefined') ? board.startPos.x : 0, 
         boardY: (typeof board !== 'undefined') ? board.startPos.y : 0,
         colour: 'royalblue',
@@ -57,10 +57,13 @@ io.on('connection', (socket) => {
 
 
     //send updated players object to all clients
-    io.emit('updatePlayers', backEndPlayers)
+    updatePlayers()
 
     //send updated board object to all clients
-    io.emit('updateGameProps', gameProperties)
+    updateBoard()
+
+    //send updated game state object to all clients
+    updateGameState()
 
     // socket io client disconnect event listener
     socket.on('disconnect', (reason) => {
@@ -71,6 +74,21 @@ io.on('connection', (socket) => {
 
         //send updated players object to all clients
         io.emit('updatePlayers', backEndPlayers)
+    })
+
+    socket.on('updateGameState', (gameState) => {
+        gameProperties.gameState = {
+            status: gameState.status || gameProperties.gameState.status,
+            playersTurnID: gameState.playersTurnID || gameProperties.gameState.playersTurnID,
+            turnPhase: gameState.turnPhase || gameProperties.gameState.turnPhase
+        }
+
+        console.log('received UpdatedGameState')
+        //if game has just started, set first players turn
+        if (gameProperties.gameState.status == 'InProgress' && gameProperties.gameState.playersTurnID == null) {
+            gameProperties.gameState.playersTurnID = Object.values(backEndPlayers)[0]
+            updateGameState()
+        }
     })
 
   });
@@ -84,3 +102,19 @@ server.listen(port, () => {
 })
 
 console.log('Server loaded')
+
+function updatePlayers() {
+    console.log('updatePlayers')
+    io.emit('updatePlayers', backEndPlayers)
+
+}
+
+function updateBoard() {
+    console.log('updateBoard')
+    io.emit('updateBoard', gameProperties.board)
+}
+
+function updateGameState() {
+    console.log('updateGameState')
+    io.emit('updateGameState', gameProperties.gameState)
+}

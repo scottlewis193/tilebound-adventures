@@ -52,13 +52,12 @@
                 }
             }
         }
-    
-        console.log('test')
+
     
         //cave tile pass
         let caveTileMax = 2
         for(let i = 0; i < caveTileMax; i++) {
-            console.log('test')
+ 
             do {
                 newX = Math.floor(Math.random() * this.boardSize)
                 newY = Math.floor(Math.random() * this.boardSize)

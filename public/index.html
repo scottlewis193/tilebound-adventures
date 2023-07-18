@@ -10,24 +10,35 @@
 </head>
 <body>
 
-<div class="menu-btns">
-  <button class="menu-btn" id="join-btn" onclick="toggleModalVisibility('canvas')">CANVAS TESTING</button>
-    <button class="menu-btn" id="startmenu-btn" onclick="toggleModalVisibility('startmenu')">MENU TESTING</button>
-
-  <button class="menu-btn" id="options-btn">OPTIONS</button>
+<div id="main-menu" style="display:block">
+<div id="menu-btns">
+  <button class="menu-btn" id="join-btn" onclick="toggleModalVisibility(['game-window','main-menu']); initClientConnection();">Join Game</button>
+    <button class="menu-btn" id="profile-btn" onclick="">Profile</button>
+    <button class="menu-btn" id="options-btn" onclick="">Options</button>
+</div>
 </div>
 
 
-
-<div id="startmenu">
-
-<h1>MENU</h1>
-
-</div>
-
+  <div id="game-window" style="display:none">
+  <div id="game-ui">
+    <div id="game-ui-topbar">
+      <a class="game-text" id="game-status">GAME STATUS</a>
+      <button class="ui-topbar-btn" id="playerlist-btn" onclick="">P</button>
+      <button class="ui-topbar-btn" id="settings-btn" onclick="">S</button>
+      <button class="ui-topbar-btn" id="exit-btn" onclick="">E</button>
+    </div>
+    
+    
 
     <canvas id="canvas"></canvas>
-<!--data-responsiveMinWidth="180" data-responsiveMargin="50"-->
+
+    <button class="ui-btn" id="inventory-btn">Inventory</button>
+    <button class="ui-btn" id="interact-btn">Start Game</button>
+  </div>
+  
+
+  </div>
+
     <!--CSS-->
     <link rel="stylesheet" href="./css/index.css">
 
@@ -46,6 +57,7 @@
     <script src="./js/classes/tiles/SandTile.js"></script>
     <script src="./js/classes/tiles/WaterTile.js"></script>
     <script src="./js/classes/tiles/StartTile.js"></script>
+    <script src="./js/classes/ProxyClass.js"></script>
 
     <!--Monsters-->
     <script src="./js/classes/monsters/baseMonster.js"></script>
@@ -68,15 +80,6 @@
     <!--Players-->
     <script src="./js/classes/players/BasePlayer.js"></script>
 
-
-
-    <script>
-      function toggleModalVisibility(elementID) {
-    let currentState = document.getElementById(elementID).style.display
-    document.getElementById(elementID).style.display = (currentState == 'block') ? 'none' : 'block'
-}
-
-    </script>
 
 </body>
 </html>
