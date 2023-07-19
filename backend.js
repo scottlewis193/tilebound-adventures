@@ -86,7 +86,7 @@ io.on('connection', (socket) => {
         console.log('received UpdatedGameState')
         //if game has just started, set first players turn
         if (gameProperties.gameState.status == 'InProgress' && gameProperties.gameState.playersTurnID == null) {
-            gameProperties.gameState.playersTurnID = Object.values(backEndPlayers)[0]
+            gameProperties.gameState.playersTurnID = Object.values(backEndPlayers)[0].id
             updateGameState()
         }
     })

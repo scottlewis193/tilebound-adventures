@@ -22,6 +22,9 @@ socket.on('updatePlayers', (backEndPlayers) => {
                 colour: backEndPlayer.colour
             })
 
+            displayEventText(backEndPlayer.id + ' Joined The Game')
+            
+
         } else {
             //if a player already exists
             players.frontEndPlayers[id].boardX = backEndPlayer.boardX
@@ -32,7 +35,11 @@ socket.on('updatePlayers', (backEndPlayers) => {
 
     for (const id in players.frontEndPlayers) {
         if (!backEndPlayers[id]) {
+
+            displayEventText(gameStatusTxt.innerText = players.frontEndPlayers[id].id + ' Left The Game')
+
             delete players.frontEndPlayers[id]
+
             console.log(`${id} deleted`)
         }
     }
@@ -59,7 +66,6 @@ socket.on('updateGameState', (backEndGameState) => {
 
     if (gameState.status == 'StartGame') {
         document.getElementById('interact-btn').addEventListener("click",startGame)
-        console.log(document.getElementById('interact-btn'))
     } else if(gameState.status == 'InProgress') {
         interactBtn.innerText = 'Interact'
         interactBtn.onclick = function() {interact}

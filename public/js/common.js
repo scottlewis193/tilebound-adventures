@@ -9,11 +9,15 @@ const devicePixelRatio = window.devicePixelRatio || 1
 canvas.width = innerWidth * devicePixelRatio
 canvas.height = (innerHeight-100) * devicePixelRatio
 
-let gameState = {}
+let gameState = {
+        status: 'StartGame',
+        playersTurnID: null,
+        turnPhase: 1
+}
 
 //UI
 let interactBtn = document.getElementById('interact-btn')
-
+let gameStatusTxt = document.getElementById('game-status')
 
 function toggleModalVisibility(elementIDs) {
 
@@ -26,11 +30,20 @@ function toggleModalVisibility(elementIDs) {
 }
 
 function startGame() {
-    console.log('StartGame')
+    displayEventText('Starting Game...')
     gameState.status = 'InProgress'
     socket.emit('updateGameState', gameState)
 }
 
 function Interact() {
     console.log('InteractTest')
+}
+
+function displayEventText(text) {
+    gameStatusTxt.innerText = text
+    setTimeout(() => {displayTurnText()}, 7000)
+}
+
+function displayTurnText() {
+(gameState.playersTurnID !== null) ? gameStatusTxt.innerText = gameState.playersTurnID + ' Turn' : gameStatusTxt.innerText = 'Waiting To Start Game...'
 }
