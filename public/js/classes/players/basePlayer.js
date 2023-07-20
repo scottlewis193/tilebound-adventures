@@ -12,7 +12,9 @@ class BasePlayer {
 
     draw() {
     if (this.visible) {
+ 
         c.fillStyle = this.colour
+
         c.arc(this.boardXToCanvasX(true),this.boardYToCanvasY(true),(board.tileSize / 2),0,Math.PI * 2,false)
         c.fill()
 
@@ -45,5 +47,9 @@ class BasePlayer {
     
     toggleMoveSquares() {
         this.moveSquaresVisible = !this.moveSquaresVisible
+    }
+
+    move(newBoardPos) {
+        TweenMax.to(this,3,this.boardPos = newBoardPos)
     }
 }

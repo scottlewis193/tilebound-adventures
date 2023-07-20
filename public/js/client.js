@@ -41,8 +41,8 @@ this.socket.on('updatePlayers', (backEndPlayers) => {
             
 
         } else {
-            //if a player already exists
-            players.frontEndPlayers[id].boardPos = backEndPlayer.boardPos
+            //if a player already exists, update pos using tween
+            TweenMax.to(players.frontEndPlayers[id].boardPos,{x: backEndPlayer.boardPos.x, y: backEndPlayer.boardPos.y,duration: 3, onUpdate: function() {client.drawLayers()}, onComplete: function() {delete players.frontEndPlayers[id].boardPos._gsap} })
 
         }
     }
@@ -94,18 +94,16 @@ animate(timeStamp) {
 
 
 
-    c.clearRect(0, 0, canvas.width, canvas.height)
+
     // c.fillStyle = 'rgba(0,0,0,0.1)'
     // c.fillRect(0,0, canvas.width, canvas.height)
 
     //wheel.drawWheel()
 
+
     board.updateBoardPos()
-    board.drawBoard()
 
-
-    players.drawAllPlayers()
-
+    client.drawLayers()
 
     // Calculate how much time has passed
     client.secondsPassed = (timeStamp - client.oldTimeStamp) / 1000;
@@ -121,6 +119,17 @@ animate(timeStamp) {
 
     setTimeout( () => {requestAnimationFrame(client.animate)
     },0)
+
+},
+
+drawLayers() {
+    canvas.width = canvas.width //fix weird clearing bug
+    c.clearRect(0, 0, canvas.width, canvas.height)
+
+    board.drawBoard()
+
+
+    players.drawAllPlayers()
 
 },
 
@@ -141,11 +150,30 @@ windowResized(e) {
 //called when user clicks within the canvas element
 canvasMouseClick(e) {
 
+let clientPlayer = players.frontEndPlayers[client.socket.id]
 
 //has client clicked it's player
-if (JSON.stringify(this.mouseGridPos) === JSON.stringify(players.frontEndPlayers[client.socket.id].boardPos)) {
-    players.frontEndPlayers[client.socket.id].onClick()
-}},
+if (JSON.stringify(this.mouseGridPos) === JSON.stringify(clientPlayer.boardPos)) {
+    clientPlayer.onClick()
+}
+
+//has client clicked a move square
+if (clientPlayer.moveSquaresVisible) {
+
+let mouseGridPosStr = JSON.stringify(this.mouseGridPos)
+
+if(mouseGridPosStr == JSON.stringify({x: clientPlayer.boardPos.x - 1, y: clientPlayer.boardPos.y}) ||
+mouseGridPosStr ==  JSON.stringify({x: clientPlayer.boardPos.x + 1, y: clientPlayer.boardPos.y}) ||
+mouseGridPosStr ==  JSON.stringify({x: clientPlayer.boardPos.x, y: clientPlayer.boardPos.y - 1}) ||
+mouseGridPosStr ==  JSON.stringify({x: clientPlayer.boardPos.x, y: clientPlayer.boardPos.y + 1})
+) {
+    clientPlayer.toggleMoveSquares()    
+    client.socket.emit('playerMove',JSON.parse(mouseGridPosStr))
+}
+
+}
+
+},
 
 //called when the mouse position has changed within the canvas
 canvasMouseMove(e) {

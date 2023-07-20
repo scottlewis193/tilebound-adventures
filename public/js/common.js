@@ -45,7 +45,7 @@ function displayEventText(text) {
 }
 
 function displayTurnText() {
-(gameState.playersTurnID !== null) ? gameStatusTxt.innerText = gameState.playersTurnID + ' Turn' : gameStatusTxt.innerText = 'Waiting To Start Game...'
+(gameState.playersTurnID !== null && gameState.status !== 'StartGame') ? gameStatusTxt.innerText = gameState.playersTurnID + ' Turn' : gameStatusTxt.innerText = 'Waiting To Start Game...'
 }
 
 function mousePosToMouseGridPos(mousePos) {
@@ -55,4 +55,5 @@ function mousePosToMouseGridPos(mousePos) {
     
     return {x: Math.floor(mousePosOnBoardX / (boardSizePixels/board.boardSize)), y: Math.floor(mousePosOnBoardY / (boardSizePixels/board.boardSize))}
 }
+
 

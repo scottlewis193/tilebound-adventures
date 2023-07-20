@@ -82,12 +82,20 @@ io.on('connection', (socket) => {
         //send updated players object to all clients
         io.emit('updatePlayers', backEndPlayers)
 
-        //if it was the players turn who disconnected, turn should change to next player
-        gameProperties.gameState.playersTurnID = 
-        (JSON.stringify(backEndPlayers) === '{}') ? null : getPlayerFromIndex(gameProperties.gameState.playerTurnIndex).id
-        
+
         //update player count
          gameProperties.gameState.playersConnected -= 1
+
+       //if it was the players turn who disconnected, turn should change to next player
+        if (gameProperties.gameState.playersConnected !== 0) {
+            try {
+                gameProperties.gameState.playersTurnID = getPlayerFromIndex(gameProperties.gameState.playerTurnIndex).id
+            } catch (error) {
+                gameProperties.gameState.playersTurnID = null
+            }
+        } else {
+            gameProperties.gameState.playersTurnID = null
+        }
 
         updateGameState()
 
@@ -104,16 +112,26 @@ io.on('connection', (socket) => {
         //if game has just started, set first players turn
         if (gameProperties.gameState.status == 'InProgress' && gameProperties.gameState.playersTurnID == null) {
             gameProperties.gameState.playersTurnID = Object.values(backEndPlayers)[0].id
-            updateGameState()
         }
 
-        updateDebug()
+        updateGameState()
+        console.log(gameProperties.gameState)
+        //updateDebug()
+    })
+
+    socket.on('playerMove', (newPos) => {
+        
+        backEndPlayers[socket.id].boardPos = newPos
+        updatePlayers()
+ 
     })
 
   });
 
  
-
+// setInterval(() => {
+//     updatePlayers()
+// }, 15)
 
 //server listen event listener
 server.listen(port, () => {
@@ -126,7 +144,7 @@ function updatePlayers() {
     console.log('updatePlayers')
     io.emit('updatePlayers', backEndPlayers)
 
-    updateDebug()
+    //updateDebug()
 
 }
 
@@ -134,14 +152,14 @@ function updateBoard() {
     console.log('updateBoard')
     io.emit('updateBoard', gameProperties.board)
 
-    updateDebug()
+    //updateDebug()
 }
 
 function updateGameState() {
     console.log('updateGameState')
     io.emit('updateGameState', gameProperties.gameState)
     
-   updateDebug()
+   //updateDebug()
 }
 
 function getPlayerFromIndex(index) {
@@ -154,23 +172,28 @@ function getPlayerFromIndex(index) {
 }
 
 function updateDebug() {
+
+    let playerListAry = []
+    let playerListStr
+
+    for (const i in backEndPlayers) {
+       playerListAry.push(backEndPlayers[i].id)
+    } 
+
+    playerListStr = playerListAry.join(',')
+
     console.clear()
-    console.
-    console.log(` 0000000                                                          0                                                                  `)
-    console.log(`    0    0 0      000000 00000   0000  0    0 0    0 00000       0 0   00000  0    0 000000 0    0 00000 0    0 00000  000000  0000  `)
-    console.log(`    0    0 0      0      0    0 0    0 0    0 00   0 0    0     0   0  0    0 0    0 0      00   0   0   0    0 0    0 0      0      `)
-    console.log(`    0    0 0      00000  00000  0    0 0    0 0 0  0 0    0    0     0 0    0 0    0 00000  0 0  0   0   0    0 0    0 00000   0000  `)
-    console.log(`    0    0 0      0      0    0 0    0 0    0 0  0 0 0    0    0000000 0    0 0    0 0      0  0 0   0   0    0 00000  0           0 `)
-    console.log(`    0    0 0      0      0    0 0    0 0    0 0   00 0    0    0     0 0    0  0  0  0      0   00   0   0    0 0   0  0      0    0 `)
-    console.log(`    0    0 000000 000000 00000   0000   0000  0    0 00000     0     0 00000    00   000000 0    0   0    0000  0    0 000000  0000  `)
+    console.log(`+-+-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+-+`)
+    console.log(`|T|I|L|E|B|O|U|N|D| |A|D|V|E|N|T|U|R|E|S|`)
+    console.log(`+-+-+-+-+-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+-+`)
     console.log(``)
     console.log(`INDEV`)
     console.log(``)
-    console.log(`=================================`)
+    console.log(`=========================================`)
     console.log(`GameState: ${gameProperties.gameState.status}`)
-    console.log(`Players: ${gameProperties.gameState.playersConnected}`)
+    console.log(`Players: ${gameProperties.gameState.playersConnected} (${playerListStr})`)
     console.log(`TurnID: ${gameProperties.gameState.playersTurnID}`)
     console.log(`TurnIndex: ${gameProperties.gameState.playerTurnIndex}`)
     console.log(`TurnPhase: ${gameProperties.gameState.turnPhase}`)
-    console.log(`=================================`)
+    console.log(`=========================================`)
 }
