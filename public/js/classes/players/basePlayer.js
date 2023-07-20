@@ -1,29 +1,49 @@
 class BasePlayer {
     
-    constructor({id,boardX,boardY,colour}) {
+    constructor({id,boardPos,colour}) {
         this.id = id;
-        this.boardX = boardX;
-        this.boardY = boardY;
+        this.boardPos = boardPos;
         this.colour = colour;
         this.visible = true;
         this.gameMaster = false;
+        this.moveSquaresVisible = false;
+        this.playersTurn = false;
     }
 
     draw() {
     if (this.visible) {
         c.fillStyle = this.colour
-        c.arc(this.boardXToCanvasX(),this.boardYToCanvasY(),(board.tileSize / 2),0,Math.PI * 2,false)
+        c.arc(this.boardXToCanvasX(true),this.boardYToCanvasY(true),(board.tileSize / 2),0,Math.PI * 2,false)
         c.fill()
+
+        if (this.moveSquaresVisible) {
+        c.fillStyle = 'yellow'
+        if (this.boardPos.x !== board.boardSize-1) { c.fillRect(this.boardXToCanvasX() + board.tileSize,this.boardYToCanvasY(),board.tileSize,board.tileSize)}
+        if (this.boardPos.x !== 0) { c.fillRect(this.boardXToCanvasX() - board.tileSize,this.boardYToCanvasY(),board.tileSize,board.tileSize)}
+        if (this.boardPos.y !== board.boardSize-1) {c.fillRect(this.boardXToCanvasX() ,this.boardYToCanvasY() + board.tileSize,board.tileSize,board.tileSize)}
+        if (this.boardPos.y !== 0) {c.fillRect(this.boardXToCanvasX() ,this.boardYToCanvasY() - board.tileSize,board.tileSize,board.tileSize)}
+        }
         }
     }
 
-   boardXToCanvasX() {
-        return board.boardPos.x + (board.tileSize / 2) + ((this.boardX) * board.tileSize)
+   boardXToCanvasX(centered = false) {
+        if (centered) {return board.boardPos.x + (board.tileSize / 2) + ((this.boardPos.x) * board.tileSize)}
+        else {return board.boardPos.x + ((this.boardPos.x) * board.tileSize)}
     }
     
-    boardYToCanvasY() {
-        return board.boardPos.y + (board.tileSize / 2) + ((this.boardY) * board.tileSize)
+    boardYToCanvasY(centered = false) {
+       if(centered) {return board.boardPos.y + (board.tileSize / 2) + ((this.boardPos.y) * board.tileSize)}
+       else {return board.boardPos.y + ((this.boardPos.y) * board.tileSize)}
     }
 
+
+    //if player has been clicked
+    onClick() {
+        console.log('Clients Player Clicked')
+    if (this.playersTurn) {this.toggleMoveSquares()}
+    }
     
+    toggleMoveSquares() {
+        this.moveSquaresVisible = !this.moveSquaresVisible
+    }
 }

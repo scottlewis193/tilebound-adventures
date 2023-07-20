@@ -12,7 +12,7 @@
 
 <div id="main-menu" style="display:block">
 <div id="menu-btns">
-  <button class="menu-btn" id="join-btn" onclick="toggleModalVisibility(['game-window','main-menu']); initClientConnection();">Join Game</button>
+  <button class="menu-btn" id="join-btn" onclick="toggleModalVisibility(['game-window','main-menu']); client.initClientConnection();">Join Game</button>
     <button class="menu-btn" id="profile-btn" onclick="">Profile</button>
     <button class="menu-btn" id="options-btn" onclick="">Options</button>
 </div>
@@ -75,7 +75,7 @@
     <script src="./js/wheel.js"></script>
     <script src="./js/board.js"></script>
     <script src="./js/players.js"></script>
-    <script src="./js/frontend.js"></script>
+    <script src="./js/client.js"></script>
 
     <!--Players-->
     <script src="./js/classes/players/BasePlayer.js"></script>

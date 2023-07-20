@@ -32,7 +32,7 @@ function toggleModalVisibility(elementIDs) {
 function startGame() {
     displayEventText('Starting Game...')
     gameState.status = 'InProgress'
-    socket.emit('updateGameState', gameState)
+    client.socket.emit('updateGameState', gameState)
 }
 
 function Interact() {
@@ -47,3 +47,12 @@ function displayEventText(text) {
 function displayTurnText() {
 (gameState.playersTurnID !== null) ? gameStatusTxt.innerText = gameState.playersTurnID + ' Turn' : gameStatusTxt.innerText = 'Waiting To Start Game...'
 }
+
+function mousePosToMouseGridPos(mousePos) {
+    let boardSizePixels = ((board.tileSize) * board.boardSize)
+    let mousePosOnBoardX =  (mousePos.x-board.boardPos.x)
+    let mousePosOnBoardY =  (mousePos.y-board.boardPos.y)
+    
+    return {x: Math.floor(mousePosOnBoardX / (boardSizePixels/board.boardSize)), y: Math.floor(mousePosOnBoardY / (boardSizePixels/board.boardSize))}
+}
+

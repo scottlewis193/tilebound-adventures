@@ -28,7 +28,6 @@ var board = {
 
         }
 
-        console.log('drawBoard')
 
     },
 

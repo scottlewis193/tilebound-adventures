@@ -11,7 +11,7 @@ drawAllPlayers() {
         player.draw()
     }
 
-    console.log('drawAllPlayers')
+
 }
 
 }

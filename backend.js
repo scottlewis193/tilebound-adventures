@@ -9,6 +9,7 @@ const port = 3000
 
 //socket io setup
 const http = require('http');
+const { get } = require('https')
 const server = http.createServer(app);
 const { Server } = require('socket.io');
 
@@ -34,7 +35,9 @@ const backEndPlayers = {}
 const gameProperties = {
     gameState: {status: 'StartGame',
                 playersTurnID: null,
-                turnPhase: 1},
+                playerTurnIndex: 0,
+                turnPhase: 1,
+                playersConnected: 0},
     board: board
 }
 
@@ -49,12 +52,16 @@ io.on('connection', (socket) => {
     //on connect add player to players object
     backEndPlayers[socket.id] = {
         id: socket.id,
-        boardX: (typeof board !== 'undefined') ? board.startPos.x : 0, 
-        boardY: (typeof board !== 'undefined') ? board.startPos.y : 0,
+        boardPos: (typeof board !== 'undefined') ? {x: board.startPos.x, y:board.startPos.y} : {x: 0, y: 0}, 
         colour: 'royalblue',
         visible: true
     } 
 
+    //if no players were previously connected, set turn as newly connected player
+    if (gameProperties.gameState.playersTurnID == null) {gameProperties.gameState.playersTurnID = socket.id}
+
+    //update player count
+    gameProperties.gameState.playersConnected += 1
 
     //send updated players object to all clients
     updatePlayers()
@@ -74,6 +81,16 @@ io.on('connection', (socket) => {
 
         //send updated players object to all clients
         io.emit('updatePlayers', backEndPlayers)
+
+        //if it was the players turn who disconnected, turn should change to next player
+        gameProperties.gameState.playersTurnID = 
+        (JSON.stringify(backEndPlayers) === '{}') ? null : getPlayerFromIndex(gameProperties.gameState.playerTurnIndex).id
+        
+        //update player count
+         gameProperties.gameState.playersConnected -= 1
+
+        updateGameState()
+
     })
 
     socket.on('updateGameState', (gameState) => {
@@ -89,6 +106,8 @@ io.on('connection', (socket) => {
             gameProperties.gameState.playersTurnID = Object.values(backEndPlayers)[0].id
             updateGameState()
         }
+
+        updateDebug()
     })
 
   });
@@ -107,14 +126,51 @@ function updatePlayers() {
     console.log('updatePlayers')
     io.emit('updatePlayers', backEndPlayers)
 
+    updateDebug()
+
 }
 
 function updateBoard() {
     console.log('updateBoard')
     io.emit('updateBoard', gameProperties.board)
+
+    updateDebug()
 }
 
 function updateGameState() {
     console.log('updateGameState')
     io.emit('updateGameState', gameProperties.gameState)
+    
+   updateDebug()
+}
+
+function getPlayerFromIndex(index) {
+    let i = 0 
+    for (const id in backEndPlayers) {
+        if(i == index) {return backEndPlayers[id]}
+        i++
+    }
+    return null
+}
+
+function updateDebug() {
+    console.clear()
+    console.
+    console.log(` 0000000                                                          0                                                                  `)
+    console.log(`    0    0 0      000000 00000   0000  0    0 0    0 00000       0 0   00000  0    0 000000 0    0 00000 0    0 00000  000000  0000  `)
+    console.log(`    0    0 0      0      0    0 0    0 0    0 00   0 0    0     0   0  0    0 0    0 0      00   0   0   0    0 0    0 0      0      `)
+    console.log(`    0    0 0      00000  00000  0    0 0    0 0 0  0 0    0    0     0 0    0 0    0 00000  0 0  0   0   0    0 0    0 00000   0000  `)
+    console.log(`    0    0 0      0      0    0 0    0 0    0 0  0 0 0    0    0000000 0    0 0    0 0      0  0 0   0   0    0 00000  0           0 `)
+    console.log(`    0    0 0      0      0    0 0    0 0    0 0   00 0    0    0     0 0    0  0  0  0      0   00   0   0    0 0   0  0      0    0 `)
+    console.log(`    0    0 000000 000000 00000   0000   0000  0    0 00000     0     0 00000    00   000000 0    0   0    0000  0    0 000000  0000  `)
+    console.log(``)
+    console.log(`INDEV`)
+    console.log(``)
+    console.log(`=================================`)
+    console.log(`GameState: ${gameProperties.gameState.status}`)
+    console.log(`Players: ${gameProperties.gameState.playersConnected}`)
+    console.log(`TurnID: ${gameProperties.gameState.playersTurnID}`)
+    console.log(`TurnIndex: ${gameProperties.gameState.playerTurnIndex}`)
+    console.log(`TurnPhase: ${gameProperties.gameState.turnPhase}`)
+    console.log(`=================================`)
 }
