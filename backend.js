@@ -102,20 +102,47 @@ io.on('connection', (socket) => {
     })
 
     socket.on('updateGameState', (gameState) => {
+
+        const OLD_TURN_PHASE = gameProperties.gameState.turnPhase
+
         gameProperties.gameState = {
             status: gameState.status || gameProperties.gameState.status,
             playersTurnID: gameState.playersTurnID || gameProperties.gameState.playersTurnID,
-            turnPhase: gameState.turnPhase || gameProperties.gameState.turnPhase
+            turnPhase: gameState?.turnPhase || gameProperties.gameState.turnPhase,
+            playerTurnIndex: gameState.playerTurnIndex || gameProperties.gameState.playerTurnIndex,
+            playersConnected: gameState.playersConnected || gameProperties.gameState.playersConnected
+        }
+
+        const PLAYERS_TURN_ID = gameProperties.gameState.playersTurnID
+        const PLAYERS_TURN_INDEX = gameProperties.gameState.playerTurnIndex
+        const GAME_STATUS = gameProperties.gameState.status
+        const TURN_PHASE = gameProperties.gameState.turnPhase
+
+       //if previous player has completed all phases
+        if (OLD_TURN_PHASE !== TURN_PHASE && TURN_PHASE == 1) 
+        {
+        
+        
+        if (PLAYERS_TURN_ID !== 'Overworld') {gameProperties.gameState.playerTurnIndex += 1} else {gameProperties.gameState.playerTurnIndex = 0}
+
+
+        //if on last player, move to overworlds turn
+        if (!Object.values(backEndPlayers)[gameProperties.gameState.playerTurnIndex]) {
+            gameProperties.gameState.playersTurnID = 'Overworld'
+        } else {
+            gameProperties.gameState.playersTurnID = Object.values(backEndPlayers)[gameProperties.gameState.playerTurnIndex].id
+        }
+       
         }
 
         console.log('received UpdatedGameState')
         //if game has just started, set first players turn
-        if (gameProperties.gameState.status == 'InProgress' && gameProperties.gameState.playersTurnID == null) {
+        if (GAME_STATUS == 'InProgress' && gameProperties.gameState.playersTurnID == null) {
             gameProperties.gameState.playersTurnID = Object.values(backEndPlayers)[0].id
         }
 
         updateGameState()
-        console.log(gameProperties.gameState)
+      
         //updateDebug()
     })
 
@@ -123,6 +150,8 @@ io.on('connection', (socket) => {
         
         backEndPlayers[socket.id].boardPos = newPos
         updatePlayers()
+        gameProperties.gameState.turnPhase = 4
+        updateGameState()
  
     })
 
@@ -158,7 +187,7 @@ function updateBoard() {
 function updateGameState() {
     console.log('updateGameState')
     io.emit('updateGameState', gameProperties.gameState)
-    
+    console.log(gameProperties.gameState)
    //updateDebug()
 }
 

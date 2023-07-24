@@ -8,6 +8,19 @@ class BasePlayer {
         this.gameMaster = false;
         this.moveSquaresVisible = false;
         this.playersTurn = false;
+        this.gold = 5
+        this.inventory = {
+            headSlot: null,
+            chestSlot: null,
+            legsSlot: null,
+            feetSlot: null,
+            handSlot1: null,
+            handSlot2: null,
+            freeSlot1: null,
+            freeSlot2: null,
+            freeSlot3: null,
+            freeSlot4: null
+        }
     }
 
     draw() {

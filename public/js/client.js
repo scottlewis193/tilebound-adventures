@@ -16,12 +16,6 @@ initClientConnection() {
 //client socket
 this.socket = io()
 
-
-//add client event listeners
-window.addEventListener('resize', function(e) {client.windowResized(e)})
-canvas.addEventListener('click', function(e) {client.canvasMouseClick(e)})
-canvas.addEventListener('mousemove', function(e) {client.canvasMouseMove(e)})
-
 // backend will trigger this when a new player connects so all clients can update player data on the front end
 this.socket.on('updatePlayers', (backEndPlayers) => {
 
@@ -60,6 +54,7 @@ this.socket.on('updatePlayers', (backEndPlayers) => {
 
 })
 
+//triggered when players connects so it gives them the same board as everyone else
 this.socket.on('updateBoard', (backendBoard) => {
     board.boardSeed = backendBoard.boardSeed
     board.boardPos = backendBoard.boardPos
@@ -70,19 +65,40 @@ this.socket.on('updateBoard', (backendBoard) => {
     board.convertBoard()
 })
 
+
+
 this.socket.on('updateGameState', (backEndGameState) => {
     gameState = backEndGameState
         console.log(gameState)
+
+
     //update elements based on gameState
 
     if (gameState.status == 'StartGame') {
-        document.getElementById('interact-btn').addEventListener("click",startGame)
+        interactBtn.addEventListener("click",startGame)
+     } else if (gameState.status == 'StartingGame') {
+        displayEventText('Starting Game...')     
     } else if(gameState.status == 'InProgress') {
-        interactBtn.innerText = 'Interact'
-        interactBtn.onclick = function() {interact}
+
+        interactBtn.disabled = (this.socket.id !== gameState.playersTurnID) ? true : false
+        inventoryBtn.disabled = (this.socket.id !== gameState.playersTurnID) ? true : false
+
+        if (this.socket.id == gameState.playersTurnID) {
+
+            if(gameState.turnPhase = 4) {
+                interactBtn.innerText = 'End Turn'
+            } else {
+                interactBtn.innerText = 'Interact'
+            }
+
+        }
+        
+        interactBtn.removeEventListener('click',startGame)
+        interactBtn.addEventListener('click',interact)
 
         players.frontEndPlayers[this.socket.id].playersTurn = (gameState.playersTurnID == this.socket.id) ? true : false
 
+        displayTurnText()
     }
 })
 
@@ -136,52 +152,7 @@ drawLayers() {
 
 
 
-//called when browser window has been resized by the user
-windowResized(e) {
-    canvas.width = innerWidth * devicePixelRatio
-    canvas.height = (innerHeight - 100) * devicePixelRatio
-    //wheel.defineWinWheel()
-    board.updateBoardPos()
-    board.drawBoard()
-    players.drawAllPlayers()
 
-},
-
-//called when user clicks within the canvas element
-canvasMouseClick(e) {
-
-let clientPlayer = players.frontEndPlayers[client.socket.id]
-
-//has client clicked it's player
-if (JSON.stringify(this.mouseGridPos) === JSON.stringify(clientPlayer.boardPos)) {
-    clientPlayer.onClick()
-}
-
-//has client clicked a move square
-if (clientPlayer.moveSquaresVisible) {
-
-let mouseGridPosStr = JSON.stringify(this.mouseGridPos)
-
-if(mouseGridPosStr == JSON.stringify({x: clientPlayer.boardPos.x - 1, y: clientPlayer.boardPos.y}) ||
-mouseGridPosStr ==  JSON.stringify({x: clientPlayer.boardPos.x + 1, y: clientPlayer.boardPos.y}) ||
-mouseGridPosStr ==  JSON.stringify({x: clientPlayer.boardPos.x, y: clientPlayer.boardPos.y - 1}) ||
-mouseGridPosStr ==  JSON.stringify({x: clientPlayer.boardPos.x, y: clientPlayer.boardPos.y + 1})
-) {
-    clientPlayer.toggleMoveSquares()    
-    client.socket.emit('playerMove',JSON.parse(mouseGridPosStr))
-}
-
-}
-
-},
-
-//called when the mouse position has changed within the canvas
-canvasMouseMove(e) {
-
-const rect = canvas.getBoundingClientRect();
-this.mousePos = { x: (e.clientX - (rect.left / devicePixelRatio)) * devicePixelRatio, y: ((e.clientY - (rect.top / devicePixelRatio)) * devicePixelRatio) - 50};
-this.mouseGridPos = mousePosToMouseGridPos(this.mousePos);
-},
 
 drawDebugText() {
  c.fillStyle = 'black'

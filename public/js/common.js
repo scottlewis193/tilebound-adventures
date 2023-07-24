@@ -17,6 +17,7 @@ let gameState = {
 
 //UI
 let interactBtn = document.getElementById('interact-btn')
+let inventoryBtn = document.getElementById('inventory-btn')
 let gameStatusTxt = document.getElementById('game-status')
 
 function toggleModalVisibility(elementIDs) {
@@ -30,13 +31,16 @@ function toggleModalVisibility(elementIDs) {
 }
 
 function startGame() {
-    displayEventText('Starting Game...')
+    gameState.status = 'StartingGame'
+    client.socket.emit('updateGameState', gameState)
     gameState.status = 'InProgress'
     client.socket.emit('updateGameState', gameState)
 }
 
-function Interact() {
+function interact() {
     console.log('InteractTest')
+    gameState.turnPhase = (interactBtn.innerText == 'End Turn' && gameState.playersTurnID == client.socket.id) ? 1 : 3
+    client.socket.emit('updateGameState', gameState)
 }
 
 function displayEventText(text) {
@@ -55,5 +59,6 @@ function mousePosToMouseGridPos(mousePos) {
     
     return {x: Math.floor(mousePosOnBoardX / (boardSizePixels/board.boardSize)), y: Math.floor(mousePosOnBoardY / (boardSizePixels/board.boardSize))}
 }
+
 
 

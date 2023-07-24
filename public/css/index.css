@@ -13,7 +13,7 @@ body {
   }
 
 
-/* GAME ELEMENTS */
+/* GAME UI ELEMENTS */
 
   #game-window {
     display:none;
@@ -86,7 +86,64 @@ body {
     grid-column: 1 / span 2;
   }
 
-  /* ----------- */
+#game-player-inventory {
+  display: none;
+  background-color: brown;
+  grid-row: 2;
+  grid-column: 1 / span 2;
+  padding: 10px;
+}
+
+#inventory-grid {
+display:grid;
+grid-template-rows: 1fr;
+grid-template-columns: repeat(11, 1fr);
+width: 100%;
+height: 100px;
+gap: 10px 10px;
+
+}
+
+/*#region InventorySlots */
+.inventory-slot {
+grid-row: 1;
+background-color: burlywood;
+}
+#headSlot {
+  grid-column:1;
+}
+#chestSlot {
+  grid-column:2;
+}
+
+#leggingsSlot {
+  grid-column:3;
+}
+#feetSlot {
+  grid-column:4;
+}
+#handSlot1 {
+  grid-column:5;
+  margin-right: -10px
+}
+#handSlot2 {
+  grid-column:6;
+}
+#freeSlot1 {
+  grid-column:8;
+}
+#freeSlot2 {
+  grid-column:9;
+}
+#freeSlot3 {
+  grid-column:10;
+}
+#freeSlot4 {
+  grid-column:11;
+}
+/*#endregion InventorySlots */
+
+/* ----------- */
 
 
 .menu-btn {
