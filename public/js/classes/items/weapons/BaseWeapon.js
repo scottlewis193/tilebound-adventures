@@ -8,7 +8,18 @@ class BaseWeapon  {
         this.price = 0
     }
 
+    moveToInventorySlot(oldSlot = null, newSlot) {
+        
+        const PLAYER_INVENTORY = players.frontEndPlayers[client.socket.id].inventory
 
+        if (oldSlot == null) {
+            PLAYER_INVENTORY[newSlot] = this
+        } else {
+            PLAYER_INVENTORY[newSlot] = PLAYER_INVENTORY[oldSlot] 
+            PLAYER_INVENTORY[oldSlot] = null
+        }
+    
+    }
 
 
 }

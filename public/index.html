@@ -46,7 +46,7 @@
 
     <canvas id="canvas" style="display:block"></canvas>
 
-    <button class="ui-btn" id="inventory-btn" disabled="true" onclick="toggleModalVisibility(['game-player-inventory','canvas'])">Inventory</button>
+    <button class="ui-btn" id="inventory-btn" disabled="true" onclick="toggleModalVisibility(['game-player-inventory','canvas']);updateInventoryLayout();">Inventory</button>
     <button class="ui-btn" id="interact-btn">Start Game</button>
   </div>
   
@@ -80,6 +80,8 @@
     
     <!--Items-->
     <script src="./js/classes/items/weapons/BaseWeapon.js"></script>
+    <script src="./js/classes/items/weapons/Longsword.js"></script>
+    <script src="./js/classes/items/weapons/Longbow.js"></script>
     <script src="./js/classes/items/supplies/baseShield.js"></script>
     <script src="./js/classes/items/supplies/baseBandage.js"></script>
 

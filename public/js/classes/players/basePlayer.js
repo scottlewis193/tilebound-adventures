@@ -16,7 +16,7 @@ class BasePlayer {
             feetSlot: null,
             handSlot1: null,
             handSlot2: null,
-            freeSlot1: null,
+            freeSlot1: new Longsword(),
             freeSlot2: null,
             freeSlot3: null,
             freeSlot4: null

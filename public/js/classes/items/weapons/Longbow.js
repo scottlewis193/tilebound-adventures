@@ -1,5 +1,6 @@
 class Longbow extends BaseWeapon {
     constructor() {
+        super()
         this.name = "Longbow"
         this.damage = 6
         this.damageResistance = 0
