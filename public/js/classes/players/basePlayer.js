@@ -1,13 +1,13 @@
 class BasePlayer {
     
-    constructor({id,boardPos,colour}) {
+    constructor({id,boardPos,colour, username}) {
         this.id = id;
         this.boardPos = boardPos;
         this.colour = colour;
+        this.username = username;
         this.visible = true;
         this.gameMaster = false;
         this.moveSquaresVisible = false;
-        this.playersTurn = false;
         this.gold = 5
         this.inventory = {
             headSlot: null,
@@ -55,7 +55,7 @@ class BasePlayer {
     //if player has been clicked
     onClick() {
         console.log('Clients Player Clicked')
-    if (this.playersTurn) {this.toggleMoveSquares()}
+    if (this.isPlayersTurn() && gameState.turnPhase < 4) {this.toggleMoveSquares()}
     }
     
     toggleMoveSquares() {
@@ -64,5 +64,9 @@ class BasePlayer {
 
     move(newBoardPos) {
         TweenMax.to(this,3,this.boardPos = newBoardPos)
+    }
+
+    isPlayersTurn() {
+        return (this.id == gameState.playersTurnID)
     }
 }

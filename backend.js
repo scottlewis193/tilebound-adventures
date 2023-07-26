@@ -35,6 +35,7 @@ const backEndPlayers = {}
 const gameProperties = {
     gameState: {status: 'StartGame',
                 playersTurnID: null,
+                playersTurnUsername: null,
                 playerTurnIndex: 0,
                 turnPhase: 1,
                 playersConnected: 0},
@@ -43,34 +44,43 @@ const gameProperties = {
 
 gameProperties.board.generateBoard()
 
-
 //socket io connection event listener
 io.on('connection', (socket) => {
 
-    console.log(`user ${socket.id} connected`);
 
-    //on connect add player to players object
-    backEndPlayers[socket.id] = {
-        id: socket.id,
-        boardPos: (typeof board !== 'undefined') ? {x: board.startPos.x, y:board.startPos.y} : {x: 0, y: 0}, 
-        colour: 'royalblue',
-        visible: true
-    } 
+    socket.on('initClient', (username) => {
 
-    //if no players were previously connected, set turn as newly connected player
-    if (gameProperties.gameState.playersTurnID == null) {gameProperties.gameState.playersTurnID = socket.id}
+        console.log(`user ${username} (${socket.id}) connected`);
 
-    //update player count
-    gameProperties.gameState.playersConnected += 1
+        //on connect add player to players object
+        backEndPlayers[socket.id] = {
+            id: socket.id,
+            boardPos: (typeof board !== 'undefined') ? {x: board.startPos.x, y:board.startPos.y} : {x: 0, y: 0}, 
+            colour: 'royalblue',
+            visible: true,
+            username: username
+        } 
 
-    //send updated players object to all clients
-    updatePlayers()
+        //if no players were previously connected, set turn as newly connected player
+        if (gameProperties.gameState.playersTurnID == null) {gameProperties.gameState.playersTurnID = socket.id; gameProperties.gameState.playersTurnUsername = backEndPlayers[socket.id].username}
 
-    //send updated board object to all clients
-    updateBoard()
+        //update player count
+        gameProperties.gameState.playersConnected += 1
 
-    //send updated game state object to all clients
-    updateGameState()
+        //send updated players object to all clients
+        updatePlayers()
+
+        //send updated board object to all clients
+        updateBoard()
+
+        //send updated game state object to all clients
+        updateGameState()
+
+    })
+
+
+
+    
 
     // socket io client disconnect event listener
     socket.on('disconnect', (reason) => {
@@ -84,17 +94,26 @@ io.on('connection', (socket) => {
 
 
         //update player count
-         gameProperties.gameState.playersConnected -= 1
+         gameProperties.gameState.playersConnected -= (gameProperties.gameState.playersConnected == 0) ? 0 : 1
 
        //if it was the players turn who disconnected, turn should change to next player
         if (gameProperties.gameState.playersConnected !== 0) {
             try {
                 gameProperties.gameState.playersTurnID = getPlayerFromIndex(gameProperties.gameState.playerTurnIndex).id
+                gameProperties.gameState.playersTurnUsername = getPlayerFromIndex(gameProperties.gameState.playerTurnIndex).username
+                gameProperties.gameState.playerTurnIndex = 0
+                gameProperties.gameState.turnPhase = 1
             } catch (error) {
                 gameProperties.gameState.playersTurnID = null
+                gameProperties.gameState.playersTurnUsername = null
+                gameProperties.gameState.playerTurnIndex = 0
+                gameProperties.gameState.turnPhase = 1
             }
         } else {
             gameProperties.gameState.playersTurnID = null
+            gameProperties.gameState.playersTurnUsername = null
+            gameProperties.gameState.playerTurnIndex = 0
+            gameProperties.gameState.turnPhase = 1
         }
 
         updateGameState()
@@ -105,13 +124,7 @@ io.on('connection', (socket) => {
 
         const OLD_TURN_PHASE = gameProperties.gameState.turnPhase
 
-        gameProperties.gameState = {
-            status: gameState.status || gameProperties.gameState.status,
-            playersTurnID: gameState.playersTurnID || gameProperties.gameState.playersTurnID,
-            turnPhase: gameState?.turnPhase || gameProperties.gameState.turnPhase,
-            playerTurnIndex: gameState.playerTurnIndex || gameProperties.gameState.playerTurnIndex,
-            playersConnected: gameState.playersConnected || gameProperties.gameState.playersConnected
-        }
+        gameProperties.gameState = gameState
 
         const PLAYERS_TURN_ID = gameProperties.gameState.playersTurnID
         const PLAYERS_TURN_INDEX = gameProperties.gameState.playerTurnIndex
@@ -129,8 +142,10 @@ io.on('connection', (socket) => {
         //if on last player, move to overworlds turn
         if (!Object.values(backEndPlayers)[gameProperties.gameState.playerTurnIndex]) {
             gameProperties.gameState.playersTurnID = 'Overworld'
+            gameProperties.gameState.playersTurnUsername = 'Overworld'
         } else {
             gameProperties.gameState.playersTurnID = Object.values(backEndPlayers)[gameProperties.gameState.playerTurnIndex].id
+            gameProperties.gameState.playersTurnUsername = Object.values(backEndPlayers)[gameProperties.gameState.playerTurnIndex].username
         }
        
         }
@@ -139,6 +154,7 @@ io.on('connection', (socket) => {
         //if game has just started, set first players turn
         if (GAME_STATUS == 'InProgress' && gameProperties.gameState.playersTurnID == null) {
             gameProperties.gameState.playersTurnID = Object.values(backEndPlayers)[0].id
+            gameProperties.gameState.playersTurnUsername = Object.values(backEndPlayers)[0].username
         }
 
         updateGameState()

@@ -12,6 +12,7 @@ canvas.height = (innerHeight-100) * devicePixelRatio
 let gameState = {
         status: 'StartGame',
         playersTurnID: null,
+        playersTurnUsername: null,
         turnPhase: 1
 }
 
@@ -49,7 +50,7 @@ function displayEventText(text) {
 }
 
 function displayTurnText() {
-(gameState.playersTurnID !== null && gameState.status !== 'StartGame') ? gameStatusTxt.innerText = gameState.playersTurnID + ' Turn' : gameStatusTxt.innerText = 'Waiting To Start Game...'
+(gameState.playersTurnID !== null && gameState.status !== 'StartGame') ? gameStatusTxt.innerText = gameState.playersTurnUsername + ' Turn' : gameStatusTxt.innerText = 'Waiting To Start Game...'
 }
 
 function mousePosToMouseGridPos(mousePos) {

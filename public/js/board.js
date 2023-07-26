@@ -7,6 +7,7 @@ var board = {
     tileSize: null,
     startPos: {},
     tiles: {},
+    boardChanged: true,
 
     //updated by frontend when user resizes window
     boardPos: {},
@@ -20,21 +21,22 @@ var board = {
     },
  
     drawBoard() {
-
-        for (let gridY = 0; gridY < this.boardSize; gridY++) {
-            for (let gridX = 0; gridX < this.boardSize; gridX++) {
-                this.tiles[gridX + ' ' + gridY].draw()             
+        if (this.boardChanged) {
+            for (let gridY = 0; gridY < this.boardSize; gridY++) {
+                for (let gridX = 0; gridX < this.boardSize; gridX++) {
+                    this.tiles[gridX + ' ' + gridY].draw()             
+                }
             }
 
+            this.boardChanged = false
         }
-
-
     },
 
     updateBoardPos() {
         this.tileSize = (canvas.height / (this.boardSize+2))
         this.boardPos = {x: (canvas.width / 2) - (this.tileSize*(this.boardSize/2)), 
                          y: (canvas.height / 2) - (this.tileSize*(this.boardSize/2))}
+        this.boardChanged = true
     }
 
 

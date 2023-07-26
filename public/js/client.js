@@ -1,7 +1,7 @@
 
 var client = {
 
-socket: null,
+socket: io(),
 animationId: null,
 mousePos: {x:0,y:0},
 mouseGridPos: {x:0,y:0},
@@ -13,8 +13,8 @@ fps: 0,
 //called when players attempts to enter game
 initClientConnection() {
 
-//client socket
-this.socket = io()
+
+this.socket.emit('initClient', 'testUsername')
 
 // backend will trigger this when a new player connects so all clients can update player data on the front end
 this.socket.on('updatePlayers', (backEndPlayers) => {
@@ -28,15 +28,16 @@ this.socket.on('updatePlayers', (backEndPlayers) => {
             players.frontEndPlayers[id] = new BasePlayer({
                 id: backEndPlayer.id,
                 boardPos: backEndPlayer.boardPos,
-                colour: backEndPlayer.colour
+                colour: backEndPlayer.colour,
+                username: backEndPlayer.username
             })
 
-            displayEventText(backEndPlayer.id + ' Joined The Game')
+            displayEventText(backEndPlayer.username + ' Joined The Game')
             
 
         } else {
             //if a player already exists, update pos using tween
-            TweenMax.to(players.frontEndPlayers[id].boardPos,{x: backEndPlayer.boardPos.x, y: backEndPlayer.boardPos.y,duration: 3, onUpdate: function() {client.drawLayers()}, onComplete: function() {delete players.frontEndPlayers[id].boardPos._gsap} })
+            TweenMax.to(players.frontEndPlayers[id].boardPos,{x: backEndPlayer.boardPos.x, y: backEndPlayer.boardPos.y,duration: 3, ease: 'linear', onUpdate: function() {client.drawLayers()}, onComplete: function() {delete players.frontEndPlayers[id].boardPos._gsap} })
 
         }
     }
@@ -85,7 +86,7 @@ this.socket.on('updateGameState', (backEndGameState) => {
 
         if (this.socket.id == gameState.playersTurnID) {
 
-            if(gameState.turnPhase = 4) {
+            if(gameState.turnPhase == 4) {
                 interactBtn.innerText = 'End Turn'
             } else {
                 interactBtn.innerText = 'Interact'
