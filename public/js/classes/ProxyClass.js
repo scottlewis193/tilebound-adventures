@@ -11,7 +11,9 @@ const classes = {
     SandTile,
     StartTile,
     VillageTile,
-    WaterTile
+    WaterTile,
+    Longbow,
+    Longsword
 };
 
 class DynamicClass {

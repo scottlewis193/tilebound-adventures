@@ -61,22 +61,15 @@ function mousePosToMouseGridPos(mousePos) {
     return {x: Math.floor(mousePosOnBoardX / (boardSizePixels/board.boardSize)), y: Math.floor(mousePosOnBoardY / (boardSizePixels/board.boardSize))}
 }
 
-function updateInventoryLayout() {
-   const PLAYER_INVENTORY = players.frontEndPlayers[client.socket.id].inventory
-    const INVENTORY_ELEMENTS = document.getElementsByClassName('inventory-slot')
+function getElementPosition(el) {
+    const rect = el.getBoundingClientRect();
+    return {
+      x: rect.left + window.scrollX,
+    y: rect.top + window.scrollY
+    };
+  }
 
-for (let i = 0; i < INVENTORY_ELEMENTS.length; i++) {
-    let element = INVENTORY_ELEMENTS[i]
-    //clear previous inventory slot 
-    element.innerHTML = ''
 
-    //if player inventory contains item add to html element
-    if (PLAYER_INVENTORY[element.id] !== null) {
-        element.innerHTML = `<h1>${PLAYER_INVENTORY[element.id].constructor.name}</h1>`
-    }
-}
-
-}
 
 
 

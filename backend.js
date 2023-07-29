@@ -13,7 +13,7 @@ const { get } = require('https')
 const server = http.createServer(app);
 const { Server } = require('socket.io');
 
-const io = new Server(server, {pingInterval: 2000,pingTimeout: 5000})
+const io = new Server(server, {pingInterval: 2000,pingTimeout: 10000})
 
 //set static folder
 app.use(express.static('public'))
@@ -48,7 +48,7 @@ gameProperties.board.generateBoard()
 io.on('connection', (socket) => {
 
 
-    socket.on('initClient', (username) => {
+    socket.on('initClient', ({username, inventory}) => {
 
         console.log(`user ${username} (${socket.id}) connected`);
 
@@ -58,8 +58,12 @@ io.on('connection', (socket) => {
             boardPos: (typeof board !== 'undefined') ? {x: board.startPos.x, y:board.startPos.y} : {x: 0, y: 0}, 
             colour: 'royalblue',
             visible: true,
-            username: username
+            username: username,
+            gold: 5,
+            inventory: inventory,
         } 
+
+        console.log(backEndPlayers[socket.id])
 
         //if no players were previously connected, set turn as newly connected player
         if (gameProperties.gameState.playersTurnID == null) {gameProperties.gameState.playersTurnID = socket.id; gameProperties.gameState.playersTurnUsername = backEndPlayers[socket.id].username}
@@ -169,6 +173,30 @@ io.on('connection', (socket) => {
         gameProperties.gameState.turnPhase = 4
         updateGameState()
  
+    })
+
+    socket.on('playerMoveInventory', ({oldSlotId,newSlotId}) => {
+
+        //validate if slot is valid
+
+        const PLAYER_INVENTORY = backEndPlayers[socket.id].inventory
+
+      
+
+        //check if item can go in specific slot
+        if  ( !(newSlotId.includes(PLAYER_INVENTORY[oldSlotId].slotType)) && !(newSlotId.includes('freeSlot'))) {
+            updatePlayers() //this is reset the client's inventory pos if it's invalid
+            return
+        }  
+
+
+        let oldNewSlot = JSON.stringify(backEndPlayers[socket.id].inventory[newSlotId])
+        backEndPlayers[socket.id].inventory[newSlotId] = JSON.parse(JSON.stringify(backEndPlayers[socket.id].inventory[oldSlotId]))
+        backEndPlayers[socket.id].inventory[oldSlotId] = JSON.parse(oldNewSlot)
+
+        console.log(backEndPlayers[socket.id].inventory)
+
+        updatePlayers()
     })
 
   });

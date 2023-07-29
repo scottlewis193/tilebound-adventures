@@ -14,7 +14,18 @@ fps: 0,
 initClientConnection() {
 
 
-this.socket.emit('initClient', 'testUsername')
+this.socket.emit('initClient', {username: 'testUsername', inventory: {
+    headSlot: null,
+    chestSlot: null,
+    legsSlot: null,
+    feetSlot: null,
+    handSlot1: null,
+    handSlot2: null,
+    freeSlot1: new Longsword(),
+    freeSlot2: null,
+    freeSlot3: null,
+    freeSlot4: null
+}})
 
 // backend will trigger this when a new player connects so all clients can update player data on the front end
 this.socket.on('updatePlayers', (backEndPlayers) => {
@@ -24,20 +35,28 @@ this.socket.on('updatePlayers', (backEndPlayers) => {
 
         //if player doesn't exist in object, add them in (Client Connected)
         if (!players.frontEndPlayers[id]) {
-            console.log(backEndPlayer.colour)
+          
             players.frontEndPlayers[id] = new BasePlayer({
                 id: backEndPlayer.id,
                 boardPos: backEndPlayer.boardPos,
                 colour: backEndPlayer.colour,
-                username: backEndPlayer.username
+                username: backEndPlayer.username,
+                inventory: backEndPlayer.inventory
             })
+
 
             displayEventText(backEndPlayer.username + ' Joined The Game')
             
 
         } else {
+            
             //if a player already exists, update pos using tween
             TweenMax.to(players.frontEndPlayers[id].boardPos,{x: backEndPlayer.boardPos.x, y: backEndPlayer.boardPos.y,duration: 3, ease: 'linear', onUpdate: function() {client.drawLayers()}, onComplete: function() {delete players.frontEndPlayers[id].boardPos._gsap} })
+
+            //update inventory
+            players.frontEndPlayers[id].inventory = JSON.parse(JSON.stringify(backEndPlayer.inventory))
+
+            inventory.updateInventoryLayout()
 
         }
     }

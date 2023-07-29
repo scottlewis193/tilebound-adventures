@@ -6,6 +6,7 @@ class BaseWeapon  {
         this.ability = null
         this.twoHanded = false
         this.price = 0
+        this.slotType = 'hand'
     }
 
     moveToInventorySlot(oldSlot = null, newSlot) {

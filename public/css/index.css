@@ -10,6 +10,7 @@ body {
   margin:0;
     overflow: hidden;
     background-color: #674ea7;
+    user-select:none;
   }
 
 
@@ -140,6 +141,15 @@ background-color: burlywood;
 }
 #freeSlot4 {
   grid-column:11;
+}
+
+
+.slot-item {
+  position:absolute;
+  cursor:move;
+  z-index:10;
+  /* height:100%;
+  width:100%; */
 }
 /*#endregion InventorySlots */
 

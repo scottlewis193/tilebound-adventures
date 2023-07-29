@@ -46,7 +46,7 @@
 
     <canvas id="canvas" style="display:block"></canvas>
 
-    <button class="ui-btn" id="inventory-btn" disabled="true" onclick="toggleModalVisibility(['game-player-inventory','canvas']);updateInventoryLayout();">Inventory</button>
+    <button class="ui-btn" id="inventory-btn" disabled="true" onclick="inventory.toggleInventory();">Inventory</button>
     <button class="ui-btn" id="interact-btn">Start Game</button>
   </div>
   
@@ -71,7 +71,7 @@
     <script src="./js/classes/tiles/SandTile.js"></script>
     <script src="./js/classes/tiles/WaterTile.js"></script>
     <script src="./js/classes/tiles/StartTile.js"></script>
-    <script src="./js/classes/ProxyClass.js"></script>
+
 
     <!--Monsters-->
     <script src="./js/classes/monsters/baseMonster.js"></script>
@@ -93,6 +93,8 @@
     <script src="./js/board.js"></script>
     <script src="./js/players.js"></script>
     <script src="./js/client.js"></script>
+    <script src="./js/inventory.js"></script>
+    <script src="./js/classes/ProxyClass.js"></script>
 
     <!--Players-->
     <script src="./js/classes/players/BasePlayer.js"></script>

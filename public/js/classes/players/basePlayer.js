@@ -1,6 +1,6 @@
 class BasePlayer {
     
-    constructor({id,boardPos,colour, username}) {
+    constructor({id,boardPos,colour, username, inventory}) {
         this.id = id;
         this.boardPos = boardPos;
         this.colour = colour;
@@ -9,18 +9,7 @@ class BasePlayer {
         this.gameMaster = false;
         this.moveSquaresVisible = false;
         this.gold = 5
-        this.inventory = {
-            headSlot: null,
-            chestSlot: null,
-            legsSlot: null,
-            feetSlot: null,
-            handSlot1: null,
-            handSlot2: null,
-            freeSlot1: new Longsword(),
-            freeSlot2: null,
-            freeSlot3: null,
-            freeSlot4: null
-        }
+        this.inventory = inventory
     }
 
     draw() {
@@ -55,7 +44,7 @@ class BasePlayer {
     //if player has been clicked
     onClick() {
         console.log('Clients Player Clicked')
-    if (this.isPlayersTurn() && gameState.turnPhase < 4) {this.toggleMoveSquares()}
+    if (this.isPlayersTurn() && gameState.turnPhase < 4 && gameState.status == 'InProgress') {this.toggleMoveSquares()}
     }
     
     toggleMoveSquares() {
@@ -68,5 +57,9 @@ class BasePlayer {
 
     isPlayersTurn() {
         return (this.id == gameState.playersTurnID)
+    }
+
+    moveItem({oldSlotId,newSlotId}) {
+        client.socket.emit('playerMoveInventory',{oldSlotId,newSlotId})
     }
 }
