@@ -7,5 +7,6 @@ class Longbow extends BaseWeapon {
         this.ability = null
         this.twoHanded = true
         this.price = 15
+        this.weaponType = 'ranged'
     }
 }

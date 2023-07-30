@@ -7,6 +7,7 @@ class Longsword extends BaseWeapon {
         this.ability = null
         this.twoHanded = true
         this.price = 22
+        this.weaponType = 'melee'
     }
 
 

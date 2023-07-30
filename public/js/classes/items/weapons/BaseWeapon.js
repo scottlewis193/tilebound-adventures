@@ -7,6 +7,7 @@ class BaseWeapon  {
         this.twoHanded = false;
         this.price = 0;
         this.slotType = 'hand';
+        this.weaponType = 'melee'
     }
 
 }
