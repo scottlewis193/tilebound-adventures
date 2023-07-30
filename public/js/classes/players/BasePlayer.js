@@ -8,8 +8,9 @@ class BasePlayer {
         this.visible = true;
         this.gameMaster = false;
         this.moveSquaresVisible = false;
-        this.gold = 5
-        this.inventory = inventory
+        this.gold = 5;
+        this.level = 1;
+        this.inventory = inventory;
     }
 
     draw() {

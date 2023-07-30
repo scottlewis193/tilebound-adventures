@@ -14,18 +14,22 @@ fps: 0,
 initClientConnection() {
 
 
-this.socket.emit('initClient', {username: 'testUsername', inventory: {
-    headSlot: null,
-    chestSlot: null,
-    legsSlot: null,
-    feetSlot: null,
-    handSlot1: null,
-    handSlot2: null,
-    freeSlot1: new Longsword(),
-    freeSlot2: null,
-    freeSlot3: null,
-    freeSlot4: null
-}})
+    
+this.socket.emit('initClient', 
+{username: 'testUsername', 
+    inventory: {
+        headSlot: null,
+        chestSlot: null,
+        legsSlot: null,
+        feetSlot: null,
+        handSlot1: null,
+        handSlot2: null,
+        freeSlot1: new Longsword(),
+        freeSlot2: null,
+        freeSlot3: null,
+        freeSlot4: null
+    }
+})
 
 // backend will trigger this when a new player connects so all clients can update player data on the front end
 this.socket.on('updatePlayers', (backEndPlayers) => {
