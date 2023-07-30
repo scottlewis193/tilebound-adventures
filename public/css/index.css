@@ -1,0 +1,172 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: large;
+}
+
+body {
+  margin:0;
+    overflow: hidden;
+    background-color: #674ea7;
+    user-select:none;
+  }
+
+
+/* GAME UI ELEMENTS */
+
+  #game-window {
+    display:none;
+  }
+
+  #game-ui {
+    float:left;
+    position:absolute;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 50px 1fr 50px;
+    width: 100%;
+    height: 100%;
+    align-content: center;
+    text-align: center;
+  }
+
+  #game-ui-topbar {
+    display:grid;
+    grid-template-columns: 1fr 50px 50px 50px;
+    grid-template-rows: 1fr;
+    grid-column: 1 / span 2;
+  }
+
+  .ui-topbar-btn {
+    grid-row: 1;
+    color:white;
+    background-color: #009e0f;
+  }
+
+  #playerlist-btn {
+    grid-column: 2;
+  }
+
+  #settings-btn {
+    grid-column:3;
+  }
+
+  #exit-btn {
+    grid-column:4;
+  }
+
+  .game-text {
+    line-height: 50px;
+    text-align: center;
+    grid-column: 1;
+    grid-row: 1;
+    color:white;
+  }
+
+  .ui-btn{
+    grid-row: 3;
+    color:white;
+    background-color: #009e0f;
+  }
+  
+  #inventory-btn {
+    grid-column: 1;
+  }
+  #interact-btn {
+    grid-column: 2;
+  }
+
+
+  canvas {
+    width: 100%; 
+    height: auto;
+    background-color:aqua;
+    grid-row: 2;
+    grid-column: 1 / span 2;
+  }
+
+#game-player-inventory {
+  display: none;
+  background-color: brown;
+  grid-row: 2;
+  grid-column: 1 / span 2;
+  padding: 10px;
+}
+
+#inventory-grid {
+display:grid;
+grid-template-rows: 1fr;
+grid-template-columns: repeat(11, 1fr);
+width: 100%;
+height: 100px;
+gap: 10px 10px;
+
+}
+
+/*#region InventorySlots */
+.inventory-slot {
+grid-row: 1;
+background-color: burlywood;
+}
+#headSlot {
+  grid-column:1;
+}
+#chestSlot {
+  grid-column:2;
+}
+
+#leggingsSlot {
+  grid-column:3;
+}
+#feetSlot {
+  grid-column:4;
+}
+#handSlot1 {
+  grid-column:5;
+  margin-right: -10px
+}
+#handSlot2 {
+  grid-column:6;
+}
+#freeSlot1 {
+  grid-column:8;
+}
+#freeSlot2 {
+  grid-column:9;
+}
+#freeSlot3 {
+  grid-column:10;
+}
+#freeSlot4 {
+  grid-column:11;
+}
+
+
+.slot-item {
+  position:absolute;
+  cursor:move;
+  z-index:10;
+  /* height:100%;
+  width:100%; */
+}
+/*#endregion InventorySlots */
+
+/* ----------- */
+
+
+.menu-btn {
+color: white;
+background-color:#009e0f;
+}
+
+#main-menu {
+  display:block;
+  width:100%;
+  height:100%;
+}
+#menu-btns {
+  background-color: black;
+  display:grid;
+}

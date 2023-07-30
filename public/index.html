@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <title>Tilebound Adventures TEST</title>
+   
+
+
+</head>
+<body>
+
+<div id="main-menu" style="display:block">
+<div id="menu-btns">
+  <button class="menu-btn" id="join-btn" onclick="toggleModalVisibility(['game-window','main-menu']); client.initClientConnection();">Join Game</button>
+    <button class="menu-btn" id="profile-btn" onclick="">Profile</button>
+    <button class="menu-btn" id="options-btn" onclick="">Options</button>
+</div>
+</div>
+
+
+  <div id="game-window" style="display:none">
+  <div id="game-ui">
+    <div id="game-ui-topbar">
+      <a class="game-text" id="game-status"></a>
+      <button class="ui-topbar-btn" id="playerlist-btn" onclick="">P</button>
+      <button class="ui-topbar-btn" id="settings-btn" onclick="">S</button>
+      <button class="ui-topbar-btn" id="exit-btn" onclick="">E</button>
+    </div>
+    
+    <div id="game-player-inventory" style="display:none">
+      <div id="inventory-grid"> 
+        <div class="inventory-slot" id="headSlot"></div>
+        <div class="inventory-slot" id="chestSlot"></div>
+        <div class="inventory-slot" id="legsSlot"></div>
+        <div class="inventory-slot" id="feetSlot"></div>
+        <div class="inventory-slot" id="handSlot1"></div>
+        <div class="inventory-slot" id="handSlot2"></div>
+        <div class="inventory-slot" id="freeSlot1"></div>
+        <div class="inventory-slot" id="freeSlot2"></div>
+        <div class="inventory-slot" id="freeSlot3"></div>
+        <div class="inventory-slot" id="freeSlot4"></div>
+    </div>
+  </div>
+    
+
+    <canvas id="canvas" style="display:block"></canvas>
+
+    <button class="ui-btn" id="inventory-btn" disabled="true" onclick="inventory.toggleInventory();">Inventory</button>
+    <button class="ui-btn" id="interact-btn">Start Game</button>
+  </div>
+  
+
+  </div>
+
+    <!--CSS-->
+    <link rel="stylesheet" href="./css/index.css">
+
+    <!--Dependencies-->
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="./js/dependencies/Winwheel.min.js"></script>
+    <script src="./js/dependencies/seedrandom.js"></script>
+
+    <!--Tiles-->
+    <script src="./js/classes/tiles/baseTile.js"></script>
+    <script src="./js/classes/tiles/CaveTile.js"></script>
+    <script src="./js/classes/tiles/ForestTile.js"></script>
+    <script src="./js/classes/tiles/VillageTile.js"></script>
+    <script src="./js/classes/tiles/PathTile.js"></script>
+    <script src="./js/classes/tiles/SandTile.js"></script>
+    <script src="./js/classes/tiles/WaterTile.js"></script>
+    <script src="./js/classes/tiles/StartTile.js"></script>
+
+
+    <!--Monsters-->
+    <script src="./js/classes/monsters/baseMonster.js"></script>
+    <script src="./js/classes/monsters/baseBoss.js"></script>
+    <script src="./js/classes/monsters/Goblin.js"></script>
+    
+    <!--Items-->
+    <script src="./js/classes/items/weapons/BaseWeapon.js"></script>
+    <script src="./js/classes/items/weapons/Longsword.js"></script>
+    <script src="./js/classes/items/weapons/Longbow.js"></script>
+    <script src="./js/classes/items/supplies/baseShield.js"></script>
+    <script src="./js/classes/items/supplies/baseBandage.js"></script>
+
+
+    <!--User-->
+    <script src="./js/eventListeners.js"></script>
+    <script src="./js/common.js"></script>
+    <script src="./js/wheel.js"></script>
+    <script src="./js/board.js"></script>
+    <script src="./js/players.js"></script>
+    <script src="./js/client.js"></script>
+    <script src="./js/inventory.js"></script>
+    <script src="./js/classes/ProxyClass.js"></script>
+
+    <!--Players-->
+    <script src="./js/classes/players/BasePlayer.js"></script>
+
+
+</body>
+</html>
