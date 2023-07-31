@@ -29,6 +29,9 @@ app.get('/', (req,res) => {
 //declare backend players object
 const backEndPlayers = {}
 
+//declare backend monsters object
+const backEndMonsters = {}
+
 
 
 //declare game state properties object
@@ -60,7 +63,10 @@ io.on('connection', (socket) => {
             visible: true,
             username: username,
             gold: 5,
-            inventory: inventory,
+            level: 1,
+            baseDamage: 3,
+            levelDamageMod: 2,
+            inventory: inventory
         } 
 
         console.log(backEndPlayers[socket.id])
@@ -81,10 +87,6 @@ io.on('connection', (socket) => {
         updateGameState()
 
     })
-
-
-
-    
 
     // socket io client disconnect event listener
     socket.on('disconnect', (reason) => {
@@ -199,6 +201,115 @@ io.on('connection', (socket) => {
         updatePlayers()
     })
 
+    socket.on('createWheel', ({wheelType, args}) => {
+
+        let wheelOptions =             {'animation' :
+        {
+            // Must be specified...
+            'type'     : 'spinToStop',
+            'duration' : 10,
+ 
+            // These are the defaults, all optional...
+            'spins'        : 5,
+            'easing'       : 'Power4.easeOut',
+            'stopAngle'    : 55,
+            'direction'    : 'clockwise',
+            'repeat'       : 0,
+            'yoyo'         : false,
+            'callbackAfter' : function() {wheel.drawWheelPointer()}
+        }
+    }
+
+        switch (wheelType) {
+
+            case 'Battle' :
+
+            wheelOptions = Object.assign({
+                    'numSegments': 2,
+                    'segments': [
+                        {'size' : getBattleWheelAngle(socket.id,args.monsterID), 'text' : 'Win', 'fillStyle' : '#89f26e'},
+                        {'size' : 360-getBattleWheelAngle(socket.id,args.monsterID), 'text' : 'Lose', 'fillStyle' : '#e7706f'}
+                    ]
+                })
+  
+            break;
+
+            case 'Loot' :
+            
+            break;
+
+            case 'Random' :
+
+            break;
+
+            case 'YesNo' :
+
+            wheelOptions = Object.assign({
+                'numSegments': 2,
+                'segments': [
+                    {'size' : 180, 'text' : 'Yes', 'fillStyle' : '#89f26e'},
+                    {'size' : 180, 'text' : 'No', 'fillStyle' : '#e7706f'}
+                ]
+            })
+
+            break;
+
+            case 'MonsterType' :
+
+            wheelOptions = Object.assign({
+                'numSegments': 4,
+                'segments': [
+                    {'size' : 90, 'text' : 'Dragon', 'fillStyle' : '#89f26e'},
+                    {'size' : 90, 'text' : 'Goblin', 'fillStyle' : '#e7706f'},
+                    {'size' : 90, 'text' : 'Hydra', 'fillStyle' : '#89f26e'},
+                    {'size' : 90, 'text' : 'OrcWarrior', 'fillStyle' : '#e7706f'}
+                ]
+            })
+
+            break;
+
+            case 'MonsterLevel' :
+
+            wheelOptions = Object.assign({
+                'numSegments': 10,
+                'segments': [
+                    {'size' : 36, 'text' : '1', 'fillStyle' : '#89f26e'},
+                    {'size' : 36, 'text' : '2', 'fillStyle' : '#e7706f'},
+                    {'size' : 36, 'text' : '3', 'fillStyle' : '#89f26e'},
+                    {'size' : 36, 'text' : '4', 'fillStyle' : '#e7706f'},
+                    {'size' : 36, 'text' : '5', 'fillStyle' : '#89f26e'},
+                    {'size' : 36, 'text' : '6', 'fillStyle' : '#e7706f'},
+                    {'size' : 36, 'text' : '7', 'fillStyle' : '#89f26e'},
+                    {'size' : 36, 'text' : '8', 'fillStyle' : '#e7706f'},
+                    {'size' : 36, 'text' : '9', 'fillStyle' : '#89f26e'},
+                    {'size' : 36, 'text' : '10', 'fillStyle' : '#e7706f'}
+                ]
+            })
+
+            break;
+
+            case 'MonsterWeapon' :
+
+            
+            wheelOptions = Object.assign({
+                'numSegments': 2,
+                'segments': [
+                    {'size' : 180, 'text' : 'Longbow', 'fillStyle' : '#89f26e'},
+                    {'size' : 180, 'text' : 'Longsword', 'fillStyle' : '#e7706f'}
+                ]
+            })
+
+            break;
+
+
+
+
+        }
+
+    
+        
+    })
+
   });
 
  
@@ -242,6 +353,37 @@ function getPlayerFromIndex(index) {
         i++
     }
     return null
+}
+
+
+//calculates win/lose angles for each segment on a battlewheel
+function getBattleWheelAngle(playerID,monsterID) {
+
+    //work out player total dmg
+    const PLAYER_BASE_DMG = backEndPlayers[playerID].baseDamage
+    const PLAYER_LEVEL_DMG_MOD = backEndPlayers[playerID].levelDamageMod
+    const PLAYER_WEAPON_DMG = (!backEndPlayers[playerID].inventory.handSlot1) ? 0 : backEndPlayers[playerID].inventory.handSlot1.damage + 
+                                (!backEndPlayers[playerID].inventory.handSlot2) ? 0 : backEndPlayers[playerID].inventory.handSlot2.damage
+    const PLAYER_TOTAL_RESISTANCE = (!backEndPlayers[playerID].inventory.handSlot1) ? 0 : backEndPlayers[playerID].inventory.handSlot1.damageResistance + 
+                                (!backEndPlayers[playerID].inventory.handSlot2) ? 0 : backEndPlayers[playerID].inventory.handSlot2.damageResistance +
+                                (!backEndPlayers[playerID].inventory.headSlot) ? 0 : backEndPlayers[playerID].inventory.headSlot.damageResistance + 
+                                (!backEndPlayers[playerID].inventory.chestSlot) ? 0 : backEndPlayers[playerID].inventory.chestSlot.damageResistance + 
+                                (!backEndPlayers[playerID].inventory.legsSlot) ? 0 : backEndPlayers[playerID].inventory.legsSlot.damageResistance + 
+                                (!backEndPlayers[playerID].inventory.feetSlot) ? 0 : backEndPlayers[playerID].inventory.feetSlot.damageResistance
+
+    const PLAYER_TOTAL_DMG = (PLAYER_BASE_DMG * (PLAYER_LEVEL_DMG_MOD - 1)) + PLAYER_WEAPON_DMG
+
+    //work out monster total dmg
+    const MONSTER_BASE_DMG  = backEndMonsters[monsterID].baseDamage
+    const MONSTER_LEVEL_DMG_MOD = backEndMonsters[monsterID].levelDamageMod
+    const MONSTER_WEAPON_DMG = (!backEndMonsters[monsterID].weapon) ? 0 : backEndMonsters[monsterID].weapon.damage
+
+    const MONSTER_TOTAL_DMG = ((MONSTER_BASE_DMG * (MONSTER_LEVEL_DMG_MOD - 1)) + MONSTER_WEAPON_DMG) - PLAYER_TOTAL_RESISTANCE
+
+
+    //work out angle
+    return (PLAYER_TOTAL_DMG/MONSTER_BASE_DMG) * 180
+
 }
 
 function updateDebug() {

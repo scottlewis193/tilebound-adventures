@@ -8,6 +8,8 @@ class BasePlayer {
         this.visible = true;
         this.gameMaster = false;
         this.moveSquaresVisible = false;
+        this.baseDamage = 3;
+        this.levelDamageMod = 2;
         this.gold = 5;
         this.level = 1;
         this.inventory = inventory;
