@@ -147,8 +147,16 @@ io.on('connection', (socket) => {
 
         //if on last player, move to overworlds turn
         if (!Object.values(backEndPlayers)[gameProperties.gameState.playerTurnIndex]) {
+            
+            //set overworld turn
             gameProperties.gameState.playersTurnID = 'Overworld'
             gameProperties.gameState.playersTurnUsername = 'Overworld'
+
+            //start overworld turn phases
+            defineOverWorldWheels()
+
+
+
         } else {
             gameProperties.gameState.playersTurnID = Object.values(backEndPlayers)[gameProperties.gameState.playerTurnIndex].id
             gameProperties.gameState.playersTurnUsername = Object.values(backEndPlayers)[gameProperties.gameState.playerTurnIndex].username
@@ -201,114 +209,6 @@ io.on('connection', (socket) => {
         updatePlayers()
     })
 
-    socket.on('createWheel', ({wheelType, args}) => {
-
-        let wheelOptions =             {'animation' :
-        {
-            // Must be specified...
-            'type'     : 'spinToStop',
-            'duration' : 10,
- 
-            // These are the defaults, all optional...
-            'spins'        : 5,
-            'easing'       : 'Power4.easeOut',
-            'stopAngle'    : 55,
-            'direction'    : 'clockwise',
-            'repeat'       : 0,
-            'yoyo'         : false,
-            'callbackAfter' : function() {wheel.drawWheelPointer()}
-        }
-    }
-
-        switch (wheelType) {
-
-            case 'Battle' :
-
-            wheelOptions = Object.assign({
-                    'numSegments': 2,
-                    'segments': [
-                        {'size' : getBattleWheelAngle(socket.id,args.monsterID), 'text' : 'Win', 'fillStyle' : '#89f26e'},
-                        {'size' : 360-getBattleWheelAngle(socket.id,args.monsterID), 'text' : 'Lose', 'fillStyle' : '#e7706f'}
-                    ]
-                })
-  
-            break;
-
-            case 'Loot' :
-            
-            break;
-
-            case 'Random' :
-
-            break;
-
-            case 'YesNo' :
-
-            wheelOptions = Object.assign({
-                'numSegments': 2,
-                'segments': [
-                    {'size' : 180, 'text' : 'Yes', 'fillStyle' : '#89f26e'},
-                    {'size' : 180, 'text' : 'No', 'fillStyle' : '#e7706f'}
-                ]
-            })
-
-            break;
-
-            case 'MonsterType' :
-
-            wheelOptions = Object.assign({
-                'numSegments': 4,
-                'segments': [
-                    {'size' : 90, 'text' : 'Dragon', 'fillStyle' : '#89f26e'},
-                    {'size' : 90, 'text' : 'Goblin', 'fillStyle' : '#e7706f'},
-                    {'size' : 90, 'text' : 'Hydra', 'fillStyle' : '#89f26e'},
-                    {'size' : 90, 'text' : 'OrcWarrior', 'fillStyle' : '#e7706f'}
-                ]
-            })
-
-            break;
-
-            case 'MonsterLevel' :
-
-            wheelOptions = Object.assign({
-                'numSegments': 10,
-                'segments': [
-                    {'size' : 36, 'text' : '1', 'fillStyle' : '#89f26e'},
-                    {'size' : 36, 'text' : '2', 'fillStyle' : '#e7706f'},
-                    {'size' : 36, 'text' : '3', 'fillStyle' : '#89f26e'},
-                    {'size' : 36, 'text' : '4', 'fillStyle' : '#e7706f'},
-                    {'size' : 36, 'text' : '5', 'fillStyle' : '#89f26e'},
-                    {'size' : 36, 'text' : '6', 'fillStyle' : '#e7706f'},
-                    {'size' : 36, 'text' : '7', 'fillStyle' : '#89f26e'},
-                    {'size' : 36, 'text' : '8', 'fillStyle' : '#e7706f'},
-                    {'size' : 36, 'text' : '9', 'fillStyle' : '#89f26e'},
-                    {'size' : 36, 'text' : '10', 'fillStyle' : '#e7706f'}
-                ]
-            })
-
-            break;
-
-            case 'MonsterWeapon' :
-
-            
-            wheelOptions = Object.assign({
-                'numSegments': 2,
-                'segments': [
-                    {'size' : 180, 'text' : 'Longbow', 'fillStyle' : '#89f26e'},
-                    {'size' : 180, 'text' : 'Longsword', 'fillStyle' : '#e7706f'}
-                ]
-            })
-
-            break;
-
-
-
-
-        }
-
-    
-        
-    })
 
   });
 
@@ -384,6 +284,124 @@ function getBattleWheelAngle(playerID,monsterID) {
     //work out angle
     return (PLAYER_TOTAL_DMG/MONSTER_BASE_DMG) * 180
 
+}
+
+function createWheelOptions(wheelType) {
+
+    let wheelOptions = {}           
+
+
+    switch (wheelType) {
+
+        case 'Battle' :
+
+        wheelOptions = {
+                id: wheelType,
+                'numSegments': 2,
+                'segments': [
+                    {'size' : getBattleWheelAngle(socket.id,args.monsterID), 'text' : 'Win', 'fillStyle' : '#89f26e'},
+                    {'size' : 360-getBattleWheelAngle(socket.id,args.monsterID), 'text' : 'Lose', 'fillStyle' : '#e7706f'}
+                ]
+            }
+
+        break;
+
+        case 'Loot' :
+        
+        break;
+
+        case 'Random' :
+
+        break;
+
+        case 'MonsterSpawn' :
+
+        wheelOptions = {
+            id: wheelType,
+            'numSegments': 2,
+            'segments': [
+                {'size' : 180, 'text' : 'Yes', 'fillStyle' : '#89f26e'},
+                {'size' : 180, 'text' : 'No', 'fillStyle' : '#e7706f'}
+            ]
+        }
+
+        break;
+
+        case 'MonsterType' :
+
+        wheelOptions = {
+            id: wheelType,
+            'numSegments': 4,
+            'segments': [
+                {'size' : 90, 'text' : 'Dragon', 'fillStyle' : '#89f26e'},
+                {'size' : 90, 'text' : 'Goblin', 'fillStyle' : '#e7706f'},
+                {'size' : 90, 'text' : 'Hydra', 'fillStyle' : '#89f26e'},
+                {'size' : 90, 'text' : 'OrcWarrior', 'fillStyle' : '#e7706f'}
+            ]
+        }
+
+        break;
+
+        case 'MonsterLevel' :
+
+        wheelOptions = {
+            id: wheelType,
+            'numSegments': 10,
+            'segments': [
+                {'size' : 36, 'text' : '1', 'fillStyle' : '#89f26e'},
+                {'size' : 36, 'text' : '2', 'fillStyle' : '#e7706f'},
+                {'size' : 36, 'text' : '3', 'fillStyle' : '#89f26e'},
+                {'size' : 36, 'text' : '4', 'fillStyle' : '#e7706f'},
+                {'size' : 36, 'text' : '5', 'fillStyle' : '#89f26e'},
+                {'size' : 36, 'text' : '6', 'fillStyle' : '#e7706f'},
+                {'size' : 36, 'text' : '7', 'fillStyle' : '#89f26e'},
+                {'size' : 36, 'text' : '8', 'fillStyle' : '#e7706f'},
+                {'size' : 36, 'text' : '9', 'fillStyle' : '#89f26e'},
+                {'size' : 36, 'text' : '10', 'fillStyle' : '#e7706f'}
+            ]
+        }
+
+        break;
+
+        case 'MonsterWeapon' :
+
+        
+        wheelOptions = {
+            id: wheelType,
+            'numSegments': 2,
+            'segments': [
+                {'size' : 180, 'text' : 'Longbow', 'fillStyle' : '#89f26e'},
+                {'size' : 180, 'text' : 'Longsword', 'fillStyle' : '#e7706f'}
+            ]
+        }
+
+        break;
+
+    }
+
+
+    wheelOptions['animation'] = {
+        // Must be specified...
+        'type'     : 'spinToStop',
+        'duration' : 10,
+
+        // These are the defaults, all optional...
+        'spins'        : 5,
+        'easing'       : 'Power4.easeOut',
+        'stopAngle'    : Math.floor(Math.random() * 360),
+        'direction'    : 'clockwise',
+        'repeat'       : 0,
+        'yoyo'         : false,
+        'callbackFinished' : null,
+        'callbackAfter' : null
+    }
+
+    return wheelOptions
+}
+
+function defineOverWorldWheels() {
+    console.log('overworld wheels')
+    io.emit('spinOverWorldWheels',[createWheelOptions('MonsterSpawn'),createWheelOptions('MonsterType'),createWheelOptions('MonsterLevel'),createWheelOptions('MonsterWeapon')])
 }
 
 function updateDebug() {

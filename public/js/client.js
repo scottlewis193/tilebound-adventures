@@ -89,8 +89,6 @@ this.socket.on('updateBoard', (backendBoard) => {
     board.convertBoard()
 })
 
-
-
 this.socket.on('updateGameState', (backEndGameState) => {
     gameState = backEndGameState
         console.log(gameState)
@@ -126,6 +124,11 @@ this.socket.on('updateGameState', (backEndGameState) => {
     }
 })
 
+this.socket.on('spinOverWorldWheels', (backEndWheelOptions) => {
+console.log('spin overworld wheels')
+wheel.defineOverworldWheelSeq(backEndWheelOptions)
+})
+
 },
 
 //game loop
@@ -144,6 +147,8 @@ animate(timeStamp) {
     board.updateBoardPos()
 
     client.drawLayers()
+
+   wheel.drawWheel()
 
     // Calculate how much time has passed
     client.secondsPassed = (timeStamp - client.oldTimeStamp) / 1000;
