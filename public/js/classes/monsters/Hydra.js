@@ -1,6 +1,6 @@
 class Hydra extends BaseMonster {
-    constructor({level,weapon}) {
-        super({level,weapon})
+    constructor({level,weapon,boardPos}) {
+        super({level,weapon,boardPos})
 
         //fixed for class type
         this.name = 'Hydra';

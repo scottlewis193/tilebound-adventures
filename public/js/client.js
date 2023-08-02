@@ -31,6 +31,12 @@ this.socket.emit('initClient',
     }
 })
 
+this.socket.on("disconnect", () => {
+    console.log(this.socket.id); // undefined
+    toggleModalVisibility(['game-window','main-menu'])
+    alert('Disconnected from server')
+  });
+
 // backend will trigger this when a new player connects so all clients can update player data on the front end
 this.socket.on('updatePlayers', (backEndPlayers) => {
 
@@ -78,6 +84,46 @@ this.socket.on('updatePlayers', (backEndPlayers) => {
 
 })
 
+// backend will trigger this when a new monster spawns or moves
+this.socket.on('updateMonsters', (backEndMonsters) => {
+    for (const id in backEndMonsters) {
+        const backEndMonster = backEndMonsters[id]
+
+               //if player doesn't exist in object, add them in (Client Connected)
+               if (!monsters.frontEndMonsters[id]) {
+          
+                monsters.frontEndMonsters[id] = new (eval(backEndMonster.name))({
+                    name: backEndMonster.name,
+                    level: backEndMonster.level, 
+                    weapon: backEndMonster.weapon, 
+                    boardPos: backEndMonster.boardPos
+                })
+    
+
+                
+    
+            } else {
+                
+                displayEventText('Monsters moving...')
+                //if a monster already exists, update pos using tween
+                TweenMax.to(monsters.frontEndMonsters[id].boardPos,{x: backEndMonster.boardPos.x, y: backEndMonster.boardPos.y,duration: 3, ease: 'linear', onUpdate: function() {client.drawLayers()}, onComplete: function() {delete monsters.frontEndMonsters[id].boardPos._gsap} })
+    
+            }
+        }
+    
+        for (const id in monsters.frontEndMonsters) {
+            if (!backEndMonsters[id]) {
+    
+                displayEventText(gameStatusTxt.innerText = monsters.frontEndMonsters[id].id + ' Has been defeated')
+    
+                delete monsters.frontEndMonsters[id]
+    
+                console.log(`${id} deleted`)
+            }
+        
+    }
+})
+
 //triggered when players connects so it gives them the same board as everyone else
 this.socket.on('updateBoard', (backendBoard) => {
     board.boardSeed = backendBoard.boardSeed
@@ -120,18 +166,19 @@ this.socket.on('updateGameState', (backEndGameState) => {
 
         players.frontEndPlayers[this.socket.id].playersTurn = (gameState.playersTurnID == this.socket.id) ? true : false
 
-        displayTurnText()
+        //displayTurnText()
     }
 })
 
 this.socket.on('spinOverWorldWheels', (backEndWheelOptions) => {
 console.log('spin overworld wheels')
+displayEventText('Spinning wheels...', 40000)
 wheel.defineOverworldWheelSeq(backEndWheelOptions)
 })
 
 },
 
-//game loop
+//render loop
 
 animate(timeStamp) {
 
@@ -173,8 +220,9 @@ drawLayers() {
 
     board.drawBoard()
 
-
     players.drawAllPlayers()
+
+    monsters.drawAllMonsters()
 
 },
 
@@ -200,22 +248,9 @@ for (var i = 0; i < debugTextLines.length; i++) {
  
 
 }
-//init wheel
-//wheel.defineWheel()
 
-
-
-//click canvas to toggle wheel spin animation
-//canvas.onclick = function() {wheel.toggleAnimation()}
-
-//intial function call to start loop
-
-
-
-//gameLoopPaused = true
-
-    // theWheel.startAnimation()
 
 }
 
+//init loop
 client.animate()

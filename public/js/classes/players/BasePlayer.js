@@ -17,11 +17,12 @@ class BasePlayer {
 
     draw() {
     if (this.visible) {
- 
+       
         c.fillStyle = this.colour
-
+        c.beginPath()
         c.arc(this.boardXToCanvasX(true),this.boardYToCanvasY(true),(board.tileSize / 2),0,Math.PI * 2,false)
         c.fill()
+        c.closePath()
 
         if (this.moveSquaresVisible) {
         c.fillStyle = 'yellow'

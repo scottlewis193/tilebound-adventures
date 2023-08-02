@@ -15,7 +15,8 @@ var board = {
     convertBoard() {
         for (let gridY = 0; gridY < this.boardSize; gridY++) {
             for (let gridX = 0; gridX < this.boardSize; gridX++) {
-                this.tiles[gridX + ' ' + gridY] = new DynamicClass(this.tiles[gridX + ' ' + gridY].name,this.tiles[gridX + ' ' + gridY].gridPos)
+                this.tiles[gridX + ' ' + gridY] = new (eval(this.tiles[gridX + ' ' + gridY].name))(this.tiles[gridX + ' ' + gridY].gridPos)
+                //new DynamicClass(this.tiles[gridX + ' ' + gridY].name,this.tiles[gridX + ' ' + gridY].gridPos)
             }
         }
     },

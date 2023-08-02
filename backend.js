@@ -24,6 +24,12 @@ app.get('/', (req,res) => {
 })
 
 
+//for creating unique ids
+const uid = () =>
+  String(
+    Date.now().toString(32) +
+      Math.random().toString(16)
+  ).replace(/\./g, '')
 
 
 //declare backend players object
@@ -79,6 +85,9 @@ io.on('connection', (socket) => {
 
         //send updated players object to all clients
         updatePlayers()
+
+        //send updated monsters object to all clients
+        updateMonsters()
 
         //send updated board object to all clients
         updateBoard()
@@ -153,7 +162,7 @@ io.on('connection', (socket) => {
             gameProperties.gameState.playersTurnUsername = 'Overworld'
 
             //start overworld turn phases
-            defineOverWorldWheels()
+            startOverWorldTurn()
 
 
 
@@ -230,6 +239,11 @@ function updatePlayers() {
 
     //updateDebug()
 
+}
+
+function updateMonsters() {
+    console.log('updateMonsters')
+    io.emit('updateMonsters',backEndMonsters)
 }
 
 function updateBoard() {
@@ -396,12 +410,132 @@ function createWheelOptions(wheelType) {
         'callbackAfter' : null
     }
 
+    //work out start and end angles for each segment
+    let currentDegree = 0
+    for (let x = 0; x < (wheelOptions.segments.length); x ++) {
+        wheelOptions.segments[x]['startAngle'] = currentDegree
+        wheelOptions.segments[x]['endAngle'] = currentDegree + wheelOptions.segments[x]['size']
+        currentDegree = currentDegree + wheelOptions.segments[x]['size']
+    }
+
+
+    wheelOptions.getSegmentAtStopAngle = function() {
+        let indicatedPrize = 0;
+    
+        // Now we have the angle of the wheel, but we need to take in to account where the pointer is because
+        // will not always be at the 12 o'clock 0 degrees location.
+        let relativeAngle = Math.floor(this.animation.stopAngle);
+
+        // Now we can work out the prize won by seeing what prize segment startAngle and endAngle the relativeAngle is between.
+        for (let x = 0; x < (this.segments.length); x ++) {
+
+            if ((relativeAngle >= this.segments[x]['startAngle']) && (relativeAngle <= this.segments[x]['endAngle'])) {
+                indicatedPrize = x;
+                break;
+            }
+        }
+
+        return this.segments[indicatedPrize]
+
+    }
+
     return wheelOptions
 }
 
-function defineOverWorldWheels() {
-    console.log('overworld wheels')
-    io.emit('spinOverWorldWheels',[createWheelOptions('MonsterSpawn'),createWheelOptions('MonsterType'),createWheelOptions('MonsterLevel'),createWheelOptions('MonsterWeapon')])
+function startOverWorldTurn() {
+
+
+    //move any monsters on the board
+    for (const i in backEndMonsters) {
+        const backEndMonster = backEndMonsters[i]
+
+        
+        let validMovement = false
+
+        //randomise movement direction
+        let direction = Math.floor(Math.random() * 4)
+
+        do {
+            switch (direction) {
+                case 0 : //Up
+                    if(backEndMonster.boardPos.y !== 0) {validMovement = true; backEndMonster.boardPos.y -= 1}
+                    break;
+                case 1 : //right
+                    if(backEndMonster.boardPos.x < (board.boardSize -1)) {validMovement = true; backEndMonster.boardPos.x += 1}
+                    break;
+                case 2 : //down
+                    if(backEndMonster.boardPos.y < (board.boardSize -1)) {validMovement = true; backEndMonster.boardPos.y += 1}
+                    break;
+                case 3: //left
+                    if(backEndMonster.boardPos.x !== 0) {validMovement = true; backEndMonster.boardPos.x -= 1}
+                    break;
+
+            }
+        } while(validMovement == false)
+
+
+    }
+
+    updateMonsters()
+
+
+    //wait until monsters on fields have finished moving then do monster wheels for spawning
+    setTimeout(() => {doMonsterSpawning()},5000)
+
+
+
+
+}
+
+function doMonsterSpawning() {
+
+    //spin wheels for cave spawning
+
+    let wheelOptionsArray = [createWheelOptions('MonsterSpawn'),createWheelOptions('MonsterType'),createWheelOptions('MonsterLevel'),createWheelOptions('MonsterWeapon')]
+    
+    //send options to clients to be drawn
+    io.emit('spinOverWorldWheels',wheelOptionsArray)
+
+    //work out what monster to spawn if any
+
+    const MONSTER_SPAWN = (wheelOptionsArray[0].getSegmentAtStopAngle().text == 'No') ? false : true;
+    const MONSTER_TYPE = wheelOptionsArray[1].getSegmentAtStopAngle().text;
+    const MONSTER_LEVEL = wheelOptionsArray[2].getSegmentAtStopAngle().text;
+    const MONSTER_WEAPON = wheelOptionsArray[3].getSegmentAtStopAngle().text;
+    let MONSTER_SPAWN_POS = {x:0,y:0}
+
+    if (MONSTER_SPAWN == true) {
+
+    //work out spawn position for monster
+    Object.keys(board.tiles).forEach(function(key,index) {
+       if (board.tiles[key].name == 'CaveTile') {
+            MONSTER_SPAWN_POS = {x: board.tiles[key].gridPos.x, y: board.tiles[key].gridPos.y}
+            
+       }
+    });
+
+    //create monster obj
+    backEndMonsters[uid()] = {
+        name: MONSTER_TYPE,
+        level: MONSTER_LEVEL,
+        weapon: MONSTER_WEAPON,
+        boardPos: MONSTER_SPAWN_POS
+    }
+
+    //update clients with new monster to draw
+    updateMonsters()
+
+    }
+
+
+    //set turn back to first player
+
+    gameProperties.gameState.playerTurnIndex = 0
+    gameProperties.gameState.playersTurnID = Object.values(backEndPlayers)[gameProperties.gameState.playerTurnIndex].id
+    gameProperties.gameState.playersTurnUsername = Object.values(backEndPlayers)[gameProperties.gameState.playerTurnIndex].username
+
+    updateGameState()
+
 }
 
 function updateDebug() {
