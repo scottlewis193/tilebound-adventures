@@ -21,6 +21,8 @@ let interactBtn = document.getElementById('interact-btn')
 let inventoryBtn = document.getElementById('inventory-btn')
 let gameStatusTxt = document.getElementById('game-status')
 
+
+
 function toggleModalVisibility(elementIDs) {
 
     for (let i = 0; i < elementIDs.length; i++) {
@@ -30,6 +32,8 @@ function toggleModalVisibility(elementIDs) {
     currentElement.style.display = (currentState == 'block') ? 'none' : 'block';
     }
 }
+
+
 
 function startGame() {
     gameState.status = 'StartingGame'
@@ -44,9 +48,9 @@ function interact() {
     client.socket.emit('updateGameState', gameState)
 }
 
-function displayEventText(text) {
+function displayEventText(text, interval = 7000) {
     gameStatusTxt.innerText = text
-    setTimeout(() => {displayTurnText()}, 7000)
+    setTimeout(() => {displayTurnText()}, interval)
 }
 
 function displayTurnText() {
@@ -67,6 +71,14 @@ function getElementPosition(el) {
       x: rect.left + window.scrollX,
     y: rect.top + window.scrollY
     };
+  }
+
+  function getPropByIndex(obj, index) {
+   return Object.keys(obj)[index]
+  }
+
+  function getObjPropCount(obj) {
+   return Object.keys(obj).length
   }
 
 
