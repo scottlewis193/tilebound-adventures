@@ -8,6 +8,7 @@ class BaseWeapon  {
         this.price = 0;
         this.slotType = 'hand';
         this.weaponType = 'melee'
+        this.availableinShop = true
     }
 
 }
