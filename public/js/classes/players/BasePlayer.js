@@ -18,18 +18,19 @@ class BasePlayer {
     draw() {
     if (this.visible) {
        
-        c.fillStyle = this.colour
-        c.beginPath()
-        c.arc(this.boardXToCanvasX(true),this.boardYToCanvasY(true),(board.tileSize / 2),0,Math.PI * 2,false)
-        c.fill()
-        c.closePath()
+        fgC.fillStyle = this.colour
+        fgC.imageSmoothingEnabled = false;
+        fgC.beginPath()
+        fgC.arc(this.boardXToCanvasX(true),this.boardYToCanvasY(true),(board.tileSize / 2),0,Math.PI * 2,false)
+        fgC.fill()
+        fgC.closePath()
 
         if (this.moveSquaresVisible) {
-        c.fillStyle = 'yellow'
-        if (this.boardPos.x !== board.boardSize-1) { c.fillRect(this.boardXToCanvasX() + board.tileSize,this.boardYToCanvasY(),board.tileSize,board.tileSize)}
-        if (this.boardPos.x !== 0) { c.fillRect(this.boardXToCanvasX() - board.tileSize,this.boardYToCanvasY(),board.tileSize,board.tileSize)}
-        if (this.boardPos.y !== board.boardSize-1) {c.fillRect(this.boardXToCanvasX() ,this.boardYToCanvasY() + board.tileSize,board.tileSize,board.tileSize)}
-        if (this.boardPos.y !== 0) {c.fillRect(this.boardXToCanvasX() ,this.boardYToCanvasY() - board.tileSize,board.tileSize,board.tileSize)}
+        fgC.fillStyle = 'yellow'
+        if (this.boardPos.x !== board.boardSize-1) { fgC.fillRect(this.boardXToCanvasX() + board.tileSize,this.boardYToCanvasY(),board.tileSize,board.tileSize)}
+        if (this.boardPos.x !== 0) { fgC.fillRect(this.boardXToCanvasX() - board.tileSize,this.boardYToCanvasY(),board.tileSize,board.tileSize)}
+        if (this.boardPos.y !== board.boardSize-1) {fgC.fillRect(this.boardXToCanvasX() ,this.boardYToCanvasY() + board.tileSize,board.tileSize,board.tileSize)}
+        if (this.boardPos.y !== 0) {fgC.fillRect(this.boardXToCanvasX() ,this.boardYToCanvasY() - board.tileSize,board.tileSize,board.tileSize)}
         }
         }
     }

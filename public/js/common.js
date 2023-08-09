@@ -1,13 +1,21 @@
+document.addEventListener("DOMContentLoaded", function(){
+    // Code here waits to run until the DOM is loaded.
+  });
+
 //canvas & context
-const canvas = document.querySelector('canvas')
-const c = canvas.getContext('2d')
+const bgCanvas = document.querySelector('#bg-canvas')
+responsiveCanvas(bgCanvas)
+let bgC = bgCanvas.getContext('2d') 
+
+const fgCanvas = document.querySelector('#fg-canvas')
+responsiveCanvas(fgCanvas)
+let fgC = fgCanvas.getContext('2d')
+
 
 //short hand devicePixelRatio
 const devicePixelRatio = window.devicePixelRatio || 1
 
-//set canvas res correctly
-canvas.width = innerWidth * devicePixelRatio
-canvas.height = (innerHeight-100) * devicePixelRatio
+
 
 let gameState = {
         status: 'StartGame',
@@ -21,7 +29,47 @@ let interactBtn = document.getElementById('interact-btn')
 let inventoryBtn = document.getElementById('inventory-btn')
 let gameStatusTxt = document.getElementById('game-status')
 
+function setPixelDensity(canvas) {
 
+    // Get the device pixel ratio.
+    let pixelRatio = window.devicePixelRatio;
+	
+    // Optionally print it to the console (if interested).
+		console.log(`Device Pixel Ratio: ${pixelRatio}`);
+
+    // Get the actual screen (or CSS) size of the canvas.
+    //let sizeOnScreen = {width: canvas.width, height: canvas.height - 100};
+        
+        // Set our canvas size equal to that of the screen size x the pixel ratio.
+        // canvas.width = sizeOnScreen.width * pixelRatio;
+        // canvas.height = sizeOnScreen.height * pixelRatio;
+    
+        // Shrink back down the canvas CSS size by the pixel ratio, thereby 'compressing' the pixels.
+        canvas.style.width = innerWidth + 'px';
+        canvas.style.height = (innerHeight - 100) + 'px';
+
+        canvas.width = innerWidth * pixelRatio
+        canvas.height = (innerHeight - 100) * pixelRatio
+        
+        // Fetch the context.
+        let context = canvas.getContext('2d');
+    
+        // Scale all canvas operations by the pixelRatio, so you don't have to calculate these manually.
+        context.scale(pixelRatio, pixelRatio);
+    
+        // Return the modified context.
+        return context;
+    
+   
+
+
+}
+
+
+function responsiveCanvas(canvas) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+}
 
 function toggleModalVisibility(elementIDs) {
 
@@ -84,4 +132,6 @@ function getElementPosition(el) {
 
 
 
+
+  
 

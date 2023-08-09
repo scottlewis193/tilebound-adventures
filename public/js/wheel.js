@@ -9,10 +9,11 @@ var wheel = {
         _animation['callbackFinished'] = spinFinishedFunc
         spinWheel = new Winwheel(
             {'numSegments' : wheelOptions.numSegments,
-            'textFontSize' : 30*devicePixelRatio,
-            'centerX' : (innerWidth / 2)*devicePixelRatio,
-            'centerY' : (innerHeight / 2)*devicePixelRatio,
-            'outerRadius' : (innerHeight/2)*devicePixelRatio - 50,
+            'canvasId' : wheelOptions.canvasId,
+            'textFontSize' : 30,
+            'centerX' : (innerWidth / 2),
+            'centerY' : (innerHeight / 2),
+            'outerRadius' : (innerHeight/2) - 50,
             'segments' : wheelOptions.segments,
             'animation' : _animation    
             });
@@ -41,11 +42,12 @@ var wheel = {
         
         wheel.spinWheel = new Winwheel(
             {'numSegments' : backEndWheelsOptions[phaseNo].numSegments,
-            'centerX' : (innerWidth / 2)*devicePixelRatio,
-            'centerY' : ((innerHeight / 2)-50)*devicePixelRatio,
-            'outerRadius' : (innerHeight < innerWidth) ? ((innerHeight/2)- 100)*devicePixelRatio  : ((innerWidth/2)-100)*devicePixelRatio ,
+            'canvasId' : backEndWheelsOptions[phaseNo].canvasId,
+            'centerX' : (innerWidth / 2),
+            'centerY' : ((innerHeight / 2)-50),
+            'outerRadius' : (innerHeight < innerWidth) ? ((innerHeight/2)- 100)  : ((innerWidth/2)-100) ,
             'segments' : backEndWheelsOptions[phaseNo].segments,
-            'textFontSize' : (((innerHeight < innerWidth) ? ((innerHeight/2)- 100)*devicePixelRatio  : ((innerWidth/2)-100))/8)*devicePixelRatio,
+            'textFontSize' : (((innerHeight < innerWidth) ? ((innerHeight/2)- 100) : ((innerWidth/2)-100))/8),
             'animation' : _animation    
             })
 
@@ -83,27 +85,27 @@ var wheel = {
     },
 
     drawWheelPointer() {
-        c.strokeStyle = '#000000';     // Set line colour.
-        c.fillStyle   = 'aqua';        // Set fill colour.
-        c.lineWidth   = 2;
-        c.beginPath();                 // Begin path.
-        let sizeX = (canvas.height/25)*devicePixelRatio
-        let initialPosX = (canvas.width/2)-(sizeX/2)
+        fgC.strokeStyle = '#000000';     // Set line colour.
+        fgC.fillStyle   = 'aqua';        // Set fill colour.
+        fgC.lineWidth   = 2;
+        fgC.beginPath();                 // Begin path.
+        let sizeX = (fgCanvas.height/25)
+        let initialPosX = (fgCanvas.width/2)-(sizeX/2)
         let initialPosY = wheel.spinWheel['centerY'] - wheel.spinWheel['outerRadius'] - (sizeX / 2)
         
-        c.moveTo(initialPosX, initialPosY);             // Move to initial position.
-        c.lineTo(initialPosX+sizeX, initialPosY);             // Draw lines to make the shape.
-        c.lineTo(initialPosX+(sizeX/2), initialPosY+sizeX);
-        c.lineTo(initialPosX+1, initialPosY);
-        c.stroke();                    // Complete the path by stroking (draw lines).
-        c.fill();                      // Then fill with colour.
+        fgC.moveTo(initialPosX, initialPosY);             // Move to initial position.
+        fgC.lineTo(initialPosX+sizeX, initialPosY);             // Draw lines to make the shape.
+        fgC.lineTo(initialPosX+(sizeX/2), initialPosY+sizeX);
+        fgC.lineTo(initialPosX+1, initialPosY);
+        fgC.stroke();                    // Complete the path by stroking (draw lines).
+        fgC.fill();                      // Then fill with colour.
     },
 
     applySizing() {
-        wheel.spinWheel['centerX'] = (innerWidth / 2)*devicePixelRatio
-        wheel.spinWheel['centerY'] = ((innerHeight / 2)-50)*devicePixelRatio
-        wheel.spinWheel['outerRadius'] = (innerHeight < innerWidth) ? ((innerHeight/2)- 100)*devicePixelRatio  : ((innerWidth/2)-100)*devicePixelRatio
-        wheel.spinWheel['textFontSize'] = (((innerHeight < innerWidth) ? ((innerHeight/2)- 100)*devicePixelRatio  : ((innerWidth/2)-100))/8)*devicePixelRatio
+        wheel.spinWheel['centerX'] = (innerWidth / 2)
+        wheel.spinWheel['centerY'] = ((innerHeight / 2)-50)
+        wheel.spinWheel['outerRadius'] = (innerHeight < innerWidth) ? ((innerHeight/2)- 100) : ((innerWidth/2)-100)
+        wheel.spinWheel['textFontSize'] = (((innerHeight < innerWidth) ? ((innerHeight/2)- 100) : ((innerWidth/2)-100))/8)
     },
 
     drawWheel: function() {

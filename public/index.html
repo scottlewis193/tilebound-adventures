@@ -48,8 +48,10 @@
       </div>
   </div>
     
-
-    <canvas id="canvas" style="display:block"></canvas>
+<div id="canvas">
+  <canvas id="fg-canvas" style="display:block"></canvas>
+    <canvas id="bg-canvas" style="display:block"></canvas>
+</div>
 
     <button class="ui-btn" id="inventory-btn" disabled="true" onclick="inventory.toggleInventory();">Inventory</button>
     <button class="ui-btn" id="interact-btn">Start Game</button>
@@ -58,55 +60,59 @@
 
   </div>
 
-    <!--CSS-->
-    <link rel="stylesheet" href="./css/index.css">
-
-    <!--Dependencies-->
-    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    <script src="./js/dependencies/Winwheel.min.js"></script>
-    <script src="./js/dependencies/seedrandom.js"></script>
-
-    <!--Tiles-->
-    <script src="./js/classes/tiles/baseTile.js"></script>
-    <script src="./js/classes/tiles/CaveTile.js"></script>
-    <script src="./js/classes/tiles/ForestTile.js"></script>
-    <script src="./js/classes/tiles/VillageTile.js"></script>
-    <script src="./js/classes/tiles/PathTile.js"></script>
-    <script src="./js/classes/tiles/SandTile.js"></script>
-    <script src="./js/classes/tiles/WaterTile.js"></script>
-    <script src="./js/classes/tiles/StartTile.js"></script>
-
-
-    <!--Monsters-->
-    <script src="./js/classes/monsters/BaseMonster.js"></script>
-    <script src="./js/classes/monsters/Goblin.js"></script>
-    <script src="./js/classes/monsters/Dragon.js"></script>
-    <script src="./js/classes/monsters/Hydra.js"></script>
-    <script src="./js/classes/monsters/OrcWarrior.js"></script>
-    
-    <!--Items-->
-    <script src="./js/classes/items/weapons/BaseWeapon.js"></script>
-    <script src="./js/classes/items/weapons/Longsword.js"></script>
-    <script src="./js/classes/items/weapons/Longbow.js"></script>
-    <script src="./js/classes/items/supplies/baseShield.js"></script>
-    <script src="./js/classes/items/supplies/baseBandage.js"></script>
-
-
-    <!--User-->
-    <script src="./js/eventListeners.js"></script>
-    <script src="./js/common.js"></script>
-    <script src="./js/wheel.js"></script>
-    <script src="./js/board.js"></script>
-    <script src="./js/players.js"></script>
-    <script src="./js/monsters.js"></script>
-    <script src="./js/client.js"></script>
-    <script src="./js/inventory.js"></script>
-    <script src="./js/classes/ProxyClass.js"></script>
-
-    <!--Players-->
-    <script src="./js/classes/players/BasePlayer.js"></script>
+   
 
 
 </body>
 </html>
+
+ <!--CSS-->
+ <link rel="stylesheet" href="./css/index.css">
+
+ <!--Dependencies-->
+ <script defer src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+ <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+ <script defer src="./js/dependencies/Winwheel.min.js"></script>
+ <script defer src="./js/dependencies/seedrandom.js"></script>
+
+ <!--Tiles-->
+ <script defer src="./js/classes/tiles/baseTile.js"></script>
+ <script defer src="./js/classes/tiles/CaveTile.js"></script>
+ <script defer src="./js/classes/tiles/ForestTile.js"></script>
+ <script defer src="./js/classes/tiles/GrassTile.js"></script>
+ <script defer src="./js/classes/tiles/GrassCoveringTile.js"></script>
+ <script defer src="./js/classes/tiles/VillageTile.js"></script>
+ <script defer src="./js/classes/tiles/PathTile.js"></script>
+ <script defer src="./js/classes/tiles/SandTile.js"></script>
+ <script defer src="./js/classes/tiles/WaterTile.js"></script>
+ <script defer src="./js/classes/tiles/StartTile.js"></script>
+
+
+ <!--Monsters-->
+ <script defer src="./js/classes/monsters/BaseMonster.js"></script>
+ <script defer src="./js/classes/monsters/Goblin.js"></script>
+ <script defer src="./js/classes/monsters/Dragon.js"></script>
+ <script defer src="./js/classes/monsters/Hydra.js"></script>
+ <script defer src="./js/classes/monsters/OrcWarrior.js"></script>
+ 
+ <!--Items-->
+ <script defer src="./js/classes/items/weapons/BaseWeapon.js"></script>
+ <script defer src="./js/classes/items/weapons/Longsword.js"></script>
+ <script defer src="./js/classes/items/weapons/Longbow.js"></script>
+ <script defer src="./js/classes/items/supplies/baseShield.js"></script>
+ <script defer src="./js/classes/items/supplies/baseBandage.js"></script>
+
+
+ <!--User-->
+ <script defer src="./js/common.js"></script>
+ <script defer src="./js/eventListeners.js"></script>
+ <script defer src="./js/wheel.js"></script>
+ <script defer src="./js/board.js"></script>
+ <script defer src="./js/players.js"></script>
+ <script defer src="./js/monsters.js"></script>
+ <script defer src="./js/client.js"></script>
+ <script defer src="./js/inventory.js"></script>
+ <script defer src="./js/classes/ProxyClass.js"></script>
+
+ <!--Players-->
+ <script defer src="./js/classes/players/BasePlayer.js"></script>

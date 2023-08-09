@@ -37,6 +37,9 @@ this.socket.on("disconnect", () => {
     alert('Disconnected from server')
   });
 
+
+
+
 // backend will trigger this when a new player connects so all clients can update player data on the front end
 this.socket.on('updatePlayers', (backEndPlayers) => {
 
@@ -122,18 +125,19 @@ this.socket.on('updateMonsters', (backEndMonsters) => {
             }
         
     }
+
 })
 
 //triggered when players connects so it gives them the same board as everyone else
 this.socket.on('updateBoard', (backendBoard) => {
     board.boardSeed = backendBoard.boardSeed
-    board.boardPos = backendBoard.boardPos
     board.boardSize = backendBoard.boardSize
     board.startPos = backendBoard.startPos
-    board.tileSize = backendBoard.tileSize * devicePixelRatio
+    board.tileSize = backendBoard.tileSize
     board.tiles = backendBoard.tiles
     board.convertBoard()
 })
+
 
 this.socket.on('updateGameState', (backEndGameState) => {
     gameState = backEndGameState
@@ -168,6 +172,8 @@ this.socket.on('updateGameState', (backEndGameState) => {
 
         //displayTurnText()
     }
+
+    board.updateBoardPos()
 })
 
 this.socket.on('spinOverWorldWheels', (backEndWheelOptions) => {
@@ -182,18 +188,7 @@ wheel.defineOverworldWheelSeq(backEndWheelOptions)
 
 animate(timeStamp) {
 
-
-
-
-    // c.fillStyle = 'rgba(0,0,0,0.1)'
-    // c.fillRect(0,0, canvas.width, canvas.height)
-
-    //wheel.drawWheel()
-
-
-    board.updateBoardPos()
-
-    client.drawLayers()
+client.drawLayers()
 
    wheel.drawWheel()
 
@@ -209,14 +204,17 @@ animate(timeStamp) {
 
     client.drawDebugText()
 
+
+
     setTimeout( () => {requestAnimationFrame(client.animate)
     },0)
 
 },
 
 drawLayers() {
-    canvas.width = canvas.width //fix weird clearing bug
-    c.clearRect(0, 0, canvas.width, canvas.height)
+
+    fgCanvas.width = fgCanvas.width //fix weird clearing bug
+    fgC.clearRect(0, 0, fgCanvas.width, fgCanvas.height)
 
     board.drawBoard()
 
@@ -232,8 +230,8 @@ drawLayers() {
 
 
 drawDebugText() {
- c.fillStyle = 'black'
- c.font = 15 * devicePixelRatio + 'px Arial'
+ fgC.fillStyle = 'black'
+ fgC.font = 15 + 'px Arial'
 
  let debugText = 'MouseX: ' + this.mousePos.x + '\n' 
                 + 'MouseY: ' + this.mousePos.y + '\n'
@@ -243,7 +241,7 @@ drawDebugText() {
 let debugTextLines = debugText.split('\n')
 let debugTextLineHeight = 30
 for (var i = 0; i < debugTextLines.length; i++) {
-    c.fillText(debugTextLines[i],0,debugTextLineHeight*(i+1))
+    fgC.fillText(debugTextLines[i],0,debugTextLineHeight*(i+1))
 }
  
 
@@ -252,5 +250,8 @@ for (var i = 0; i < debugTextLines.length; i++) {
 
 }
 
+
 //init loop
 client.animate()
+
+setTimeout(() => {setPixelDensity(bgCanvas); setPixelDensity(fgCanvas);})

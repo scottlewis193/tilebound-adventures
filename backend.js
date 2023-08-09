@@ -95,6 +95,8 @@ io.on('connection', (socket) => {
         //send updated game state object to all clients
         updateGameState()
 
+
+
     })
 
     // socket io client disconnect event listener
@@ -311,6 +313,7 @@ function createWheelOptions(wheelType) {
 
         wheelOptions = {
                 id: wheelType,
+                'canvasId': 'fg-canvas',
                 'numSegments': 2,
                 'segments': [
                     {'size' : getBattleWheelAngle(socket.id,args.monsterID), 'text' : 'Win', 'fillStyle' : '#89f26e'},
@@ -332,6 +335,7 @@ function createWheelOptions(wheelType) {
 
         wheelOptions = {
             id: wheelType,
+            'canvasId': 'fg-canvas',
             'numSegments': 2,
             'segments': [
                 {'size' : 180, 'text' : 'Yes', 'fillStyle' : '#89f26e'},
@@ -345,6 +349,7 @@ function createWheelOptions(wheelType) {
 
         wheelOptions = {
             id: wheelType,
+            'canvasId': 'fg-canvas',
             'numSegments': 4,
             'segments': [
                 {'size' : 90, 'text' : 'Dragon', 'fillStyle' : '#89f26e'},
@@ -360,6 +365,7 @@ function createWheelOptions(wheelType) {
 
         wheelOptions = {
             id: wheelType,
+            'canvasId': 'fg-canvas',
             'numSegments': 10,
             'segments': [
                 {'size' : 36, 'text' : '1', 'fillStyle' : '#89f26e'},
@@ -382,6 +388,7 @@ function createWheelOptions(wheelType) {
         
         wheelOptions = {
             id: wheelType,
+            'canvasId': 'fg-canvas',
             'numSegments': 2,
             'segments': [
                 {'size' : 180, 'text' : 'Longbow', 'fillStyle' : '#89f26e'},

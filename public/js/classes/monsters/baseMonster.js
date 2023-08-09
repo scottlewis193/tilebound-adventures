@@ -20,11 +20,11 @@ class BaseMonster {
     }
 
     draw() {
-            c.fillStyle = this.colour
-            c.beginPath()
-            c.arc(this.boardXToCanvasX(true),this.boardYToCanvasY(true),(board.tileSize / 2),0,Math.PI * 2,false)
-            c.fill()
-            c.closePath()
+            fgC.fillStyle = this.colour
+            fgC.beginPath()
+            fgC.arc(this.boardXToCanvasX(true),this.boardYToCanvasY(true),(board.tileSize / 2),0,Math.PI * 2,false)
+            fgC.fill()
+            fgC.closePath()
         }
         
 

@@ -2,13 +2,16 @@
 
 //setup client event listeners
 window.addEventListener('resize', function(e) {windowResized(e)});
-canvas.addEventListener('click', function(e) {canvasMouseClick(e)});
-canvas.addEventListener('mousemove', function(e) {canvasMouseMove(e)});
+fgCanvas.addEventListener('click', function(e) {canvasMouseClick(e)});
+fgCanvas.addEventListener('mousemove', function(e) {canvasMouseMove(e)});
 
 //called when browser window has been resized by the user
 function windowResized(e) {
-    canvas.width = innerWidth * devicePixelRatio
-    canvas.height = (innerHeight - 100) * devicePixelRatio
+
+ 
+bgC = setPixelDensity(bgCanvas)
+fgC = setPixelDensity(fgCanvas)
+
     //wheel.defineWinWheel()
     board.updateBoardPos()
     board.drawBoard()
@@ -48,7 +51,7 @@ MOUSE_GRID_POS ==  JSON.stringify({x: clientPlayer.boardPos.x, y: clientPlayer.b
 //called when the mouse position has changed within the canvas
 function canvasMouseMove(e) {
 
-const rect = canvas.getBoundingClientRect();
+const rect = fgCanvas.getBoundingClientRect();
 
 client.mousePos = { x: (e.clientX - rect.left) * devicePixelRatio, y: (e.clientY - rect.top) * devicePixelRatio};
 client.mouseGridPos = mousePosToMouseGridPos(client.mousePos);
