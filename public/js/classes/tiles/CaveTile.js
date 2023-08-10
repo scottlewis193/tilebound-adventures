@@ -3,7 +3,7 @@ class CaveTile extends BaseTile {
         super(gridPos),
         this.name = 'CaveTile',
         this.colour = 'slategray',
-        this.textureGridPos = {x: 1, y: 22}
+        this.textureGridPos = {x: 7, y: 12}
     }
 }
 

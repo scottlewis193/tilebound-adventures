@@ -1,13 +1,13 @@
 class BaseTile {
     constructor(gridPos) {
         let _texture = new Image()
-        _texture.src = '/textures/maptile.png'
+        _texture.src = '/textures/Overworld.png'
         _texture.style = 'image-rendering:pixelated'
         this.name = 'BaseTile',
         this.colour = 'white',
         this.texture = _texture,
         this.textureGridPos = {x: 56, y: 23}, //blank,
-        this.textureSize = {w: 32, h: 32},
+        this.textureSize = {w: 16, h: 16},
         this.gridPos = gridPos
     }
 

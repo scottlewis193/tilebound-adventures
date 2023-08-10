@@ -34,21 +34,21 @@ var board = {
             bgCanvas.width = bgCanvas.width //fix weird clearing bug
             bgC.clearRect(0, 0, bgCanvas.width, bgCanvas.height)
 
-            //BOTTOM LAYER - ALL SAND
+            //BOTTOM LAYER - ALL GRASS
             for (let gridY = 0; gridY < this.boardSize; gridY++) {
                 for (let gridX = 0; gridX < this.boardSize; gridX++) {
-                    let tile = new SandTile({x: gridX,y: gridY})
-                    tile.draw()
-                }
-            }
-
-            //GRASS
-            for (let gridY = 1; gridY < this.boardSize - 1; gridY++) {
-                for (let gridX = 1; gridX < this.boardSize -1; gridX++) {
                     let tile = new GrassTile({x: gridX,y: gridY})
                     tile.draw()
                 }
             }
+
+            // //GRASS
+            // for (let gridY = 2; gridY < this.boardSize - 2; gridY++) {
+            //     for (let gridX = 2; gridX < this.boardSize -2; gridX++) {
+            //         let tile = new GrassTile({x: gridX,y: gridY})
+            //         tile.draw()
+            //     }
+            // }
 
 
             for (let gridY = 0; gridY < this.boardSize; gridY++) {
@@ -57,15 +57,15 @@ var board = {
                 }
             }
 
-            //PATH GRASS COVERING
-            for (let gridY = 1; gridY < this.boardSize - 1; gridY++) {
-                for (let gridX = 1; gridX < this.boardSize -1; gridX++) {
-                    if (board.tiles[gridX + ' ' + gridY].name == 'PathTile') {
-                    let tile = new GrassCoveringTile({x: gridX,y: gridY})
-                    tile.draw()
-                }
-                }
-            }
+            // //PATH GRASS COVERING
+            // for (let gridY = 1; gridY < this.boardSize - 1; gridY++) {
+            //     for (let gridX = 1; gridX < this.boardSize -1; gridX++) {
+            //         if (board.tiles[gridX + ' ' + gridY].name == 'PathTile') {
+            //         let tile = new GrassCoveringTile({x: gridX,y: gridY})
+            //         tile.draw()
+            //     }
+            //     }
+            // }
             
 
             this.boardChanged = false
@@ -80,11 +80,14 @@ var board = {
         // fgCanvas.style.width = fgRect.width + 'px'
         // fgCanvas.style.height = fgRect.height + 'px'
         const CANVAS_WIDTH = parseInt(bgCanvas.width)//.replace('px',''))
-        const CANVAS_HEIGHT = parseInt(bgCanvas.height)//.replace('px',''))
+        const HEIGHT_MOD = oddOrEven(parseInt(bgCanvas.height)) == 'odd' ? 1 : 0
+        const CANVAS_HEIGHT = parseInt(bgCanvas.height) + HEIGHT_MOD
         this.tileSize = Math.floor(CANVAS_HEIGHT / (this.boardSize))
+
         this.boardPos = {x: (CANVAS_WIDTH / 2) - (this.tileSize*(this.boardSize/2)), 
                          y: (CANVAS_HEIGHT / 2) - (this.tileSize*(this.boardSize/2))}
                          this.boardChanged = true
+        console.log('Tile Size: ' + this.tileSize)
     }
 
 

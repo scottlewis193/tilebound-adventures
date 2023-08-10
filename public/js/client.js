@@ -237,6 +237,8 @@ drawDebugText() {
                 + 'MouseY: ' + this.mousePos.y + '\n'
                 + 'MouseGX: ' + this.mouseGridPos.x + '\n'
                 + 'MouseGY: ' + this.mouseGridPos.y + '\n'
+                + 'CanvasW: ' + bgCanvas.width + '\n'
+                + 'CanvasH: ' + bgCanvas.height + '\n'
                 + 'FPS: ' + this.fps
 let debugTextLines = debugText.split('\n')
 let debugTextLineHeight = 30

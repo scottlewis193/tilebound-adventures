@@ -3,7 +3,7 @@ class PathTile extends BaseTile {
         super(gridPos),
         this.name = 'PathTile',
         this.colour = 'lawngreen'
-        this.textureGridPos = {x: 9, y: 2}
+        this.textureGridPos = {x: 1, y: 4}
     }
 
 

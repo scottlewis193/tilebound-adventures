@@ -35,7 +35,7 @@ function setPixelDensity(canvas) {
     let pixelRatio = window.devicePixelRatio;
 	
     // Optionally print it to the console (if interested).
-		console.log(`Device Pixel Ratio: ${pixelRatio}`);
+
 
     // Get the actual screen (or CSS) size of the canvas.
     //let sizeOnScreen = {width: canvas.width, height: canvas.height - 100};
@@ -127,6 +127,10 @@ function getElementPosition(el) {
 
   function getObjPropCount(obj) {
    return Object.keys(obj).length
+  }
+
+  function oddOrEven(x) {
+    return ( x & 1 ) ? "odd" : "even";
   }
 
 

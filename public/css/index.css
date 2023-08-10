@@ -81,7 +81,7 @@ body {
 
   #canvas {
     position:relative;
-    background-color:#007bee;
+    background-color:#1e7cb8;
     grid-row: 2;
     grid-column: 1 / span 2;
     width: 100%;
