@@ -136,6 +136,7 @@ this.socket.on('updateBoard', (backendBoard) => {
     board.tileSize = backendBoard.tileSize
     board.tiles = backendBoard.tiles
     board.convertBoard()
+    board.generateVisualTiles()
 })
 
 
@@ -256,4 +257,10 @@ for (var i = 0; i < debugTextLines.length; i++) {
 //init loop
 client.animate()
 
-setTimeout(() => {setPixelDensity(bgCanvas); setPixelDensity(fgCanvas);})
+setTimeout(() => {
+    bgC = setPixelDensity(bgCanvas); 
+    fgC = setPixelDensity(fgCanvas);
+    board.updateBoardPos()
+    board.drawBoard()
+    players.drawAllPlayers()
+},1500)

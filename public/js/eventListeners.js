@@ -8,8 +8,7 @@ fgCanvas.addEventListener('mousemove', function(e) {canvasMouseMove(e)});
 //called when browser window has been resized by the user
 function windowResized(e) {
 
-    //check if height is even to avoid gaps in tiles when rendering
-    if (oddOrEven(innerHeight) == 'even') {
+
 
     bgC = setPixelDensity(bgCanvas)
     fgC = setPixelDensity(fgCanvas)
@@ -19,7 +18,7 @@ function windowResized(e) {
     board.drawBoard()
     players.drawAllPlayers()
 
-}
+
 
 };
 
