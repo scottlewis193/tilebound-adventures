@@ -22,7 +22,16 @@ class GrassCoveringTile extends BaseTile {
                 this.textureGridPos = {x: 1, y: 3}
                 break;
             case 'VDR' :
+                this.textureGridPos = {x: 1, y: 6}
+                break;
+            case 'VDRO' :
                 this.textureGridPos = {x: 0, y: 5}
+                break;
+            case 'VUL' :
+                this.textureGridPos = {x: 0, y: 7}
+                break;
+            case 'VULO' :
+                this.textureGridPos = {x: 2, y: 3}
                 break;
         }
 

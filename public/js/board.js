@@ -9,6 +9,7 @@ var board = {
     _tiles: {},
     tiles: {},
     visualTilesGenerated: false,
+    textureSize : {w: 16, h: 16},
     // get tiles() {
     //     return _tiles
     // },
@@ -49,27 +50,55 @@ var board = {
         //PATH GRASS COVERING
             for (let gridY = 0; gridY < this.boardSize - 1; gridY++) {
                 for (let gridX = 0; gridX < this.boardSize - 1; gridX++) {
-                    if (board.tiles[gridX + ' ' + gridY + ' ' + 1].name == 'PathTile') {
 
-                    //vertical
-                    if ((gridY == 0 || board.tiles[gridX + ' ' + (gridY - 1) + ' ' + 1]?.name == 'PathTile') && board.tiles[gridX + ' ' + (gridY + 1) + ' ' + 1]?.name == 'PathTile') {
-                  
-                    this.tiles[(gridX+1) + ' ' + gridY + ' ' + 2] = new GrassCoveringTile({x: (gridX+1),y: gridY},'VR')
-                    this.tiles[(gridX-1) + ' ' + gridY + ' ' + 2] = new GrassCoveringTile({x: (gridX-1),y: gridY},'VL')
+                    const CENTER_TILE_NAME = board.tiles[gridX + ' ' + gridY + ' ' + 1]?.name
+                    const LEFT_TILE_NAME = board.tiles[(gridX - 1) + ' ' + gridY + ' ' + 1]?.name
+                    const RIGHT_TILE_NAME = board.tiles[(gridX + 1) + ' ' + gridY + ' ' + 1]?.name
+                    const UP_TILE_NAME = board.tiles[gridX + ' ' + (gridY - 1) + ' ' + 1]?.name
+                    const DOWN_TILE_NAME = board.tiles[gridX + ' ' + (gridY + 1) + ' ' + 1]?.name
+                    const UPLEFT_TILE_NAME = board.tiles[(gridX - 1) + ' ' + (gridY - 1) + ' ' + 1]?.name
+                    const UPRIGHT_TILE_NAME = board.tiles[(gridX + 1) + ' ' + (gridY - 1) + ' ' + 1]?.name
+                    const DOWNLEFT_TILE_NAME = board.tiles[(gridX - 1) + ' ' + (gridY + 1) + ' ' + 1]?.name
+                    const DOWNRIGHT_TILE_NAME = board.tiles[(gridX + 1) + ' ' + (gridY + 1) + ' ' + 1]?.name
+
+                    if (CENTER_TILE_NAME == 'PathTile') {
+
+                    // vertical
+                    if ((gridY == 0 || UP_TILE_NAME == 'PathTile' || DOWN_TILE_NAME == 'PathTile' )) {
+                       if(RIGHT_TILE_NAME !== 'PathTile') {this.tiles[(gridX+1) + ' ' + gridY + ' ' + 2] = new GrassCoveringTile({x: (gridX+1),y: gridY},'VR')}
+                       if(LEFT_TILE_NAME !== 'PathTile') {this.tiles[(gridX-1) + ' ' + gridY + ' ' + 2] = new GrassCoveringTile({x: (gridX-1),y: gridY},'VL')}
                     }
 
-                    //horizontal
-                    if ((gridX == 0 || board.tiles[(gridX - 1) + ' ' + gridY + ' ' + 1]?.name == 'PathTile') && board.tiles[(gridX + 1) + ' ' + gridY + ' ' + 1].name == 'PathTile') {
+                    // horizontal
+                    if ((gridX == 0 ||  LEFT_TILE_NAME == 'PathTile' || RIGHT_TILE_NAME == 'PathTile')) {
                     
-                        this.tiles[gridX + ' ' + (gridY+1) + ' ' + 2] = new GrassCoveringTile({x: gridX,y: (gridY+1)},'HD')
-                        this.tiles[gridX + ' ' + (gridY-1) + ' ' + 2] = new GrassCoveringTile({x: gridX,y: (gridY-1)},'HU')
+                        if(DOWN_TILE_NAME !== 'PathTile') {this.tiles[gridX + ' ' + (gridY+1) + ' ' + 2] = new GrassCoveringTile({x: gridX,y: (gridY+1)},'HD')}
+                        if(UP_TILE_NAME !== 'PathTile') {this.tiles[gridX + ' ' + (gridY-1) + ' ' + 2] = new GrassCoveringTile({x: gridX,y: (gridY-1)},'HU')}
         
                     }
 
 
                     //vertical down right
-                    if ((board.tiles[(gridX) + ' ' + (gridY - 1) + ' ' + 1]?.name == 'PathTile') && (board.tiles[(gridX + 1) + ' ' + gridY + ' ' + 1]?.name == 'PathTile')) {
-                        this.tiles[(gridX-1) + ' ' + (gridY+1) + ' ' + 2] = new GrassCoveringTile({x: (gridX-1),y: (gridY+1)},'VDR')
+                    if ((DOWN_TILE_NAME == 'PathTile') && (LEFT_TILE_NAME == 'PathTile')   ) {
+                        this.tiles[(gridX-1) + ' ' + (gridY+1) + ' ' + 3] = new GrassCoveringTile({x: (gridX-1),y: (gridY+1)},'VDR')
+                    }
+
+                    //outer
+                    if ((UP_TILE_NAME == 'PathTile') && (RIGHT_TILE_NAME == 'PathTile')) {
+                        this.tiles[(gridX-1) + ' ' + (gridY+1) + ' ' + 3] = new GrassCoveringTile({x: (gridX-1),y: (gridY+1)},'VDRO')
+                    }
+                    //-----------------------------------
+
+
+                    //
+
+                    //vertical up Left
+                    if ((UP_TILE_NAME == 'PathTile') && (RIGHT_TILE_NAME == 'PathTile')  ) {
+                        this.tiles[(gridX+1) + ' ' + (gridY-1) + ' ' + 3] = new GrassCoveringTile({x: (gridX+1),y: (gridY-1)},'VUL')
+                    }
+
+                    if ((DOWN_TILE_NAME == 'PathTile') && (LEFT_TILE_NAME == 'PathTile')  ) {
+                        this.tiles[(gridX+1) + ' ' + (gridY-1) + ' ' + 3] = new GrassCoveringTile({x: (gridX+1),y: (gridY-1)},'VULO')
                     }
 
                     
@@ -120,13 +149,13 @@ var board = {
         // bgCanvas.style.height = bgRect.height + 'px'
         // fgCanvas.style.width = fgRect.width + 'px'
         // fgCanvas.style.height = fgRect.height + 'px'
-        const CANVAS_WIDTH = parseInt(bgCanvas.width)//.replace('px',''))
+        const CANVAS_WIDTH = parseInt(bgCanvas.width) - 100//.replace('px',''))
         const HEIGHT_MOD = oddOrEven(parseInt(bgCanvas.height)) == 'odd' ? 1 : 0
-        const CANVAS_HEIGHT = parseInt(bgCanvas.height) + HEIGHT_MOD
+        const CANVAS_HEIGHT = parseInt(bgCanvas.height) + HEIGHT_MOD - 100
         this.tileSize = Math.floor(CANVAS_HEIGHT / (this.boardSize))
 
-        this.boardPos = {x: (CANVAS_WIDTH / 2) - (this.tileSize*(this.boardSize/2)), 
-                         y: (CANVAS_HEIGHT / 2) - (this.tileSize*(this.boardSize/2))}
+        this.boardPos = {x: (CANVAS_WIDTH / 2) - (this.tileSize*(this.boardSize/2) - 50), 
+                         y: (CANVAS_HEIGHT / 2) - (this.tileSize*(this.boardSize/2) - 50)}
                          this.boardChanged = true
         console.log('Tile Size: ' + this.tileSize)
     }

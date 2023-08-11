@@ -149,7 +149,7 @@
                 newY = Math.floor(Math.random() * this.boardSize)
             } while(this.tiles[newX + ' ' + newY + ' ' + gridZ].name !== 'PathTile')
             
-            this.tiles[newX + ' ' + newY + ' ' + gridZ] = {name: 'StartTile', gridPos: {x: newX,y: newY}}        
+            // this.tiles[newX + ' ' + newY + ' ' + gridZ] = {name: 'StartTile', gridPos: {x: newX,y: newY}}        
             this.startPos = {x: newX, y: newY}
     
     

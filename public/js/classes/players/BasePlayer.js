@@ -1,9 +1,16 @@
 class BasePlayer {
     
     constructor({id,boardPos,colour, username, inventory}) {
+        let _texture = new Image()
+        _texture.src = '/textures/character.png'
+        _texture.style = 'image-rendering:pixelated'
+
         this.id = id;
         this.boardPos = boardPos;
         this.colour = colour;
+        this.texture = _texture;
+        this.textureGridPos = {x: 2, y: 0};
+        this.textureSize = {w: 16, h: 32};
         this.username = username;
         this.visible = true;
         this.gameMaster = false;
@@ -17,34 +24,66 @@ class BasePlayer {
 
     draw() {
     if (this.visible) {
-       
-        fgC.fillStyle = this.colour
-        fgC.imageSmoothingEnabled = false;
-        fgC.beginPath()
-        fgC.arc(this.boardXToCanvasX(true),this.boardYToCanvasY(true),(board.tileSize / 2),0,Math.PI * 2,false)
-        fgC.fill()
-        fgC.closePath()
 
         if (this.moveSquaresVisible) {
-        fgC.fillStyle = 'yellow'
-        if (this.boardPos.x !== board.boardSize-1) { fgC.fillRect(this.boardXToCanvasX() + board.tileSize,this.boardYToCanvasY(),board.tileSize,board.tileSize)}
-        if (this.boardPos.x !== 0) { fgC.fillRect(this.boardXToCanvasX() - board.tileSize,this.boardYToCanvasY(),board.tileSize,board.tileSize)}
-        if (this.boardPos.y !== board.boardSize-1) {fgC.fillRect(this.boardXToCanvasX() ,this.boardYToCanvasY() + board.tileSize,board.tileSize,board.tileSize)}
-        if (this.boardPos.y !== 0) {fgC.fillRect(this.boardXToCanvasX() ,this.boardYToCanvasY() - board.tileSize,board.tileSize,board.tileSize)}
+            fgC.fillStyle = 'yellow'
+            if (this.boardPos.x !== board.boardSize-1) { fgC.fillRect(this.boardXToCanvasX() + board.tileSize,this.boardYToCanvasY({offset: false}),board.tileSize,board.tileSize)}
+            if (this.boardPos.x !== 0) { fgC.fillRect(this.boardXToCanvasX() - board.tileSize,this.boardYToCanvasY({offset: false}),board.tileSize,board.tileSize)}
+            if (this.boardPos.y !== board.boardSize-1) {fgC.fillRect(this.boardXToCanvasX() ,this.boardYToCanvasY({offset: false}) + board.tileSize,board.tileSize,board.tileSize)}
+            if (this.boardPos.y !== 0) {fgC.fillRect(this.boardXToCanvasX() ,this.boardYToCanvasY({offset: false}) - board.tileSize,board.tileSize,board.tileSize)}
+            
         }
+       
+        const SRC_PIXEL_POS_X = (this.textureGridPos.x*this.textureSize.w)
+        const SRC_PIXEL_POS_Y = ((this.textureGridPos.y)*this.textureSize.h)
+
+        const SRC_TEXTURE_SIZE_W = this.textureSize.w
+        const SRC_TEXTURE_SIZE_H = this.textureSize.h
+
+        const DES_PIXEL_POS_X = this.boardXToCanvasX()
+        const DES_PIXEL_POS_Y = this.boardYToCanvasY({offset: true})
+
+        const DES_TEXTURE_SIZE_W = board.tileSize
+        const DES_TEXTURE_SIZE_H = board.tileSize * (this.textureSize.h / board.textureSize.h)
+
+        fgC.fillStyle = this.colour
+        fgC.imageSmoothingEnabled = false;
+
+        
+        fgC.drawImage(this.texture,
+            //SOURCE
+            SRC_PIXEL_POS_X,
+            SRC_PIXEL_POS_Y,
+            SRC_TEXTURE_SIZE_W,
+            SRC_TEXTURE_SIZE_H,
+
+            //DESTINATION
+            DES_PIXEL_POS_X ,
+            DES_PIXEL_POS_Y,
+            DES_TEXTURE_SIZE_W,
+            DES_TEXTURE_SIZE_H
+            )
+
+
+
+
         }
     }
 
-   boardXToCanvasX(centered = false) {
-        if (centered) {return board.boardPos.x + (board.tileSize / 2) + ((this.boardPos.x) * board.tileSize)}
-        else {return board.boardPos.x + ((this.boardPos.x) * board.tileSize)}
+   boardXToCanvasX()  {
+            return board.boardPos.x + 
+            ((this.boardPos.x) * board.tileSize)
     }
     
-    boardYToCanvasY(centered = false) {
-       if(centered) {return board.boardPos.y + (board.tileSize / 2) + ((this.boardPos.y) * board.tileSize)}
-       else {return board.boardPos.y + ((this.boardPos.y) * board.tileSize)}
-    }
+    
+    boardYToCanvasY({offset}) {
 
+        const OFFSET_BOARDPOS_Y = (this.textureSize.h / board.textureSize.h) - 1
+
+        return (board.boardPos.y) + 
+        ((this.boardPos.y - ((offset) ? OFFSET_BOARDPOS_Y : 0)) * board.tileSize)
+     
+    }
 
     //if player has been clicked
     onClick() {
