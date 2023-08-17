@@ -49,13 +49,7 @@ this.socket.on('updatePlayers', (backEndPlayers) => {
         //if player doesn't exist in object, add them in (Client Connected)
         if (!players.frontEndPlayers[id]) {
           
-            players.frontEndPlayers[id] = new BasePlayer({
-                id: backEndPlayer.id,
-                boardPos: backEndPlayer.boardPos,
-                colour: backEndPlayer.colour,
-                username: backEndPlayer.username,
-                inventory: backEndPlayer.inventory
-            })
+            players.frontEndPlayers[id] = new Player(backEndPlayer)
 
 
             displayEventText(backEndPlayer.username + ' Joined The Game')
@@ -95,15 +89,7 @@ this.socket.on('updateMonsters', (backEndMonsters) => {
                //if player doesn't exist in object, add them in (Client Connected)
                if (!monsters.frontEndMonsters[id]) {
           
-                monsters.frontEndMonsters[id] = new (eval(backEndMonster.name))({
-                    name: backEndMonster.name,
-                    level: backEndMonster.level, 
-                    weapon: backEndMonster.weapon, 
-                    boardPos: backEndMonster.boardPos
-                })
-    
-
-                
+                monsters.frontEndMonsters[id] = new Monster(backEndMonster)
     
             } else {
                 
