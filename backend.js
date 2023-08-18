@@ -4,6 +4,7 @@ global.board = require('./js/board')
 global.wheel = require('./js/wheel')
 global.shop = require('./js/shop')
 global.seedrandom = require('seedrandom')
+global.BasePlayer = require('./js/classes/players/BasePlayer')
 
 //express setup
 const express = require('express')
@@ -65,20 +66,24 @@ io.on('connection', (socket) => {
         console.log(`user ${username} (${socket.id}) connected`);
 
         //on connect add player to players object
-        backEndPlayers[socket.id] = {
-            id: socket.id,
-            boardPos: (typeof board !== 'undefined') ? {x: board.startPos.x, y:board.startPos.y} : {x: 0, y: 0}, 
-            colour: 'royalblue',
-            visible: true,
-            username: username,
-            gold: 5,
-            level: 1,
-            baseDamage: 3,
-            levelDamageMod: 2,
-            inventory: inventory
-        } 
+        backEndPlayers[socket.id] = new BasePlayer({
+                id: socket.id,
+                boardPos: (typeof board !== 'undefined') ? {x: board.startPos.x, y:board.startPos.y} : {x: 0, y: 0}, 
+                colour: 'royalblue',
+                visible: true,
+                username: username,
+                gold: 5,
+                level: 1,
+                baseDamage: 3,
+                levelDamageMod: 2,
+                inventory: inventory  
+        })
+        
+    
 
-        console.log(backEndPlayers[socket.id])
+        backEndPlayers[socket.id].addInventoryItem('freeSlot1','Longsword')
+
+
 
         //if no players were previously connected, set turn as newly connected player
         if (gameProperties.gameState.playersTurnID == null) {gameProperties.gameState.playersTurnID = socket.id; gameProperties.gameState.playersTurnUsername = backEndPlayers[socket.id].username}

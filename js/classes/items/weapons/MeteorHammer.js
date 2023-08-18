@@ -1,19 +1,16 @@
 const {BaseWeapon} = require('./BaseWeapon')
 
-class Longsword extends BaseWeapon {
+class MeteorHammer extends BaseWeapon {
     constructor({owner}) {
         super(owner)
-        this.name = "Longsword"
-        this.damage = 8
+        this.name = "MeteorHammer"
+        this.damage = 3
+        this.damageResistance = 3
         this.ability = null
         this.twoHanded = true
-        this.price = 22
+        this.price = 17
         this.weaponType = 'melee'
     }
-
-
-
-
 }
 
-module.exports = {Longsword}
+module.exports = {MeteorHammer}

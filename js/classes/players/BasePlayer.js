@@ -1,14 +1,14 @@
-class BasePlayer {
-    
-    constructor({id,boardPos,colour, username, inventory}) {
-        let _texture = new Image()
-        _texture.src = '/textures/character.png'
-        _texture.style = 'image-rendering:pixelated'
+const items = require('../items/items')
 
+
+class BasePlayer {
+
+    
+
+    constructor({id,boardPos,colour, username, inventory}) {
         this.id = id;
         this.boardPos = boardPos;
         this.colour = colour;
-        this.texture = _texture;
         this.textureGridPos = {x: 2, y: 0};
         this.textureSize = {w: 16, h: 32};
         this.username = username;
@@ -60,4 +60,12 @@ class BasePlayer {
     moveItem({oldSlotId,newSlotId}) {
         client.socket.emit('playerMoveInventory',{oldSlotId,newSlotId})
     }
+
+    addInventoryItem(slot,item) {
+        this.inventory[slot] = new items[item]({owner: this})
+    }
+
+
 }
+
+module.exports = BasePlayer

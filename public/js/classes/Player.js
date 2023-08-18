@@ -1,7 +1,12 @@
 class Player {
     
     constructor({backEndPlayer}) {
-        super(backEndPlayer)
+        Object.assign(this,backEndPlayer)
+
+        let _texture = new Image()
+        _texture.src = '/textures/character.png'
+        _texture.style = 'image-rendering:pixelated'
+        this.texture = _texture;
     }
 
     draw() {

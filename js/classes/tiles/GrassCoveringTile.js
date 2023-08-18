@@ -58,3 +58,5 @@ class GrassCoveringTile extends BaseTile {
 
     }
 }
+
+module.exports = GrassCoveringTile

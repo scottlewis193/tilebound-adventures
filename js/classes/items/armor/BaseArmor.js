@@ -1,11 +1,8 @@
-class BaseWeapon  {
+class BaseArmor  {
     constructor({owner}) {
-        this.name = 'BaseWeapon';
+        this.name = 'BaseArmor';
         this.damage = 0;
-        this.damageResistance = 0;
-        this.hits = 1;
-        this.hitMin = 1;
-        this.hitChance = 1;
+        this.damageResistance = 6;
         this.ability = null;
         this.twoHanded = false;
         this.price = 0;
@@ -19,4 +16,4 @@ class BaseWeapon  {
 
 }
 
-module.exports = {BaseWeapon}
+module.exports = {BaseArmor}

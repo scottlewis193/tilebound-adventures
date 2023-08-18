@@ -8,4 +8,4 @@ class WaterTile extends BaseTile {
 
 }
 
-
+module.exports = WaterTile

@@ -7,3 +7,4 @@ class CaveTile extends BaseTile {
     }
 }
 
+module.exports = CaveTile

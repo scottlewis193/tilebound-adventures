@@ -24,7 +24,7 @@ this.socket.emit('initClient',
         feetSlot: null,
         handSlot1: null,
         handSlot2: null,
-        freeSlot1: new Longsword(),
+        freeSlot1: null,
         freeSlot2: null,
         freeSlot3: null,
         freeSlot4: null
@@ -49,7 +49,7 @@ this.socket.on('updatePlayers', (backEndPlayers) => {
         //if player doesn't exist in object, add them in (Client Connected)
         if (!players.frontEndPlayers[id]) {
           
-            players.frontEndPlayers[id] = new Player(backEndPlayer)
+            players.frontEndPlayers[id] = new Player({backEndPlayer: backEndPlayer})
 
 
             displayEventText(backEndPlayer.username + ' Joined The Game')
@@ -89,7 +89,7 @@ this.socket.on('updateMonsters', (backEndMonsters) => {
                //if player doesn't exist in object, add them in (Client Connected)
                if (!monsters.frontEndMonsters[id]) {
           
-                monsters.frontEndMonsters[id] = new Monster(backEndMonster)
+                monsters.frontEndMonsters[id] = new Monster({backEndMonster: backEndMonster})
     
             } else {
                 
@@ -122,7 +122,6 @@ this.socket.on('updateBoard', (backendBoard) => {
     board.tileSize = backendBoard.tileSize
     board.tiles = backendBoard.tiles
     board.convertBoard()
-    board.generateVisualTiles()
 })
 
 

@@ -43,3 +43,5 @@ class GrassTile extends BaseTile {
 
     }
 }
+
+module.exports = GrassTile

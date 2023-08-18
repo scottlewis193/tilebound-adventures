@@ -7,5 +7,5 @@ class VillageTile extends BaseTile {
     }
 }
 
-
+module.exports = VillageTile
 

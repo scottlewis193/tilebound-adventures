@@ -36,4 +36,4 @@ class SandTile extends BaseTile {
 
 }
 
-
+module.exports = SandTile

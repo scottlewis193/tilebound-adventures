@@ -1,7 +1,7 @@
 class Monster {
 
     constructor({backEndMonster}) {
-        super(backEndMonster)
+        Object.assign(this,backEndMonster)
     }
 
     draw() {

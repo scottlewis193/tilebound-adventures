@@ -8,3 +8,5 @@ class PathTile extends BaseTile {
 
 
 }
+
+module.exports = PathTile

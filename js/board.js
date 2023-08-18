@@ -1,4 +1,14 @@
-
+//tile imports
+global.BaseTile = require('./classes/tiles/BaseTile')
+global.CaveTile = require('./classes/tiles/CaveTile')
+global.ForestTile = require('./classes/tiles/ForestTile')
+global.GrassCoveringTile = require('./classes/tiles/GrassCoveringTile')
+global.GrassTile = require('./classes/tiles/GrassTile')
+global.PathTile = require('./classes/tiles/PathTile')
+global.SandTile = require('./classes/tiles/SandTile')
+global.VillageTile = require('./classes/tiles/VillageTile')
+global.WaterTile = require('./classes/tiles/WaterTile')
+//------------------------------------------------------------------------
 
  var board = { 
 
@@ -21,11 +31,11 @@
         //base tile pass
         for (let gridY = 0; gridY < this.boardSize; gridY++) {
             for (let gridX = 0; gridX < this.boardSize; gridX++) {
-                this.tiles[gridX + ' ' + gridY + ' ' + gridZ] = {name: 'BaseTile', gridPos: {x: gridX,y: gridY}}
+                // this.tiles[gridX + ' ' + gridY + ' ' + gridZ] = {name: 'BaseTile', gridPos: {x: gridX,y: gridY}}
+                this.tiles[gridX + ' ' + gridY + ' ' + gridZ] = new BaseTile({x: gridX, y: gridY})
             }
         }
 
-    
         //path tile pass
 
         //randomise path tile edge start position
@@ -37,24 +47,24 @@
         if (pathStartInt == 1) {pathX == Math.floor(Math.random() * board.boardSize)}
 
         //initial path tile
-        this.tiles[pathX + ' ' + pathY + ' ' + gridZ] = {name: 'PathTile', gridPos: {x: pathX,y: pathY}};
+        this.tiles[pathX + ' ' + pathY + ' ' + gridZ] = new PathTile({x: pathX, y: pathY});
 
         if (pathStartInt == 0) {pathX += 1}
         if (pathStartInt == 1) {pathY += 1}
       
         //second path tile
-        this.tiles[pathX + ' ' + pathY + ' ' + gridZ] = {name: 'PathTile', gridPos: {x: pathX,y: pathY}};
+        this.tiles[pathX + ' ' + pathY + ' ' + gridZ] = new PathTile({x: pathX, y: pathY});
 
         //create path by randomly incrementing x and y and placing tile until we reach board edge
         do {
             let pathInt = Math.floor(Math.random() * 2);
 
             if (pathInt == 0) {pathX += 1} else {pathY += 1}
-            this.tiles[pathX + ' ' + pathY + ' ' + gridZ] = {name: 'PathTile', gridPos: {x: pathX,y: pathY}};
+            this.tiles[pathX + ' ' + pathY + ' ' + gridZ] = new PathTile({x: pathX, y: pathY});
 
         } while (pathX !== 1 && pathY !== 1 && pathX !== board.boardSize - 2 && pathY !== board.boardSize - 2);
 
-        this.tiles[pathX + ' ' + pathY + ' ' + gridZ] = {name: 'PathTile', gridPos: {x: pathX, y: pathY}};
+        this.tiles[pathX + ' ' + pathY + ' ' + gridZ] = new PathTile({x: pathX, y: pathY});
 
         // for (let gridY = 0; gridY < this.boardSize; gridY++) {
         //     for (let gridX = 0; gridX < this.boardSize; gridX++) {
@@ -69,7 +79,7 @@
             for (let gridX = 2; gridX < this.boardSize - 2; gridX++) {
                 if (Math.floor(Math.random() * 4) == 1) {
                     if (this.tiles[gridX + ' ' + gridY + ' ' + gridZ].name !== 'PathTile') {
-                        this.tiles[gridX + ' ' + gridY + ' ' + gridZ] = {name: 'ForestTile', gridPos: {x: gridX,y:gridY}}
+                        this.tiles[gridX + ' ' + gridY + ' ' + gridZ] = new ForestTile({x: gridX, y: gridY})
                     }
                 }
             }
@@ -78,13 +88,13 @@
         //village tile pass
         newX = Math.floor(Math.random() * this.boardSize)
         newY = Math.floor(Math.random() * this.boardSize)
-        this.tiles[newX + ' ' + newY + ' ' + gridZ] = {name:'VillageTile', gridPos: {x: newX, y: newY}}
+        this.tiles[newX + ' ' + newY + ' ' + gridZ] = new VillageTile({x: newX, y: newY})
     
         for (let gridY = 0; gridY < this.boardSize; gridY++) {
             for (let gridX = 0; gridX < this.boardSize; gridX++) {
                 if (board.hasSameTileTypeNeighbour(this.tiles[gridX + ' ' + gridY + ' ' + gridZ],'VillageTile')) {
                     if (Math.floor(Math.random() * 3) == 1) {
-                        this.tiles[gridX + ' ' + gridY + ' ' + gridZ] = {name: 'VillageTile', gridPos: {x: gridX, y: gridY}}
+                        this.tiles[gridX + ' ' + gridY + ' ' + gridZ] = new VillageTile({x: gridX, y: gridY})
                     }
                 }
             }
@@ -100,48 +110,12 @@
                 newY = Math.floor(Math.random() * this.boardSize)
             } while(this.tiles[newX + ' ' + newY + ' ' + gridZ].name == 'VillageTile')
     
-            this.tiles[newX + ' ' + newY + ' ' + gridZ] = {name: 'CaveTile', gridPos: {x: newX, y: newY}}
+            this.tiles[newX + ' ' + newY + ' ' + gridZ] = new CaveTile({x: newX, newY})
     
         }
     
         
-    
-    
-        // //sand tile pass
-        // for (let gridY = 0; gridY < this.boardSize; gridY++) {
-        //     if (Math.floor(Math.random() * 3) == 1) {
-        //     if (this.tiles[0 + ' ' + gridY].name !== 'VillageTile' &&
-        //         this.tiles[0 + ' ' + gridY].name !== 'CaveTile') {
-        //             this.tiles[0 + ' ' + gridY] = {name: 'SandTile', gridPos: { x: 0, y: gridY}}
-        //         }
-        //     }
-        // }
-        // for (let gridX = 0; gridX < this.boardSize; gridX++) {
-        //     if (Math.floor(Math.random() * 3) == 1) {
-        //     if (this.tiles[gridX + ' ' + 0].name !== 'VillageTile' &&
-        //         this.tiles[gridX + ' ' + 0].name !== 'CaveTile') {
-        //             this.tiles[gridX + ' ' + 0] = {name: 'SandTile', gridPos: { x: gridX, y: 0}}
-        //         }
-        //     }
-        // }
-        // for (let gridY = 0; gridY < this.boardSize; gridY++) {
-        //     if (Math.floor(Math.random() * 3) == 1) {
-        //     if (this.tiles[(this.boardSize-1) + ' ' + gridY].name !== 'VillageTile' &&
-        //         this.tiles[(this.boardSize-1) + ' ' + gridY].name !== 'CaveTile') {
-        //             this.tiles[(this.boardSize-1) + ' ' + gridY] = {name: 'SandTile', gridPos: {x: (this.boardSize-1),y: gridY}}
-        //         }
-        //     }
-        // }
-        // for (let gridX = 0; gridX < this.boardSize; gridX++) {
-        //     if (Math.floor(Math.random() * 3) == 1) {
-        //     if (this.tiles[gridX + ' ' + (this.boardSize-1)].name !== 'VillageTile' &&
-        //         this.tiles[gridX + ' ' + (this.boardSize-1)].name !== 'CaveTile') {
-        //             this.tiles[gridX + ' ' + (this.boardSize-1)] = {name: 'SandTile', gridPos: { x: gridX,y: (this.boardSize-1)}}
-        //         }
-        //     }
-        // }
-    
-    
+
         //start tile pass
     
             do {
@@ -153,7 +127,7 @@
             this.startPos = {x: newX, y: newY}
     
     
-
+        this.generateVisualTiles()
 
     },
 
@@ -165,7 +139,82 @@
         if (typeof board.tiles[tileObj.gridPos.x + ' ' + (tileObj.gridPos.y + 1) + ' ' + 2] !== 'undefined') { if (board.tiles[tileObj.gridPos.x + ' ' + (tileObj.gridPos.y + 1) + ' ' + 2].name == tileTypeName) {return true; }}
         
          return false
-     }
+     },
+
+
+
+     generateVisualTiles() {
+
+       
+            //BOTTOM LAYER - ALL GRASS
+        for (let gridY = 0; gridY < this.boardSize; gridY++) {
+            for (let gridX = 0; gridX < this.boardSize; gridX++) {
+                this.tiles[gridX + ' ' + gridY + ' ' + 0] = new GrassTile({x: gridX,y: gridY})
+            }
+        }
+
+        //PATH GRASS COVERING
+            for (let gridY = 0; gridY < this.boardSize - 1; gridY++) {
+                for (let gridX = 0; gridX < this.boardSize - 1; gridX++) {
+
+                    
+
+                    const CENTER_TILE_NAME = (board.tiles[gridX + ' ' + gridY + ' ' + 1]) ? board.tiles[gridX + ' ' + gridY + ' ' + 1].name : undefined
+                    const LEFT_TILE_NAME = (board.tiles[(gridX - 1) + ' ' + gridY + ' ' + 1]) ? board.tiles[(gridX - 1) + ' ' + gridY + ' ' + 1].name : undefined
+                    const RIGHT_TILE_NAME = (board.tiles[(gridX + 1) + ' ' + gridY + ' ' + 1]) ? board.tiles[(gridX + 1) + ' ' + gridY + ' ' + 1].name : undefined
+                    const UP_TILE_NAME = (board.tiles[gridX + ' ' + (gridY - 1) + ' ' + 1]) ? board.tiles[gridX + ' ' + (gridY - 1) + ' ' + 1].name : undefined
+                    const DOWN_TILE_NAME = (board.tiles[gridX + ' ' + (gridY + 1) + ' ' + 1]) ? board.tiles[gridX + ' ' + (gridY + 1) + ' ' + 1].name : undefined
+                    
+                    // const UPLEFT_TILE_NAME = board.tiles[(gridX - 1) + ' ' + (gridY - 1) + ' ' + 1]?.name
+                    // const UPRIGHT_TILE_NAME = board.tiles[(gridX + 1) + ' ' + (gridY - 1) + ' ' + 1]?.name
+                    // const DOWNLEFT_TILE_NAME = board.tiles[(gridX - 1) + ' ' + (gridY + 1) + ' ' + 1]?.name
+                    // const DOWNRIGHT_TILE_NAME = board.tiles[(gridX + 1) + ' ' + (gridY + 1) + ' ' + 1]?.name
+
+                    if (CENTER_TILE_NAME == 'PathTile') {
+
+                    // vertical
+                    if ((gridY == 0 || UP_TILE_NAME == 'PathTile' || DOWN_TILE_NAME == 'PathTile' )) {
+                       if(RIGHT_TILE_NAME !== 'PathTile') {this.tiles[(gridX+1) + ' ' + gridY + ' ' + 2] = new GrassCoveringTile({x: (gridX+1),y: gridY},'VR')}
+                       if(LEFT_TILE_NAME !== 'PathTile') {this.tiles[(gridX-1) + ' ' + gridY + ' ' + 2] = new GrassCoveringTile({x: (gridX-1),y: gridY},'VL')}
+                    }
+
+                    // horizontal
+                    if ((gridX == 0 ||  LEFT_TILE_NAME == 'PathTile' || RIGHT_TILE_NAME == 'PathTile')) {
+                    
+                        if(DOWN_TILE_NAME !== 'PathTile') {this.tiles[gridX + ' ' + (gridY+1) + ' ' + 2] = new GrassCoveringTile({x: gridX,y: (gridY+1)},'HD')}
+                        if(UP_TILE_NAME !== 'PathTile') {this.tiles[gridX + ' ' + (gridY-1) + ' ' + 2] = new GrassCoveringTile({x: gridX,y: (gridY-1)},'HU')}
+        
+                    }
+
+
+                    //vertical down right
+                    if ((DOWN_TILE_NAME == 'PathTile') && (LEFT_TILE_NAME == 'PathTile')   ) {
+                        this.tiles[(gridX-1) + ' ' + (gridY+1) + ' ' + 3] = new GrassCoveringTile({x: (gridX-1),y: (gridY+1)},'VDR')
+                    }
+
+                    //outer
+                    if ((UP_TILE_NAME == 'PathTile') && (RIGHT_TILE_NAME == 'PathTile')) {
+                        this.tiles[(gridX-1) + ' ' + (gridY+1) + ' ' + 3] = new GrassCoveringTile({x: (gridX-1),y: (gridY+1)},'VDRO')
+                    }
+                    //-----------------------------------
+
+
+                    //
+
+                    //vertical up Left
+                    if ((UP_TILE_NAME == 'PathTile') && (RIGHT_TILE_NAME == 'PathTile')  ) {
+                        this.tiles[(gridX+1) + ' ' + (gridY-1) + ' ' + 3] = new GrassCoveringTile({x: (gridX+1),y: (gridY-1)},'VUL')
+                    }
+
+                    if ((DOWN_TILE_NAME == 'PathTile') && (LEFT_TILE_NAME == 'PathTile')  ) {
+                        this.tiles[(gridX+1) + ' ' + (gridY-1) + ' ' + 3] = new GrassCoveringTile({x: (gridX+1),y: (gridY-1)},'VULO')
+                    }
+
+                    
+                }
+            }
+        }
+    }
  }
 
 module.exports = board

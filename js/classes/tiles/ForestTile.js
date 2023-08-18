@@ -21,4 +21,4 @@ class ForestTile extends BaseTile {
     }
 }
 
-
+module.exports = ForestTile
