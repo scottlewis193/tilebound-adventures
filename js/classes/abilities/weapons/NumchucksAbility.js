@@ -1,13 +1,13 @@
 const {BaseWeaponAbility} = require('./BaseWeaponAbility')
 
-class DaggerAbility extends BaseWeaponAbility {
+class NumchucksAbility extends BaseWeaponAbility {
     
     constructor() {
         super()
         this.trigger = 'BattleStart'
-        this.type = 'PlayerDamageModifier'
-        this.weapon = new items['Dagger'] 
-        this.description = 'If holding one in each hand, Attack is now 10'
+        this.type = 'WheelRespin'
+        this.weapon = new items['Numchucks'] 
+        this.description = 'If holding one in each hand, battle wheel can be respan'
     }
 
     executeAbility({player}) {
@@ -15,12 +15,11 @@ class DaggerAbility extends BaseWeaponAbility {
         //determine if player is holding one dagger in each hand slot
         if(player.inventory.handSlot1 === this.abilityWeapon && 
             player.inventory.handSlot2 === this.abilityWeapon) {
-                player.inventory.handSlot1.damage = 5
-                player.inventory.handSlot2.damage = 5
+                   //do extra wheel spin
             }
 
     }
     
 }
 
-module.exports = {DaggerAbility}
+module.exports = {NumchucksAbility}

@@ -11,7 +11,7 @@ class BaseWeapon  {
         this.price = 0;
         this.slotType = 'hand';
         this.weaponType = 'melee'
-        this.availableinShop = true
+        this.availableInShop = true
         this.owner = owner //should be Player Obj
     }
 

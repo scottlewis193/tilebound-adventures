@@ -1,34 +1,18 @@
+const items = require('./classes/items/items')
+
 var shop = {
 
-    //every possible item available in shop. need better way of doing this
-    inventory: [
-        'Longbow',
-        'Crossbow',
-        'Musket',
-        'Longsword',
-        'MeteorHammer',
-        'Dagger',
-        'Pistol',
-        'Hatchet',
-        'Numchucks',
-        'SteelChestplate',
-        'SteelHelmet',
-        'SteelLeggings',
-        'SteelBoots',
-        'Shield',
-        'LevelingRing',
-        'StengthPotion',
-        'GuardianPotion',
-        'IrregularPotion',
-        'SecondHandWand'
-    ],
+    inventory: {},
 
     updateInventory() {
-        const SHOP_INVENTORY_GRID_ELEMENT = document.getElementById('shop-inventory-grid')
+        this.inventory = {};
+        for (const item in items) {
+            shop.inventory[item] = items[item]
+        }
+ 
+  
+        console.log('updateInventory')
 
-
-        
-        console.log('gen inv')
     }
 }
 

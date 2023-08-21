@@ -1,10 +1,11 @@
-const items = require('../items/items')
+const {BaseWeaponAbility} = require('./BaseWeaponAbility')
 
 class PistolAbility extends BaseWeaponAbility {
     
     constructor() {
+        super()
         this.trigger = 'BattleStart'
-        this.type = 'PlayerDamageModifier'
+        this.type = 'WheelRespin'
         this.weapon = new items['Pistol']
         this.description = 'Has 50% chance to miss. Wheel is spun twice when two are equipped'
     }
@@ -23,4 +24,4 @@ class PistolAbility extends BaseWeaponAbility {
     
 }
 
-exports.module = {PistolAbility}
+module.exports = {PistolAbility}

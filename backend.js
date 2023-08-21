@@ -52,10 +52,13 @@ const gameProperties = {
                 playerTurnIndex: 0,
                 turnPhase: 1,
                 playersConnected: 0},
-    board: board
+    board: board,
+    shop: shop
 }
 
 gameProperties.board.generateBoard()
+gameProperties.shop.updateInventory()
+
 
 //socket io connection event listener
 io.on('connection', (socket) => {
@@ -102,6 +105,9 @@ io.on('connection', (socket) => {
 
         //send updated game state object to all clients
         updateGameState()
+
+        //send updated shop inventory to all clients
+        updateShopInventory()
 
 
 
@@ -268,6 +274,12 @@ function updateGameState() {
     io.emit('updateGameState', gameProperties.gameState)
     console.log(gameProperties.gameState)
    //updateDebug()
+}
+
+function updateShopInventory() {
+    console.log('updateShopInventoryTEst')
+    io.emit('updateShopInventory', shop.inventory)
+    console.log(shop.inventory)
 }
 
 function getPlayerFromIndex(index) {

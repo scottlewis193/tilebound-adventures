@@ -124,6 +124,11 @@ this.socket.on('updateBoard', (backendBoard) => {
     board.convertBoard()
 })
 
+this.socket.on('updateShopInventory', (shopInventory) => {
+    shop.inventory = shopInventory
+    shop.updateInventoryLayout()
+})
+
 
 this.socket.on('updateGameState', (backEndGameState) => {
     gameState = backEndGameState
