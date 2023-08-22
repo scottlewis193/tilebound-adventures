@@ -13,7 +13,7 @@ var shop = {
         let newEleStr = ''
         console.log(this.inventory)
         for (const [key,value] of Object.entries(this.inventory)) {
-            newEleStr += `<div class='slot-item' style='display:block'><h1>${value.name}</h1></div>`
+            newEleStr += `<div class="inventory-slot">${value.name}</div>`
             console.log(value.name)
         }
 

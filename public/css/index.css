@@ -129,24 +129,13 @@ gap: 10px 10px;
 
 }
 
-/*#region InventorySlots */
+
+
 .inventory-slot {
 grid-row: 1;
 background-color: burlywood;
 }
-#headSlot {
-  grid-column:1;
-}
-#chestSlot {
-  grid-column:2;
-}
 
-#leggingsSlot {
-  grid-column:3;
-}
-#feetSlot {
-  grid-column:4;
-}
 #handSlot1 {
   grid-column:5;
   margin-right: -10px
@@ -154,30 +143,35 @@ background-color: burlywood;
 #handSlot2 {
   grid-column:6;
 }
-#freeSlot1 {
-  grid-column:8;
-}
-#freeSlot2 {
-  grid-column:9;
-}
-#freeSlot3 {
-  grid-column:10;
-}
-#freeSlot4 {
-  grid-column:11;
-}
+
 
 
 .slot-item {
   position:absolute;
   cursor:move;
   z-index:10;
-  /* height:100%;
-  width:100%; */
 }
-/*#endregion InventorySlots */
 
-/* ----------- */
+
+#game-shop {
+  display:none;
+  background-color: brown;
+  grid-row:2;
+  grid-column: 1 / span 2;
+  padding: 10px;
+}
+
+#shop-inventory-grid {
+  display: grid;
+  grid-auto-rows: 50px;
+  grid-template-columns: repeat(3,1fr);
+  
+  width: 100%;
+  height: 100%;
+  gap: 10px 10px;
+}
+
+
 
 
 .menu-btn {
