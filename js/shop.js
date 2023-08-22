@@ -6,9 +6,9 @@ var shop = {
 
     updateInventory() {
         this.inventory = {};
-        for (const item in items) {
-            shop.inventory[item] = items[item]
-        }
+        //for (const item in items) {
+            shop.inventory = items
+        //}
  
   
         console.log('updateInventory')
