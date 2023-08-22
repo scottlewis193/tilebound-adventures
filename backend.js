@@ -1,5 +1,5 @@
 
-//global imports
+//global imports-
 
 global.board = require('./js/board')
 global.wheel = require('./js/wheel')
