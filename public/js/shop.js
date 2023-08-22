@@ -4,7 +4,7 @@ var shop = {
 
     toggleShop() {
         const SHOP_INVENTORY_GRID_ELEMENT = document.getElementById('shop-inventory-grid')
-        if(SHOP_INVENTORY_GRID_ELEMENT.style.display == 'block') this.updateInventoryLayout();
+        this.updateInventoryLayout();
         toggleModalVisibility(['game-shop','canvas']);
     },
 
