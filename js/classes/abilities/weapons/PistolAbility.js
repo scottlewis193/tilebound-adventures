@@ -4,9 +4,10 @@ class PistolAbility extends BaseWeaponAbility {
     
     constructor() {
         super()
+        const items = require('../../items/items')
         this.trigger = 'BattleStart'
         this.type = 'WheelRespin'
-        this.weapon = new items['Pistol']
+        this.weapon = items.Pistol
         this.description = 'Has 50% chance to miss. Wheel is spun twice when two are equipped'
     }
 

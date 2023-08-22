@@ -4,9 +4,10 @@ class DaggerAbility extends BaseWeaponAbility {
     
     constructor() {
         super()
+        const items = require('../../items/items')
         this.trigger = 'BattleStart'
         this.type = 'PlayerDamageModifier'
-        this.weapon = new items['Dagger'] 
+        this.weapon = items.Dagger
         this.description = 'If holding one in each hand, Attack is now 10'
     }
 

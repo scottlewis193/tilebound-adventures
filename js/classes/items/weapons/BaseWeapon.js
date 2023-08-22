@@ -1,5 +1,5 @@
 class BaseWeapon  {
-    constructor({owner}) {
+    constructor(owner) {
         this.name = 'BaseWeapon';
         this.damage = 0;
         this.damageResistance = 0;

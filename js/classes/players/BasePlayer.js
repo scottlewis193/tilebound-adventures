@@ -62,7 +62,7 @@ class BasePlayer {
     }
 
     addInventoryItem(slot,item) {
-        this.inventory[slot] = new items[item]({owner: this})
+        this.inventory[slot] = items[item]
     }
 
 

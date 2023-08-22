@@ -74,10 +74,10 @@ function responsiveCanvas(canvas) {
 function toggleModalVisibility(elementIDs) {
 
     for (let i = 0; i < elementIDs.length; i++) {
-    let currentElement = document.getElementById(elementIDs[i])
-    let currentState = currentElement.style.display;
- 
-    currentElement.style.display = (currentState == 'block') ? 'none' : 'block';
+      let currentElement = document.getElementById(elementIDs[i])
+      let currentState = currentElement.style.display;
+  
+      currentElement.style.display = (currentState == 'block' || currentState == '') ? 'none' : 'block';
     }
 }
 

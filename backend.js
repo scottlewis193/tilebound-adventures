@@ -1,7 +1,13 @@
 
 //global imports
+
 global.board = require('./js/board')
 global.wheel = require('./js/wheel')
+global.abilities = require('./js/classes/abilities/abilities')
+global.items = require('./js/classes/items/items')
+
+
+
 global.shop = require('./js/shop')
 global.seedrandom = require('seedrandom')
 global.BasePlayer = require('./js/classes/players/BasePlayer')
@@ -264,6 +270,7 @@ function updateMonsters() {
 
 function updateBoard() {
     console.log('updateBoard')
+    console.log(gameProperties.board)
     io.emit('updateBoard', gameProperties.board)
 
     //updateDebug()
@@ -277,7 +284,6 @@ function updateGameState() {
 }
 
 function updateShopInventory() {
-    console.log('updateShopInventoryTEst')
     io.emit('updateShopInventory', shop.inventory)
     console.log(shop.inventory)
 }

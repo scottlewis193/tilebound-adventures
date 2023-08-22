@@ -3,18 +3,22 @@ var shop = {
     inventory: {},
 
     toggleShop() {
+        const SHOP_INVENTORY_GRID_ELEMENT = document.getElementById('shop-inventory-grid')
+        if(SHOP_INVENTORY_GRID_ELEMENT.style.display == 'block') this.updateInventoryLayout();
         toggleModalVisibility(['game-shop','canvas']);
-        this.updateInventoryLayout();
     },
 
     updateInventoryLayout() {
         const SHOP_INVENTORY_GRID_ELEMENT = document.getElementById('shop-inventory-grid')
-
-        for (const item in inventory) {
-            SHOP_INVENTORY_GRID_ELEMENT.children[item.name].innerHTML = `<div class='slot-item'><h1>${item.name}</h1></div>`
+        let newEleStr = ''
+        console.log(this.inventory)
+        for (const [key,value] of Object.entries(this.inventory)) {
+            newEleStr += `<div class='slot-item' style='display:block'><h1>${value.name}</h1></div>`
+            console.log(value.name)
         }
 
-        
-        console.log('gen inv')
+        SHOP_INVENTORY_GRID_ELEMENT.innerHTML = newEleStr
+
+
     }
 }

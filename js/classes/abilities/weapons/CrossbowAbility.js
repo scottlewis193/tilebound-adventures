@@ -1,12 +1,14 @@
 const {BaseWeaponAbility} = require('./BaseWeaponAbility')
 
+
+
 class CrossbowAbility extends BaseWeaponAbility {
-    
     constructor() {
         super()
+        const items = require('../../items/items')
         this.trigger = 'BattleStart'
         this.type = 'WheelRespin'
-        this.weapon = new items['Crossbow']
+        this.weapon = items.CrossBow
         this.description = 'Hit up to 3 times (Minimum 1) for each successful wheel spin'
     }
 

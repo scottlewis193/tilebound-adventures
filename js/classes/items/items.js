@@ -17,7 +17,7 @@ function iterateItemObjProps(obj) {
             iterateItemObjProps(value)
         }
         if (utils.isClass(value)) {
-            items[key] = value
+            items[key] = eval(new value)
         }
 
     }

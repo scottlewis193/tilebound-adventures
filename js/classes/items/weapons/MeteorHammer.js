@@ -1,7 +1,7 @@
 const {BaseWeapon} = require('./BaseWeapon')
 
 class MeteorHammer extends BaseWeapon {
-    constructor({owner}) {
+    constructor(owner) {
         super(owner)
         this.name = "MeteorHammer"
         this.damage = 3

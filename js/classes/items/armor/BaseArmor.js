@@ -1,5 +1,5 @@
 class BaseArmor  {
-    constructor({owner}) {
+    constructor(owner) {
         this.name = 'BaseArmor';
         this.damage = 0;
         this.damageResistance = 6;

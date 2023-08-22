@@ -1,12 +1,12 @@
 const {BaseWeapon} = require('./BaseWeapon')
-const {DaggerAbility} = require('../../abilities/weapons/DaggerAbility')
+
 
 class Dagger extends BaseWeapon {
-    constructor({owner}) {
+    constructor(owner) {
         super(owner)
         this.name = "Dagger"
         this.damage = 4
-        this.ability = new DaggerAbility
+        this.ability = global.abilities.Dagger
         this.twoHanded = false
         this.price = 13
         this.weaponType = 'melee'
