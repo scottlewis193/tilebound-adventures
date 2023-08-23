@@ -126,6 +126,7 @@ this.socket.on('updateBoard', (backendBoard) => {
 
 this.socket.on('updateShopInventory', (shopInventory) => {
     shop.inventory = shopInventory
+    shop.generateInventoryElements()
 })
 
 

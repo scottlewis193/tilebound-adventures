@@ -1,24 +1,37 @@
 var shop = {
 
     inventory: {},
+    inventoryElements: null,
+
 
     toggleShop() {
-        const SHOP_INVENTORY_GRID_ELEMENT = document.getElementById('shop-inventory-grid')
-        this.updateInventoryLayout();
         toggleModalVisibility(['game-shop','canvas']);
     },
 
-    updateInventoryLayout() {
+    generateInventoryElements() {
+        this.inventoryElements = {}
         const SHOP_INVENTORY_GRID_ELEMENT = document.getElementById('shop-inventory-grid')
-        let newEleStr = ''
-        console.log(this.inventory)
         for (const [key,value] of Object.entries(this.inventory)) {
-            newEleStr += `<div class="inventory-slot">${value.name}</div>`
-            console.log(value.name)
+            let index = 0
+            
+            const shopSlot = new InventorySlot({
+                id: key, 
+                text: value.name,
+                parentGrid: SHOP_INVENTORY_GRID_ELEMENT, 
+                bgColour: 'burlywood',
+                slotNo: index})
+
+                index++
+
+            this.inventoryElements[shopSlot.id] = shopSlot
         }
 
-        SHOP_INVENTORY_GRID_ELEMENT.innerHTML = newEleStr
+        this.addLayoutToDOM()
+    },
 
-
+    addLayoutToDOM() {
+        for (const [key,element] of Object.entries(this.inventoryElements)) {
+            element.addToDOM()
+        }
     }
 }
