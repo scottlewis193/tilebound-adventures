@@ -16,7 +16,8 @@ class InventorySlot {
         slotDiv.innerHTML= `<h1>${this.text}</h1>`
         div.className = 'inventory-slot'
         slotDiv.className = 'slot-item'
-        div.appendChild(slotDiv)
+        div.id = this.id
+        if (this.text !== null) {div.appendChild(slotDiv)}
 
         //add element to parent
         this.parentGrid.appendChild(div)
@@ -32,9 +33,11 @@ class InventorySlot {
 
         const INVENTORY_GRID_ELEMENT = this.parentGrid
         const PLAYER_INVENTORY = players.frontEndPlayers[client.socket.id].inventory
+        const PLAYER = players.frontEndPlayers[client.socket.id]
+        const currentItemSlot = elmnt.parentElement
 
         elmnt.onmousedown = dragMouseDown;
-        let currentItemSlot = PLAYER_INVENTORY[elmnt.parentElement]
+
         
       
         //slot item is being dragged
@@ -80,26 +83,24 @@ class InventorySlot {
 
                 if (pos3 > slotPos.x && pos3 < (slotPos.x + slot.offsetWidth) && pos4 > slotPos.y && pos4 < (slotPos.y + slot.offsetHeight)) {
 
-                    console.log('valid move pos')
-
-                    //move item object
-                    //players.frontEndPlayers[client.socket.id].moveItem({oldSlotId: elmnt.parentElement.id, newSlotId: slot.id})
-
-
                     //move element to slot visually
                     elmnt.style.top = slotPos.y + "px";
                     elmnt.style.left = slotPos.x + "px";
 
                     validSlot = true
+                    PLAYER.moveItem({oldSlotId: currentItemSlot.id, newSlotId: slot.id})
 
                     break;
                 }
   
             }
 
-            // if (validSlot == false) {
-            //     inventory.updateInventoryLayout()
-            // }
+            if (validSlot == false) {
+                //reset position
+                let slotPos = getElementPosition(currentItemSlot)
+                elmnt.style.top = slotPos.y + 'px'
+                elmnt.style.left = slotPos.x + 'px'
+            }
 
           // stop moving when mouse button is released:
           document.onmouseup = null;

@@ -222,7 +222,7 @@ io.on('connection', (socket) => {
 
         const PLAYER_INVENTORY = backEndPlayers[socket.id].inventory
 
-      
+      console.log(oldSlotId)
 
         //check if item can go in specific slot
         if  ( !(newSlotId.includes(PLAYER_INVENTORY[oldSlotId].slotType)) && !(newSlotId.includes('freeSlot'))) {

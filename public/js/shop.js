@@ -5,7 +5,17 @@ var shop = {
 
 
     toggleShop() {
-        toggleModalVisibility(['game-shop','canvas']);
+        inventory.updateInventoryLayout()
+        toggleModalVisibility(['game-player-inventory','game-shop','canvas']);
+        const PLAYER_INVENTORY_ELEMENT = document.getElementById('game-player-inventory')
+        const GAME_SHOP_ELEMENT = document.getElementById('game-shop')
+        if(PLAYER_INVENTORY_ELEMENT.style.display == 'block' &&  GAME_SHOP_ELEMENT.style.display == 'block') {
+                PLAYER_INVENTORY_ELEMENT.style.gridColumn = 1
+                GAME_SHOP_ELEMENT.style.gridColumn = 2
+    } else {
+        PLAYER_INVENTORY_ELEMENT.style.gridColumn = '1 / span 2'
+        GAME_SHOP_ELEMENT.style.gridColumn = '1 / span 2'
+    }
     },
 
     generateInventoryElements() {
