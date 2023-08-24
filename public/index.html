@@ -10,12 +10,14 @@
 </head>
 <body>
 
-<div id="main-menu" style="display:block">
-<div id="menu-btns">
-  <button class="menu-btn" id="join-btn" onclick="toggleModalVisibility(['game-window','main-menu']); client.initClientConnection();">Join Game</button>
-    <button class="menu-btn" id="profile-btn" onclick="">Profile</button>
-    <button class="menu-btn" id="options-btn" onclick="">Options</button>
-</div>
+<div id="main-menu" style="display:block;">
+<div id="menu-grid">
+  <div id="menu-btns">
+  <button class="ui-btn" id="join-btn" onclick="toggleModalVisibility(['game-window','main-menu']); client.initClientConnection();">Join Game</button>
+    <button class="ui-btn" id="profile-btn" onclick="">Profile</button>
+    <button class="ui-btn" id="options-btn" onclick="">Options</button>
+  </div>
+  </div>
 </div>
 
 
@@ -23,9 +25,9 @@
   <div id="game-ui">
     <div id="game-ui-topbar">
       <a class="game-text" id="game-status"></a>
-      <button class="ui-topbar-btn" id="playerlist-btn" onclick="">P</button>
-      <button class="ui-topbar-btn" id="settings-btn" onclick="shop.toggleShop()">S</button>
-      <button class="ui-topbar-btn" id="exit-btn" onclick="">E</button>
+      <button class="ui-btn" id="playerlist-btn" onclick="">P</button>
+      <button class="ui-btn" id="settings-btn" onclick="shop.toggleShop()">S</button>
+      <button class="ui-btn" id="exit-btn" onclick="">E</button>
     </div>
     
     <div id="game-player-inventory" style="display:none">

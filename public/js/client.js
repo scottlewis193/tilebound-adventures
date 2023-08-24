@@ -122,6 +122,7 @@ this.socket.on('updateBoard', (backendBoard) => {
     board.tileSize = backendBoard.tileSize
     board.tiles = backendBoard.tiles
     board.convertBoard()
+    board.updateBoardPos()
 })
 
 this.socket.on('updateShopInventory', (shopInventory) => {

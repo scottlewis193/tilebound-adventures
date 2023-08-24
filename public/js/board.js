@@ -71,6 +71,10 @@ var board = {
                          y: (CANVAS_HEIGHT / 2) - (this.tileSize*(this.boardSize/2) - this.tileSize)}
                          this.boardChanged = true
         console.log('Tile Size: ' + this.tileSize)
+        let r = document.querySelector(':root')
+        let rs = getComputedStyle(r)
+        //rs.getPropertyValue('--tilesize')
+        r.style.setProperty('--tilesize', this.tileSize + 'px')
     }
 
 
