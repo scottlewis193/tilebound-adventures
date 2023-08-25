@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
     <title>Tilebound Adventures TEST</title>
-   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
 </head>
@@ -12,10 +12,17 @@
 
 <div id="main-menu" style="display:block;">
 <div id="menu-grid">
+  <div id="menu-titles">
+    <h1>TILEBOUND ADVENTURES</h1>
+    <h2>A RPG GAME</h2>
+  </div>
   <div id="menu-btns">
-  <button class="ui-btn" id="join-btn" onclick="toggleModalVisibility(['game-window','main-menu']); client.initClientConnection();">Join Game</button>
-    <button class="ui-btn" id="profile-btn" onclick="">Profile</button>
-    <button class="ui-btn" id="options-btn" onclick="">Options</button>
+    <div></div>
+  <button class="ui-menu-btn" id="join-btn" onclick="toggleModalVisibility(['game-window','main-menu']); client.initClientConnection();">J</button>
+  
+  <button class="ui-menu-btn" id="profile-btn" onclick=""> <i class="fa fa-play"></i> </button>
+    <button class="ui-menu-btn" id="options-btn" onclick="">O</button>
+    <button class="ui-menu-btn" id="exit-btn" onclick="">E</button>
   </div>
   </div>
 </div>
@@ -72,6 +79,7 @@
 
  <!--CSS-->
  <link rel="stylesheet" href="./css/index.css">
+
 
  <!--Dependencies-->
  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>

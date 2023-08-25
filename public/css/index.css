@@ -2,20 +2,36 @@
 *::before,
 *::after {
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
     font-size: 3vmin;
 }
 
 :root {
   --tilesize: 50px;
+  --btncolour: #00850d;
+  --bgcolour: #674ea7;
+}
+
+html {
+  height: 100%;
 }
 
 body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin:0;
     overflow: hidden;
-    background-color: #674ea7;
+    background-color: var(--bgcolour);
     user-select:none;
-  }
+    height: 100%;
+}
+
+h1 {
+  font-size: 7vmin;
+}
+
+h2 {
+  font-size: 4vmin;
+}
 
 
 /* GAME UI ELEMENTS */
@@ -48,7 +64,7 @@ body {
 
   .ui-btn {
     color:white;
-    background-color: #009e0f;
+    background-color: var(--btncolour);
     border: none;
     text-decoration: none;
     height:100%;
@@ -163,9 +179,41 @@ background-color: burlywood;
 
 
 
-.menu-btn {
+.ui-menu-btn {
+display:inline-block;
+padding: 0.5em 1em;
 color: white;
-background-color:#009e0f;
+background-color:var(--btncolour);
+border-radius: 3px;
+border: none;
+border-bottom: solid 5px brown;
+text-decoration: none;
+
+/* display: inline-block;
+text-decoration: none;
+color: rgba(152, 152, 152, 0.43);
+width: 80px;
+height: 80px;
+line-height: 80px;
+font-size: 40px;
+border-radius: 50%;
+text-align: center;
+vertical-align: middle;
+overflow: hidden;
+font-weight: bold;
+background-image: -webkit-linear-gradient(#e8e8e8 0%, #d6d6d6 100%);
+background-image: linear-gradient(#e8e8e8 0%, #d6d6d6 100%);
+text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.66);
+box-shadow: inset 0 2px 0 rgba(255,255,255,0.5), 0 2px 2px rgba(0, 0, 0, 0.19);
+border-bottom: solid 2px #b5b5b5; */
+
+}
+
+.ui-menu-btn:active {/*on Click*/
+  -ms-transform: translateY(4px);
+  -webkit-transform: translateY(4px);
+  transform: translateY(4px);/*Move down*/
+  border-bottom: none;/*disappears*/
 }
 
 #main-menu {
@@ -174,13 +222,20 @@ background-color:#009e0f;
   height:100%;
 }
 #menu-grid{
-  display:grid;
+display:grid;
 grid-template-columns: 1fr;
-grid-template-rows: repeat(3, 1fr);
+grid-template-rows: 1fr 15vmin 1fr;
 height:100%;
 }
 #menu-btns {
-  background-color: black;
   grid-row: 2;
   display:grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 15vmin 15vmin 15vmin 15vmin 1fr;
+  column-gap: 10vmin;
+}
+#menu-titles {
+  text-align: center;
+  align-self: center;
+  color: white;
 }
