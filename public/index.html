@@ -5,7 +5,9 @@
     <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
     <title>Tilebound Adventures TEST</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet"> 
 
 </head>
 <body>
@@ -18,11 +20,11 @@
   </div>
   <div id="menu-btns">
     <div></div>
-  <button class="ui-menu-btn" id="join-btn" onclick="toggleModalVisibility(['game-window','main-menu']); client.initClientConnection();">J</button>
-  
-  <button class="ui-menu-btn" id="profile-btn" onclick=""> <i class="fa fa-play"></i> </button>
-    <button class="ui-menu-btn" id="options-btn" onclick="">O</button>
-    <button class="ui-menu-btn" id="exit-btn" onclick="">E</button>
+  <button class="ui-menu-btn" id="join-btn" onclick="toggleModalVisibility(['game-window','main-menu']); client.initClientConnection();"><i class="fa fa-play"></i></button>
+  <button class="ui-menu-btn" id="profile-btn" onclick=""><i class="fa fa-user"></i></button>
+    <button class="ui-menu-btn" id="options-btn" onclick=""><i class="fa fa-cog"></i></button>
+    <button class="ui-menu-btn" id="exit-btn" onclick=""><i class="fa fa-question-circle"></i></button>
+    <div></div>
   </div>
   </div>
 </div>
@@ -32,9 +34,14 @@
   <div id="game-ui">
     <div id="game-ui-topbar">
       <a class="game-text" id="game-status"></a>
-      <button class="ui-btn" id="playerlist-btn" onclick="">P</button>
-      <button class="ui-btn" id="settings-btn" onclick="shop.toggleShop()">S</button>
-      <button class="ui-btn" id="exit-btn" onclick="">E</button>
+
+    </div>
+
+    <div id="game-ui-float-bar">
+      <div></div>
+      <button class="ui-btn" id="playerlist-btn" onclick=""><i class="fa fa-list"></i></button>
+      <button class="ui-btn" id="settings-btn" onclick="shop.toggleShop()"><i class="fa fa-archive"></i></button>
+      <button class="ui-btn" id="exit-btn" onclick=""><i class="fa fa-sign-out"></i></button>
     </div>
     
     <div id="game-player-inventory" style="display:none">
@@ -63,9 +70,10 @@
   <canvas id="fg-canvas" style="display:block"></canvas>
     <canvas id="bg-canvas" style="display:block"></canvas>
 </div>
-
-    <button class="ui-btn" id="inventory-btn" disabled="true" onclick="inventory.toggleInventory();">Inventory</button>
-    <button class="ui-btn" id="interact-btn">Start Game</button>
+<div id="game-ui-bottom-bar">
+    <button class="ui-btn" id="inventory-btn" disabled="true" onclick="inventory.toggleInventory();"><i class="fa fa-archive"></i></button>
+    <button class="ui-btn" id="interact-btn"><i class="fa fa-play-circle"></i></button>
+  </div>
   </div>
   
 

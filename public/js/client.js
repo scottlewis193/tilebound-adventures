@@ -122,7 +122,7 @@ this.socket.on('updateBoard', (backendBoard) => {
     board.tileSize = backendBoard.tileSize
     board.tiles = backendBoard.tiles
     board.convertBoard()
-    board.updateBoardPos()
+    // board.updateBoardPos()
 })
 
 this.socket.on('updateShopInventory', (shopInventory) => {
@@ -165,7 +165,7 @@ this.socket.on('updateGameState', (backEndGameState) => {
         //displayTurnText()
     }
 
-    board.updateBoardPos()
+    // board.updateBoardPos()
 })
 
 this.socket.on('spinOverWorldWheels', (backEndWheelOptions) => {

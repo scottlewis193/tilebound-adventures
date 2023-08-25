@@ -64,11 +64,11 @@ var board = {
         // fgCanvas.style.height = fgRect.height + 'px'
         const CANVAS_WIDTH = parseInt(bgCanvas.width)//.replace('px',''))
         const HEIGHT_MOD = oddOrEven(parseInt(bgCanvas.height)) == 'odd' ? 1 : 0
-        const CANVAS_HEIGHT = parseInt(bgCanvas.height) + HEIGHT_MOD - (this.tileSize*2)
+        const CANVAS_HEIGHT = parseInt(bgCanvas.height) + HEIGHT_MOD
         this.tileSize = Math.floor(CANVAS_HEIGHT / (this.boardSize))
 
         this.boardPos = {x: (CANVAS_WIDTH / 2) - (this.tileSize*(this.boardSize/2)), 
-                         y: (CANVAS_HEIGHT / 2) - (this.tileSize*(this.boardSize/2) - this.tileSize)}
+                         y: (CANVAS_HEIGHT / 2) - (this.tileSize*(this.boardSize/2))}
                          this.boardChanged = true
         console.log('Tile Size: ' + this.tileSize)
         let r = document.querySelector(':root')

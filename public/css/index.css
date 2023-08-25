@@ -3,13 +3,17 @@
 *::after {
     box-sizing: border-box;
 
-    font-size: 3vmin;
 }
 
 :root {
   --tilesize: 50px;
+
+  --canvasx:0;
+  --canvasy:0;
+
   --btncolour: #00850d;
   --bgcolour: #674ea7;
+  --seacolour:#1e7cb8;
 }
 
 html {
@@ -17,79 +21,118 @@ html {
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'VT323', monospace; 
+
+  font-size: 3vmin;
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
   margin:0;
-    overflow: hidden;
-    background-color: var(--bgcolour);
-    user-select:none;
-    height: 100%;
+  overflow: hidden;
+  background-color: var(--bgcolour);
+  user-select:none;
+  height: 100%;
 }
 
 h1 {
-  font-size: 7vmin;
+  font-size: 10vmin;
 }
 
 h2 {
-  font-size: 4vmin;
+  line-height: 2.5vmin;
+  font-size: 5vmin;
 }
+
 
 
 /* GAME UI ELEMENTS */
 
   #game-window {
     display:none;
+    height: 100%;
   }
 
   #game-ui {
-    float:left;
-    position:absolute;
+    /* float:left; */
+    /* position:absolute; */
     display:grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: var(--tilesize) 8fr var(--tilesize);
+    grid-template-rows: 8vmin 8fr 8vmin;
     width: 100%;
     height: 100%;
     align-content: center;
     text-align: center;
+    justify-content: center;
+    background-color: var(--seacolour);
   }
 
   #game-ui-topbar {
     display:grid;
-    grid-template-columns: 7fr 1fr 1fr 1fr;
-    grid-template-rows: var(--tilesize);
     grid-column: 1 / span 2;
-    justify-content: center;
+    justify-items: center;
     align-items: center;
-    gap: 5px 5px;
+    grid-row: 1;
+    row-gap: 10px;
+    background-color: var(--seacolour);
   }
+
+  #game-ui-float-bar .ui-btn {
+    height: 7.5vmin;
+    width:9.5vmin;
+  }
+
+  #game-ui-float-bar {
+    display: grid;
+    grid-template-columns: 1fr 8vmin 8vmin 8vmin;
+    grid-template-rows: 8vmin;
+    width: 100%;
+    position: absolute;
+  }
+
+  #game-ui-float-bar .ui-btn .fa {
+  font-size: 5vmin;
+  }
+
 
   .ui-btn {
     color:white;
     background-color: var(--btncolour);
     border: none;
     text-decoration: none;
-    height:100%;
-    border-radius: 3px;
+    border-radius: 2vmin;
   }  
 
+  #game-ui-bottom-bar {
+    display: grid;
+    width: 50%;
+    justify-self: center;
+    grid-template-columns: 1fr 1fr;
+    grid-row: 3;
+    grid-column: 1 / span 2;
+    background-color: var(--seacolour);
+  }
+
+  #game-ui-bottom-bar .ui-btn {
+    height:7.5vmin;
+    width:20vmin;
+    justify-self: center;
+    align-self: center;
+  }
+
+  #game-ui-bottom-bar .ui-btn .fa {
+    font-size: 5vmin;
+  }
   
 
   .game-text {
     grid-row: 1;
+    justify-self: center;
+    align-self: center;
     color:white;
-  }
-
-  
-  #inventory-btn {
-    grid-column: 1;
-  }
-  #interact-btn {
-    grid-column: 2;
   }
 
 
   #canvas {
     position:relative;
-    background-color:#1e7cb8;
+    background-color:var(--seacolour);
     grid-row: 2;
     grid-column: 1 / span 2;
     width: 100%;
@@ -128,12 +171,12 @@ h2 {
 }
 
 #inventory-grid {
-display:grid;
-grid-auto-rows: 1fr;
-grid-template-columns: repeat(4, 1fr);
-width: 100%;
-height: 90%;
-gap: 10px 10px;
+  display:grid;
+  grid-auto-rows: 1fr;
+  grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+  height: 90%;
+  gap: 10px 10px;
 
 }
 
@@ -180,14 +223,20 @@ background-color: burlywood;
 
 
 .ui-menu-btn {
-display:inline-block;
+display:inline-block;   
 padding: 0.5em 1em;
 color: white;
 background-color:var(--btncolour);
-border-radius: 3px;
+border-radius: 3vmin;
 border: none;
 border-bottom: solid 5px brown;
 text-decoration: none;
+width: 22vmin;
+height: 22vmin;
+align-self: center;
+justify-items: center;
+align-items: center;
+
 
 /* display: inline-block;
 text-decoration: none;
@@ -216,24 +265,32 @@ border-bottom: solid 2px #b5b5b5; */
   border-bottom: none;/*disappears*/
 }
 
+.ui-menu-btn .fa {
+  font-size: 12vmin;
+}
+
 #main-menu {
   display:block;
   width:100%;
   height:100%;
 }
 #menu-grid{
-display:grid;
-grid-template-columns: 1fr;
-grid-template-rows: 1fr 15vmin 1fr;
-height:100%;
+    display:grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 25vmin 1fr;
+    height:100%;
 }
 #menu-btns {
   grid-row: 2;
   display:grid;
   grid-template-rows: 1fr;
-  grid-template-columns: 1fr 15vmin 15vmin 15vmin 15vmin 1fr;
-  column-gap: 10vmin;
+  grid-template-columns: 1fr 25vmin 25vmin 25vmin 25vmin 1fr;
+  align-items: center;
+  justify-items: center;
+  /* column-gap: 10vmin; */
 }
+
+
 #menu-titles {
   text-align: center;
   align-self: center;
