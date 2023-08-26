@@ -13,7 +13,7 @@ class InventorySlot {
         //create element
         const div = document.createElement('div')
         const slotDiv = document.createElement('div')
-        slotDiv.innerHTML= `<h1>${this.text}</h1>`
+        slotDiv.innerHTML= `<h3>${this.text}</h3>`
         div.className = 'inventory-slot'
         slotDiv.className = 'slot-item'
         div.id = this.id
