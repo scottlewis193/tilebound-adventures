@@ -13,6 +13,8 @@ function windowResized(e) {
     bgC = setPixelDensity(bgCanvas)
     fgC = setPixelDensity(fgCanvas)
 
+
+
     //wheel.defineWinWheel()
     board.updateBoardPos()
     board.drawBoard()

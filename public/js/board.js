@@ -65,7 +65,11 @@ var board = {
         const CANVAS_WIDTH = parseInt(bgCanvas.width)//.replace('px',''))
         const HEIGHT_MOD = oddOrEven(parseInt(bgCanvas.height)) == 'odd' ? 1 : 0
         const CANVAS_HEIGHT = parseInt(bgCanvas.height) + HEIGHT_MOD
-        this.tileSize = Math.floor(CANVAS_HEIGHT / (this.boardSize))
+        if (CANVAS_WIDTH < CANVAS_HEIGHT) {
+            this.tileSize = Math.floor(CANVAS_WIDTH / (this.boardSize))
+        }else{
+            this.tileSize = Math.floor(CANVAS_HEIGHT / (this.boardSize))
+        }
 
         this.boardPos = {x: (CANVAS_WIDTH / 2) - (this.tileSize*(this.boardSize/2)), 
                          y: (CANVAS_HEIGHT / 2) - (this.tileSize*(this.boardSize/2))}
@@ -75,6 +79,10 @@ var board = {
         let rs = getComputedStyle(r)
         //rs.getPropertyValue('--tilesize')
         r.style.setProperty('--tilesize', this.tileSize + 'px')
+        r.style.setProperty('--screen-x', window.screenX + 'px')
+        r.style.setProperty('--screen-y', window.screenY + 'px')
+        r.style.setProperty('--screen-x-15', (window.screenX * 0.15) + 'px')
+        r.style.setProperty('--screen-y-15', (window.screenY * 0.15) + 'px')
     }
 
 

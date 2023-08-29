@@ -47,9 +47,11 @@ class InventorySlot {
           // get the mouse cursor position at startup:
           pos3 = e.clientX;
           pos4 = e.clientY;
+          elmnt.style.position = 'absolute'
           document.onmouseup = closeDragSlotItem;
           // call a function whenever the cursor moves:
           document.onmousemove = slotItemDrag;
+
         }
       
         //validate new position
@@ -63,16 +65,20 @@ class InventorySlot {
           pos3 = e.clientX;
           pos4 = e.clientY;
 
+
         
           // set the element's new position:
           elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
           elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+   
+    
         }
       
         //slot item finished dragging
         function closeDragSlotItem() {
 
-
+      
+            elmnt.style.position = 'relative'
             // work out slot that slot-item has been dragged to
 
             let validSlot = false
@@ -95,16 +101,19 @@ class InventorySlot {
   
             }
 
+
+
             if (validSlot == false) {
                 //reset position
-                let slotPos = getElementPosition(currentItemSlot)
-                elmnt.style.top = slotPos.y + 'px'
-                elmnt.style.left = slotPos.x + 'px'
+                elmnt.style.removeProperty('top')
+                elmnt.style.removeProperty('left')
             }
 
           // stop moving when mouse button is released:
           document.onmouseup = null;
           document.onmousemove = null;
+
+    
         }
     }
 

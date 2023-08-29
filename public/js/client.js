@@ -254,4 +254,4 @@ setTimeout(() => {
     board.updateBoardPos()
     board.drawBoard()
     players.drawAllPlayers()
-},1500)
+},2000)

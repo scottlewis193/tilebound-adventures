@@ -1,7 +1,6 @@
-*,
-*::before,
-*::after {
+* {
     box-sizing: border-box;
+    -moz-box-sizing: border-box;
 
 }
 
@@ -13,6 +12,11 @@
 
   --canvasx:0;
   --canvasy:0;
+  
+  --screen-x:0;
+  --screen-y:0;
+  --screen-x-15:0;
+  --screen-y-15:0;
 
   --btncolour: #00850d;
   --bgcolour: #674ea7;
@@ -20,32 +24,38 @@
 }
 
 html {
-  height: 100%;
+  min-height:100%;
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right: 0;
 }
 
-body {
-  font-family: 'VT323', monospace; 
 
-  font-size: 3vmin;
+body {
+  min-height:100%;
+  font-family: 'VT323', monospace; 
   /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
   margin:0;
   overflow: hidden;
   background-color: var(--bgcolour);
   user-select:none;
-  height: 100%;
 }
 
 h1 {
-  font-size: 10vmax;
+  font-size: 8vh;
 }
 
-h2 {
-  line-height: 2.5vmax;
-  font-size: 5vmax;
+h2, a {
+  line-height: 2vh;
+  font-size: 4vh;
 }
+
 
 h3 {
-  font-size: 3vmax;
+  font-size:2vh;
+  overflow-wrap: break-word;
 }
 
 
@@ -62,10 +72,10 @@ h3 {
     /* position:absolute; */
     display:grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 8vmin 8fr 8vmin;
+    grid-template-rows: 7.5vh 85vh 7.5vh;
     width: 100%;
     height: 100%;
-    /* align-content: center; */
+    /* align-items: center; */
     /* text-align: center; */
     /* justify-content: center; */
     background-color: var(--seacolour);
@@ -74,10 +84,13 @@ h3 {
   #game-ui-dyn-grid {
     background-color: black;
     width:100%;
-    height:100%;
     display:grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px,100%));
+    grid-template-columns: repeat(auto-fit, minmax(50vh,1fr)); 
+    grid-template-rows: 42.5vh 42.5vh;
     grid-row: 2;
+    text-align: center;
+    background-color: brown;
+    align-self: center;
   }
 
   #game-ui-topbar {
@@ -86,25 +99,26 @@ h3 {
     justify-items: center;
     align-items: center;
     grid-row: 1;
-    row-gap: 10px;
+    row-gap: 1vh;
     background-color: var(--seacolour);
   }
 
-  #game-ui-float-bar .ui-btn {
-    height: 7.5vmin;
-    width:9.5vmin;
+  #game-ui-float-topbar .ui-btn {
+    height: 7vh;
+    width: 7vh;
   }
 
-  #game-ui-float-bar {
+  #game-ui-float-topbar {
     display: grid;
-    grid-template-columns: 1fr 8vmin 8vmin 8vmin;
-    grid-template-rows: 8vmin;
+    grid-template-columns: 1fr 7.5vh 7.5vh 7.5vh;
+    grid-template-rows: 7.5vh;
+    top: 0.25vh;
     width: 100%;
     position: absolute;
   }
 
-  #game-ui-float-bar .ui-btn .fa {
-  font-size: 5vmin;
+  #game-ui-float-topbar .ui-btn .fa {
+  font-size: 3.75vh;
   }
 
 
@@ -113,28 +127,39 @@ h3 {
     background-color: var(--btncolour);
     border: none;
     text-decoration: none;
-    border-radius: 2vmin;
+    border-radius: 10px;
   }  
 
-  #game-ui-bottom-bar {
+  #game-ui-float-bottombar {
+    float:left;
+    position:absolute;
+    top: 92.5vh;
     display: grid;
-    width: 50%;
-    justify-self: center;
-    grid-template-columns: 1fr 1fr;
-    grid-row: 3;
-    grid-column: 1 / span 2;
+    width: 100%;
+    grid-template-rows: 7.5vh;
+    grid-template-columns: 1fr 16vh 16vh 1fr;
     background-color: var(--seacolour);
   }
 
-  #game-ui-bottom-bar .ui-btn {
-    height:7.5vmin;
-    width:20vmin;
+  #game-ui-float-bottombar .ui-btn {
+    height:7vh;
+    width:14vh;
     justify-self: center;
     align-self: center;
+
   }
 
-  #game-ui-bottom-bar .ui-btn .fa {
-    font-size: 5vmin;
+  #game-ui-float-bottombar .ui-btn:first-child {
+    grid-column: 2;
+  }
+  #game-ui-float-bottombar .ui-btn:nth-child(2) {
+    grid-column: 3;
+  }
+
+
+
+  #game-ui-float-bottombar .ui-btn .fa {
+    font-size: 3.75vh;
   }
   
 
@@ -182,15 +207,16 @@ h3 {
   display: none;
   background-color: brown;
   padding: 10px;
+  height:45vh;
 }
 
 #inventory-grid {
   display:grid;
-  grid-auto-rows: 10vmax;
-  grid-template-columns: repeat(4, 10vmax);
+  grid-template-rows: repeat(3,10vh);
+  grid-template-columns: repeat(auto-fit,minmax(10vh,1fr));
   width: 100%;
-  height: 90%;
-  gap: 10px 10px;
+  height: auto;
+  gap: 0.5vh 0.5vh;
   justify-content: center;
 }
 
@@ -199,20 +225,23 @@ h3 {
 .inventory-slot {
 /* grid-row: 1; */
 background-color: burlywood;
+overflow-wrap: break-word;
+text-align: center;
 }
 
 #handSlot1 {
-  margin-right: -10px
+  margin-right: -10px;
 }
 
 
 
 
 .slot-item {
-  position:absolute;
+  position:relative;
   cursor:move;
   z-index:10;
   font-size: 3vmax;
+  overflow-wrap: break-word;
 }
 
 
@@ -220,18 +249,16 @@ background-color: burlywood;
   display:none;
   background-color: brown;
   padding: 10px;
-  grid-row: 2;
+  height:72.5vh;
 }
 
 #shop-inventory-grid {
   display: grid;
-  grid-auto-rows: 10vmax;
-  grid-template-columns: repeat(4,10vmax);
-  
+  grid-template-rows: repeat(10,10vh);
+  grid-template-columns: repeat(auto-fit,minmax(10vh,1fr));
   width: 100%;
-  height: 90%;
-  gap: 10px 10px;
-  justify-content: center;
+  gap: 0.5vh 0.5vh;
+  text-align: center;
 }
 
 
@@ -242,7 +269,7 @@ display:inline-block;
 padding: 0.5em 1em;
 color: white;
 background-color:var(--btncolour);
-border-radius: 3vmin;
+border-radius: 10px;
 border: none;
 border-bottom: solid 5px brown;
 text-decoration: none;
@@ -299,7 +326,7 @@ border-bottom: solid 2px #b5b5b5; */
   grid-row: 2;
   display:grid;
   grid-template-rows: 1fr;
-  grid-template-columns: 1fr 25vmin 25vmin 25vmin 25vmin 1fr;
+  grid-template-columns: 1fr 20vw 20vw 20vw 20vw 1fr;
   align-items: center;
   justify-items: center;
   /* column-gap: 10vmin; */
